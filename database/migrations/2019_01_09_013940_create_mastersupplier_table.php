@@ -19,7 +19,7 @@ class CreateMastersupplierTable extends Migration
             $table->string('namaSupplier', 40);
             $table->string('alamatSupplier', 100);
             $table->string('kotaSupplier', 30);
-            $table->string('noteSupplier', 30);
+            $table->string('jenisSupplier', 30);
         });
     }
 

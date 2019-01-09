@@ -14,7 +14,7 @@ class MasterBarangController extends Controller
      */
     public function index()
     {
-        $barang = MasterBarang::all();
+        $barang = \DB::table('masterbarang')->get();
         return view('pages.masterbarang')->with('barang',$barang);
     }
 

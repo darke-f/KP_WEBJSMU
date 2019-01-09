@@ -8,7 +8,7 @@ class MasterSupplier extends Model
 {
     
     //table name
-    protected $table = 'masterSupplier';
+    protected $table = 'mastersupplier';
     //Primary key
     //public $primaryKey = 'id';
     //timestamp

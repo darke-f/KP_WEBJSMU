@@ -8,7 +8,7 @@ class MasterBarang extends Model
 {
     
     //table name
-    protected $table = 'masterBarang';
+    protected $table = 'masterbarang';
     //Primary key
     //public $primaryKey = 'id';
     //timestamp

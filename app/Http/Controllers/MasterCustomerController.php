@@ -14,7 +14,7 @@ class MasterCustomerController extends Controller
      */
     public function index()
     {
-        $customer = MasterCustomer::all();
+        $customer = \DB::table('mastercustomer')->get();
         return view('pages.mastercustomer')->with('customer',$customer);
     }
 

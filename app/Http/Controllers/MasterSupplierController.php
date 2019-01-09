@@ -14,7 +14,7 @@ class MasterSupplierController extends Controller
      */
     public function index()
     {
-        $supplier = MasterSupplier::all();
+        $supplier = \DB::table('mastersupplier')->get();
         return view('pages.mastersupplier')->with('supplier',$supplier);
     }
 

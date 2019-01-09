@@ -8,7 +8,7 @@ class MasterCustomer extends Model
 {
     
     //table name
-    protected $table = 'masterCustomer';
+    protected $table = 'mastercustomer';
     //Primary key
     //public $primaryKey = 'id';
     //timestamp
