@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Schema;
 use App\Stock;
+use Carbon\Carbon;
 use DB;
 
 class StockController extends Controller
@@ -130,6 +131,16 @@ class StockController extends Controller
             $stock = DB::table($tablename)->get();
 
             $tutupbulan = DB::table('tutup_bulan')->get();
+
+            //return $tutupbulan;
+
+            $nextmonth = date('Y-m-d', strtotime($tutupbulan));
+
+            return $nextmonth;
+
+            //return $tutupbulan;
+
+            $carbon = new Carbon("$tutupbulan");
 
             //return $tutupbulan;
 
