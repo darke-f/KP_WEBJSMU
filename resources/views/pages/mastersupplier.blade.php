@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 
 @section('title')
-        <a class="navbar-brand mr-1" href="#">Data Barang</a>
+        <a class="navbar-brand mr-1" href="#">Data Supplier</a>
 @endsection
 
 @section('content')
         <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Data Barang</a>
+              <a href="#">Data Supplier</a>
             </li>
             <li class="breadcrumb-item active">Overview</li>
           </ol>
@@ -17,34 +17,37 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Stock Barang Januari 2019</div>
+              List Data Supplier</div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Kode</th>
-                      <th>Nama Barang</th>
-                      <th>Satuan</th>
-                      <th>Note</th>
+                      <th>Nama Supplier</th>
+                      <th>Alamat</th>
+                      <th>Kota</th>
+                      <th>Jenis<th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>Kode</th>
-                      <th>Nama Barang</th>
-                      <th>Satuan</th>
-                      <th>Note</th>
+                      <th>Nama Supplier</th>
+                      <th>Alamat</th>
+                      <th>Kota</th>
+                      <th>Jenis<th>
                     </tr>
                   </tfoot>
                   <tbody>
-                    @if(count($barang) >0)
-                        @foreach($barang as $brg)
+                    @if(count($supplier) >0)
+                        @foreach($supplier as $sup)
                           <tr>
-                            <td>{{$brg->kodeBarang}}</td>
-                            <td>{{$brg->namaBarang}}</td>
-                            <td>{{$brg->satuanBarang}}</td>
-                            <td>{{$brg->noteBarang}}</td>
+                            <td>{{$sup->kodeSupplier}}</td>
+                            <td>{{$sup->namaSupplier}}</td>
+                            <td>{{$sup->alamatSupplier}}</td>
+                            <td>{{$sup->kotaSupplier}}</td>
+                            <td>{{$sup->jenisSupplier}}</td>
                           </tr>
                         @endforeach
                     @endif

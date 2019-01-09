@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MasterStock extends Model
+class MasterCustomer extends Model
 {
     
     //table name

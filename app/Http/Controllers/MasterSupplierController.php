@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\MasterSupplier;
 
 class MasterSupplierController extends Controller
 {
@@ -13,7 +14,8 @@ class MasterSupplierController extends Controller
      */
     public function index()
     {
-        //
+        $supplier = MasterSupplier::all();
+        return view('pages.mastersupplier')->with('supplier',$supplier);
     }
 
     /**

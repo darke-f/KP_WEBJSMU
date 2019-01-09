@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\MasterCustomer;
 
 class MasterCustomerController extends Controller
 {
@@ -13,7 +14,8 @@ class MasterCustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customer = MasterCustomer::all();
+        return view('pages.mastercustomer')->with('customer',$customer);
     }
 
     /**
