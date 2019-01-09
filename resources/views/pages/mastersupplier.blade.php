@@ -27,7 +27,7 @@
                       <th>Nama Supplier</th>
                       <th>Alamat</th>
                       <th>Kota</th>
-                      <th>Jenis<th>
+                      <th>Jenis</th>
                     </tr>
                   </thead>
                   <tfoot>
@@ -36,7 +36,7 @@
                       <th>Nama Supplier</th>
                       <th>Alamat</th>
                       <th>Kota</th>
-                      <th>Jenis<th>
+                      <th>Jenis</th>
                     </tr>
                   </tfoot>
                   <tbody>
