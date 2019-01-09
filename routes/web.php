@@ -44,7 +44,10 @@ Route::resources([
     'adminwisatas' => 'AdminwisataController',
     'adminevents' => 'AdmineventController',
     'adminreviews' => 'AdminreviewController',
-    'stockbarangs' => 'StockController'
+    'stockbarangs' => 'StockController',
+    'masterbarangs' => 'MasterBarangController',
+    'mastersuppliers' => 'MasterSupplierController',
+    'mastercustomers' => 'MasterCustomerController'
 ]); 
 
 Route::get('/dashboard', 'DashboardController@index');
