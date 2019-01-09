@@ -100,29 +100,29 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
+            <span>Data</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">Public Pages:</h6>
-            <a class="dropdown-item" href="/wisatas">Tempat Wisata</a>
-            <a class="dropdown-item" href="/events">Upcoming Event</a>
-            <a class="dropdown-item" href="/reviews">Review</a>
+            <h6 class="dropdown-header">Available Data:</h6>
+            <a class="dropdown-item" href="/masterbarangs">Data Barang</a>
+            <a class="dropdown-item" href="/mastersuppliers">Data Supplier</a>
+            <a class="dropdown-item" href="/mastercustomers">Data Customer</a>
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/adminwisatas">
+          <a class="nav-link" href="/stockbarangs">
             <i class="fas fa-fw fa-table"></i>
-            <span>Wisata</span></a>
+            <span>Stock Barang</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/adminevents">
+          <a class="nav-link" href="#">
             <i class="fas fa-fw fa-table"></i>
-            <span>Event</span></a>
+            <span>Pembelian</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/adminreviews">
+          <a class="nav-link" href="#">
             <i class="fas fa-fw fa-table"></i>
-            <span>Review</span></a>
+            <span>Penjualan</span></a>
         </li>
       </ul>
 
