@@ -10,9 +10,9 @@ class MasterBarang extends Model
     //table name
     protected $table = 'masterbarang';
     //Primary key
-    //public $primaryKey = 'id';
+    public $primaryKey = 'kodeBarang';
     //timestamp
-    //public $timestamp = true;
+    public $timestamp = false;
 
     /*public function user(){
         return $this->belongsTo('App\User');

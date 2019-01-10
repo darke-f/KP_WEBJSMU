@@ -31,9 +31,9 @@
             <div class="card-header">
               <i class="fas fa-table"></i>
               Stock Barang {{$month . " " . $year}}
-              @if(!$flag_button)
-                <a class="btn btn-primary float-right btn-sm" href="#">Tutup Bulan</a>
-                <a class="btn btn-primary float-right btn-sm mr-2" href="#">Kalkulasi</a>
+              @if($flag_button)
+                <a class="btn btn-primary float-right btn-sm" href="/stocktable/closemonth/{{$month}}&{{$year}}">Tutup Bulan</a>
+                <a class="btn btn-primary float-right btn-sm mr-2" href="/stocktable/calc/{{$month}}&{{$year}}">Kalkulasi</a>
               @endif
               </div>
             <div class="card-body">

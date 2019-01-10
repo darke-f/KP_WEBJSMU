@@ -132,28 +132,19 @@ class StockController extends Controller
 
             $tutupbulan = DB::table('tutup_bulan')->get();
 
-            //return $tutupbulan;
+            foreach ($tutupbulan as $tb) {
+                $carbon = new Carbon($tb->current); 
+                //$nextmonth = date('M', strtotime($tb->current));
+                //$nextyear = date('Y', strtotime($tb->current));
+            }
 
-            $nextmonth = date('Y-m-d', strtotime($tutupbulan));
-
-            return $nextmonth;
-
-            //return $tutupbulan;
-
-            $carbon = new Carbon("$tutupbulan");
-
-            //return $tutupbulan;
-
-            $nextmonth = date('D', strtotime($tutupbulan));
-            $nextyear = date('Y', strtotime($tutupbulan)) + 49;
-
+            //return $carbon->format('M') . $carbon->format('Y');
             //return $nextmonth . $nextyear;
 
-            $newtablename = 'stokbarang_' . substr($nextmonth,0,3) . $nextyear;
+            $newtablename = 'stokbarang_' . $carbon->format('M') . $carbon->format('Y');
 
-            return $newtablename;
-
-            $flag_button = Schema::hasTable($newtablename);
+            if($tablename == $newtablename) { $flag_button = 1; }
+            else $flag_button = 0;
 
         } else {
             $tablename = "stokbarang_jan2019";
@@ -164,5 +155,24 @@ class StockController extends Controller
         }
 
         return view('pages.stockbarang')->with('stock',$stock)->with('month',$month)->with('year',$year)->with('flag_button',$flag_button);
+    }
+
+    public function calcTable($month,$year)
+    {
+        $tutupbulan = DB::table('tutup_bulan')->get();
+        foreach ($tutupbulan as $tb) {
+            $carbon = new Carbon($tb->current); 
+        }
+        $tablename = 'stokbarang_' . $carbon->format('M') . $carbon->format('Y');
+
+        DB::table($tablename)->update(['pemasukan'=>0]);
+        DB::table($tablename)->update(['pengeluaran'=>0]);
+
+        return $tablename;
+    }
+
+    public function closeTable($month,$year)
+    {
+        return "tutup" . $month . $year;
     }
 }

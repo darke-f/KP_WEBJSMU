@@ -33,6 +33,8 @@ Route::get('/about', 'PagesController@about');
 Route::get('/services', 'PagesController@services');
 
 Route::get('/stocktable', 'StockController@showTable');
+Route::get('/stocktable/calc/{month}&{year}', 'StockController@calcTable');
+Route::get('/stocktable/closemonth/{month}&{year}', 'StockController@closeTable');
 
 Auth::routes();
 //Route::resource('posts','PostsController');

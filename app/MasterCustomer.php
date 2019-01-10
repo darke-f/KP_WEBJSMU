@@ -10,9 +10,9 @@ class MasterCustomer extends Model
     //table name
     protected $table = 'mastercustomer';
     //Primary key
-    //public $primaryKey = 'id';
+    public $primaryKey = 'kodeCustomer';
     //timestamp
-    //public $timestamp = true;
+    public $timestamp = false;
 
     /*public function user(){
         return $this->belongsTo('App\User');
