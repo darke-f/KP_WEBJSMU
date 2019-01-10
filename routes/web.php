@@ -61,3 +61,6 @@ Route::get('/datawisata', 'AdminController@indexwisata');
 Route::get('/dataevent', 'AdminController@indexevent');
 Route::get('/datareview', 'AdminController@indexreview');
 Route::get('/adminsetting', 'AdminController@setting');
+Route::get('/pembelians', 'PembelianController@addBeli');
+
+Route::post('/pembelians','PembelianController@addBeliPost');
