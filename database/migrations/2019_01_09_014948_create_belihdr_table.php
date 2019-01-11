@@ -16,6 +16,7 @@ class CreateBelihdrTable extends Migration
         Schema::create('belihdr', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->char('noTransaksiBeli', 6)->primary();
+            $table->string('periodeTransaksiBeli',10);
             $table->date('tanggalTransaksiBeli');
             $table->char('kodeSupplier', 6);
 

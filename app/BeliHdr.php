@@ -10,7 +10,8 @@ class BeliHdr extends Model
     public $fillable = [
         'noTransaksiBeli',
         'tanggalTransaksiBeli',
-        'kodeSupplier'
+        'kodeSupplier',
+        'periodeTransaksiBeli'
     ];
 
     public $timestamps = false;

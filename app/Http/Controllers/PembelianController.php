@@ -19,7 +19,8 @@ class PembelianController extends Controller
         $data = $request->validate([
             'noTransaksiBeli' => 'required|size:6',
             'tanggalTransaksiBeli' => 'required|date',
-            'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier' //foreign key constraint check
+            'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier', //foreign key constraint check
+            'periodeTransaksiBeli' => 'max:10'
         ]);
 
         $BeliHdr = tap(new \App\BeliHdr($data))->save();

@@ -17,6 +17,7 @@ class CreateJualhdrTable extends Migration
             $table->engine = 'InnoDB';
             $table->char('noTransaksiJual', 6)->primary();
             $table->date('tanggalTransaksiJual');
+            $table->string('periodeTransaksiJual',10);
             $table->char('kodeCustomer', 6);
 
             $table->foreign('kodeCustomer')->references('kodeCustomer')->on('mastercustomer');
