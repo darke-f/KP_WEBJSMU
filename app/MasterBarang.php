@@ -18,5 +18,15 @@ class MasterBarang extends Model
         return $this->belongsTo('App\User');
     }*/
 
+    public function pembelian()
+    {
+        return $this->hasMany('App\BeliHdr', 'kodeBarang');
+    }
+
+    public function penjualan()
+    {
+        return $this->hasMany('App\JualHdr', 'kodeBarang');
+    }
+
    
 }

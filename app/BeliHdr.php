@@ -15,4 +15,15 @@ class BeliHdr extends Model
     ];
 
     public $timestamps = false;
+
+    public function dtl()
+    {
+        return $this->hasMany('App\BeliDtl', 'noTransaksiBeli');
+    }
+
+    public function barang()
+    {
+        return $this->belongsTo('App\MasterBarang', 'kodeBarang');
+    }
+
 }
