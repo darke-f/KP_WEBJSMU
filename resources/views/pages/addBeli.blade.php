@@ -65,6 +65,7 @@
                         <tr>  
                             <td><input type="text" name="kodeBarang[]" placeholder="Kode Barang" class="form-control name_list" /></td>  
                             <td><input type="text" name="namaBarang[]" placeholder="Nama Barang" class="form-control name_list" /></td>  
+                            <td><input type="text" name="satuanBarang[]" placeholder="Satuan Barang" class="form-control name_list" /></td>  
                             <td><input type="text" name="quantity[]" placeholder="quantity" class="form-control name_list" /></td>  
                             <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>  
                         </tr>  
@@ -86,7 +87,7 @@
 
             $('#add').click(function(){  
                 i++;  
-                $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td><td><input type="text" name="namaBarang[]" placeholder="Nama Barang" class="form-control name_list" /></td> <td><input type="text" name="quantity[]" placeholder="quantity" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+                $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input type="text" name="name[]" placeholder="Enter your Name" class="form-control name_list" /></td><td><input type="text" name="namaBarang[]" placeholder="Nama Barang" class="form-control name_list" /></td> <td><input type="text" name="satuanBarang[]" placeholder="Satuan Barang" class="form-control name_list" /></td> <td><input type="text" name="quantity[]" placeholder="quantity" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
             });  
 
             $(document).on('click', '.btn_remove', function(){  

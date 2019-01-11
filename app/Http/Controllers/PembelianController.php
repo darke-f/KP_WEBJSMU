@@ -20,7 +20,11 @@ class PembelianController extends Controller
             'noTransaksiBeli' => 'required|size:6',
             'tanggalTransaksiBeli' => 'required|date',
             'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier', //foreign key constraint check
-            'periodeTransaksiBeli' => ''
+            'periodeTransaksiBeli' => '',
+            'kodeBarang' => 'required',
+            'namaBarang' => 'required',
+            'satuanBarang' => 'required',
+            'quantity' => 'required'
         ]);
 
         $date = strtotime($request->input('tanggalTransaksiBeli'));
@@ -33,7 +37,49 @@ class PembelianController extends Controller
         $BeliHdr->kodeSupplier = $request->input('kodeSupplier');
         $BeliHdr->periodeTransaksiBeli = $date2;
 
+
+        $rules = [];
+        foreach($request->input('kodeBarang') as $key => $value) {
+            $rules["kodeBarang.{$key}"] = 'required';
+            $rules["namaBarang.{$key}"] = 'required';
+            $rules["satuanBarang.{$key}"] = 'required';
+            $rules["quantity.{$key}"] = 'required';
+        }
+
+
+        $kodeBarang = $request->input('kodeBarang');
+        $namaBarang = $request->input('namaBarang');
+        $satuanBarang = $request->input('satuanBarang');
+        $quantity = $request->input('quantity');
+
+        
+        
+        for($iter=0; $iter<=count($kodeBarang); $iter++)
+        {
+            // $kodeBarang
+        }
+
+
+        // for($i=0; $i<=count($report);$i++)
+        //         {
+        //             $news = new Reporting();
+        //             $news->user_id = 1;
+        //             $news->reporting = $report;
+        //             $news->save();
+        //         }
+
+
+
+
+
+
+
+
+
         $BeliHdr->save();
+
+        
+
         return redirect('\dashboardadmin');
     }
 
