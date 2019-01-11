@@ -8,6 +8,8 @@ class JualHdr extends Model
 {
     protected $table = 'jualhdr';
 
+    public $primaryKey = 'noTransaksiJual';
+
     public $timestamps = false;
 
     public function dtl()
