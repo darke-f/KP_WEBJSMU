@@ -12,4 +12,6 @@ class BeliHdr extends Model
         'tanggalTransaksiBeli',
         'kodeSupplier'
     ];
+
+    public $timestamps = false;
 }
