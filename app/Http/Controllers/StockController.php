@@ -122,9 +122,10 @@ class StockController extends Controller
         else if($month == 11){ $month = 'December';}
         else { $month = 'December';}
 
-        $tablename = 'stokbarang_' . substr($month,0,3) . $year;
+        //$tablename = 'stokbarang_' . substr($month,0,3) . $year;
+        $tablename = 'stokbarang_'.$year;
 
-        $flag = Schema::hasTable($tablename);
+        /*$flag = Schema::hasTable($tablename);
 
         if ($flag) {
 
@@ -152,21 +153,27 @@ class StockController extends Controller
             $month = '';
             $year = '';
             $flag_button = 0;
-        }
+        }*/
 
         return view('pages.stockbarang')->with('stock',$stock)->with('month',$month)->with('year',$year)->with('flag_button',$flag_button);
     }
 
     public function calcTable($month,$year)
     {
-        $tutupbulan = DB::table('tutup_bulan')->get();
-        foreach ($tutupbulan as $tb) {
-            $carbon = new Carbon($tb->current); 
-        }
-        $tablename = 'stokbarang_' . $carbon->format('M') . $carbon->format('Y');
+        $tablename = 'stockbarang_' . $year;
+        $pemasukan = 'pemasukan_' . $month;
+        $pengeluaran = 'pengeluaran_' . $month;
+        $saldoAwal = 'saldoAwal_' . $month;
+        $saldoAkhir = 'saldoAkhir_' . $month;
 
-        DB::table($tablename)->update(['pemasukan'=>0]);
-        DB::table($tablename)->update(['pengeluaran'=>0]);
+        $data = DB::table($tablename)->get();
+
+        if (!$data->isEmpty()) { 
+            DB::table($tablename)->update([$pemasukan=>0]);
+            DB::table($tablename)->update([$pengeluaran=>0]);
+        }
+
+        
 
         return $tablename;
     }

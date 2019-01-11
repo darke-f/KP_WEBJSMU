@@ -9,7 +9,7 @@ class TutupBulan extends Model
     //table name
     protected $table = 'tutup_bulan';
     //Primary key
-    //public $primaryKey = 'id';
+    public $primaryKey = 'periode';
     //timestamp
     //public $timestamp = true;
 
