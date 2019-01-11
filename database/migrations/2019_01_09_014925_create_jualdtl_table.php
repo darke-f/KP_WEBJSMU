@@ -18,6 +18,7 @@ class CreateJualdtlTable extends Migration
             $table->char('noTransaksiJual', 6);
             $table->char('kodeBarang', 6);
             $table->string('namaBarang', 40);
+            $table->string('satuanBarang', 10);
             $table->integer('quantity');
 
             $table->foreign('noTransaksiJual')->references('noTransaksiJual')->on('jualhdr');

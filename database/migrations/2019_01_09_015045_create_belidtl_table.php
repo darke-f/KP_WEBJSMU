@@ -18,6 +18,7 @@ class CreateBelidtlTable extends Migration
             $table->char('noTransaksiBeli', 6);
             $table->char('kodeBarang', 6);
             $table->string('namaBarang', 40);
+            $table->string('satuanBarang', 10);
             $table->integer('quantity');
 
             $table->foreign('noTransaksiBeli')->references('noTransaksiBeli')->on('belihdr');
