@@ -20,10 +20,20 @@ class PembelianController extends Controller
             'noTransaksiBeli' => 'required|size:6',
             'tanggalTransaksiBeli' => 'required|date',
             'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier', //foreign key constraint check
-            'periodeTransaksiBeli' => 'max:10'
+            'periodeTransaksiBeli' => ''
         ]);
 
-        $BeliHdr = tap(new \App\BeliHdr($data))->save();
+        $date = strtotime($request->input('tanggalTransaksiBeli'));
+        $date2 = date('MY',$date);
+
+        // $BeliHdr = tap(new \App\BeliHdr($data))->save();
+        $BeliHdr = new \App\BeliHdr;
+        $BeliHdr->noTransaksiBeli = $request->input('noTransaksiBeli');
+        $BeliHdr->tanggalTransaksiBeli = $request->input('tanggalTransaksiBeli');
+        $BeliHdr->kodeSupplier = $request->input('kodeSupplier');
+        $BeliHdr->periodeTransaksiBeli = $date2;
+
+        $BeliHdr->save();
         return redirect('\dashboardadmin');
     }
 
