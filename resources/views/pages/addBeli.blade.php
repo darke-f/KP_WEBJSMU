@@ -4,7 +4,8 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
+    <meta name="csrf-token" content="{{ csrf_token() }}"> 
 
     <div class="container">
         <div class="row">
@@ -51,37 +52,39 @@
 
                 <!-- ----dynamic_field---- -->
 
-
-                <div class="alert alert-danger print-error-msg" style="display:none">
-                <ul></ul>
-                </div>
-
-                <div class="alert alert-success print-success-msg" style="display:none">
-                <ul></ul>
-                </div>
-
-                <div class="table-responsive">  
-                    <table class="table table-bordered" id="dynamic_field">  
-                        <tr>  
-                            <td><input type="text" name="kodeBarang[]" placeholder="Kode Barang" class="form-control name_list" /></td>  
-                            <td><input type="text" name="namaBarang[]" placeholder="Nama Barang" class="form-control name_list" /></td>  
-                            <td><input type="text" name="satuanBarang[]" placeholder="Satuan Barang" class="form-control name_list" /></td>  
-                            <td><input type="text" name="quantity[]" placeholder="quantity" class="form-control name_list" /></td>  
-                            <td><button type="button" name="add" id="add" class="btn btn-success">Add More</button></td>  
-                        </tr>  
-                    </table>  
+                <div id="dynamicInput">
+                    <span class="glyphicon glyphicon-plus" onClick="addInput('dynamicInput');">yeah</span>
                 </div>
 
                 <!-- ----dynamic_field---- -->
 
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button id="submit" type="submit" class="btn btn-default">Submit</button>
             </form>
         </div>
     </div>
 
 
     <script type="text/javascript">
-        $(document).ready(function(){      
+        function addInput(divName)
+        { 
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<input type='text' name='kodeBarang[]' placeholder='kodeBarang'>";
+            document.getElementById(divName).appendChild(newdiv);    
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<input type='text' name='namaBarang[]' placeholder='namaBarang'>";
+            document.getElementById(divName).appendChild(newdiv);    
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<input type='text' name='satuanBarang[]' placeholder='satuanBarang'>";
+            document.getElementById(divName).appendChild(newdiv);    
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = "<input type='text' name='quantity[]' placeholder='quantity'>";
+            document.getElementById(divName).appendChild(newdiv);    
+        }
+
+        $(document).ready(function(){    
+
+            
+
             var postURL = "<?php echo url('pembelians'); ?>";
             var i=1;  
 
@@ -94,6 +97,12 @@
                 var button_id = $(this).attr("id");   
                 $('#row'+button_id+'').remove();  
             });  
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
             function printErrorMsg (msg) {
                 $(".print-error-msg").find("ul").html('');

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\TagList;
-use App\ListTag;
+use App\BeliHdr;
+use App\BeliDtl;
 use Validator;
 
 class PembelianController extends Controller
@@ -21,10 +21,10 @@ class PembelianController extends Controller
             'tanggalTransaksiBeli' => 'required|date',
             'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier', //foreign key constraint check
             'periodeTransaksiBeli' => '',
-            'kodeBarang' => 'required',
-            'namaBarang' => 'required',
-            'satuanBarang' => 'required',
-            'quantity' => 'required'
+            'kodeBarang.*' => 'required|size:6|exists:masterbarang,kodeBarang',
+            'namaBarang.*' => 'required',
+            'satuanBarang.*' => 'required',
+            'quantity.*' => 'required|numeric'
         ]);
 
         $date = strtotime($request->input('tanggalTransaksiBeli'));
@@ -37,27 +37,68 @@ class PembelianController extends Controller
         $BeliHdr->kodeSupplier = $request->input('kodeSupplier');
         $BeliHdr->periodeTransaksiBeli = $date2;
 
-
-        $rules = [];
-        foreach($request->input('kodeBarang') as $key => $value) {
-            $rules["kodeBarang.{$key}"] = 'required';
-            $rules["namaBarang.{$key}"] = 'required';
-            $rules["satuanBarang.{$key}"] = 'required';
-            $rules["quantity.{$key}"] = 'required';
-        }
-
-
+        $noTransaksiBeli = $request->input('noTransaksiBeli');
         $kodeBarang = $request->input('kodeBarang');
         $namaBarang = $request->input('namaBarang');
         $satuanBarang = $request->input('satuanBarang');
         $quantity = $request->input('quantity');
 
         
+        $BeliHdr->save();
         
-        for($iter=0; $iter<=count($kodeBarang); $iter++)
+        // for($iter=0; $iter<=count($kodeBarang); $iter++)
+        // {
+        //     $BeliDtl = new \App\BeliDtl;
+        //     $BeliDtl->noTransaksiBeli = $noTransaksiBeli;
+        //     $BeliDtl->kodeBarang = $kodeBarang[$iter];
+        //     $BeliDtl->namaBarang = $namaBarang[$iter];
+        //     $BeliDtl->satuanBarang = $satuanBarang[$iter];
+        //     $BeliDtl->quantity = $quantity[$iter];
+        // }
+
+        foreach($kodeBarang as $key => $value) 
         {
-            // $kodeBarang
+            $BeliDtl = new \App\BeliDtl;
+            $BeliDtl->noTransaksiBeli = $noTransaksiBeli;
+            $BeliDtl->kodeBarang = $kodeBarang[$key];
+            $BeliDtl->namaBarang = $namaBarang[$key];
+            $BeliDtl->satuanBarang = $satuanBarang[$key];
+            $BeliDtl->quantity = $quantity[$key];
+
+            $BeliDtl->save();
         }
+
+
+        // $rules = [];
+        // foreach($request->input('kodeBarang') as $key => $value) {
+        //     $rules["noTransaksiBeli"] = 'required';
+        //     $rules["tanggalTransaksiBeli"] = 'required';
+        //     $rules["kodeSupplier"] = 'required';
+        //     $rules["kodeBarang.{$key}"] = 'required';
+        //     $rules["namaBarang.{$key}"] = 'required';
+        //     $rules["satuanBarang.{$key}"] = 'required';
+        //     $rules["quantity.{$key}"] = 'required';
+        // }
+
+        // $validator = Validator::make($request->all(), $rules);
+
+
+        // $kodeBarang = $request->input('kodeBarang');
+        // $namaBarang = $request->input('namaBarang');
+        // $satuanBarang = $request->input('satuanBarang');
+        // $quantity = $request->input('quantity');
+
+        
+        
+        // for($iter=0; $iter<=count($request->kodeBarang); $iter++)
+        // {
+        //     $data->validate([
+        //         'kodeBarang' => 'required',
+        //         'namaBarang' => 'required',
+        //         'satuanBarang' => 'required',
+        //         'quantity' => 'required'
+        //     ]);
+        // }
 
 
         // for($i=0; $i<=count($report);$i++)
@@ -68,17 +109,6 @@ class PembelianController extends Controller
         //             $news->save();
         //         }
 
-
-
-
-
-
-
-
-
-        $BeliHdr->save();
-
-        
 
         return redirect('\dashboardadmin');
     }
