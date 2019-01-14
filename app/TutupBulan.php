@@ -11,11 +11,6 @@ class TutupBulan extends Model
     //Primary key
     public $primaryKey = 'periode';
     //timestamp
-    //public $timestamp = true;
-
-    /*public function user(){
-        return $this->belongsTo('App\User');
-    }*/
-
+    public $timestamps = false;
    
 }

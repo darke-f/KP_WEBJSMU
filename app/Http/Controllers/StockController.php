@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Schema;
-use App\Stock;
+use App\TutupBulan;
 use Carbon\Carbon;
 use DB;
 
@@ -18,18 +18,9 @@ class StockController extends Controller
      */
     public function index()
     {
-        $tablename = "stokbarang_jan2019";
-        /*$stock = new Stock();
-        $stock->setTable($tablename);
-        //$stock->kodeBarang = 'K00003';
-        //$stock->get();
-        //$stock->save();
-        $stock->get();*/
-        $stock = DB::table($tablename)->where('kodebarang', 'K00000')->get();
-        //$stock = Stock::get();
-        //return $stock;
+        $tablename = "stockbarang_2019";
+        $stock = DB::table($tablename)->where('kodebarang', 'B00000')->get();
         return view('pages.stockbarang')->with('stock',$stock)->with('month','')->with('year','')->with('flag_button',0);
-        //return view('pages.stockbarang');
     }
 
     /**
@@ -109,51 +100,49 @@ class StockController extends Controller
         $month = Input::get('month', 'default category');
         $year = Input::get('year', 'default category');
 
-        if($month == 1){ $month = 'January';}
-        else if($month == 2){ $month = 'February';}
-        else if($month == 3){ $month = 'March';}
-        else if($month == 4){ $month = 'April';}
+        if($month == 1){ $month = 'Jan';}
+        else if($month == 2){ $month = 'Feb';}
+        else if($month == 3){ $month = 'Mar';}
+        else if($month == 4){ $month = 'Apr';}
         else if($month == 5){ $month = 'May';}
-        else if($month == 6){ $month = 'June';}
-        else if($month == 7){ $month = 'July';}
-        else if($month == 8){ $month = 'August';}
-        else if($month == 9){ $month = 'September';}
-        else if($month == 10){ $month = 'October';}
-        else if($month == 11){ $month = 'December';}
-        else { $month = 'December';}
+        else if($month == 6){ $month = 'Jun';}
+        else if($month == 7){ $month = 'Jul';}
+        else if($month == 8){ $month = 'Aug';}
+        else if($month == 9){ $month = 'Sep';}
+        else if($month == 10){ $month = 'Oct';}
+        else if($month == 11){ $month = 'Nov';}
+        else { $month = 'Dec';}
 
-        //$tablename = 'stokbarang_' . substr($month,0,3) . $year;
-        $tablename = 'stokbarang_'.$year;
+        $tablename = 'stockbarang_'.$year;
+        $pemasukan = 'pemasukan_' . $month;
+        $pengeluaran = 'pengeluaran_' . $month;
+        $saldoAwal = 'saldoAwal_' . $month;
+        $saldoAkhir = 'saldoAkhir_' . $month;
 
-        /*$flag = Schema::hasTable($tablename);
+        $flag = Schema::hasTable($tablename);
 
         if ($flag) {
 
-            $stock = DB::table($tablename)->get();
+            $stock = DB::table($tablename)->get(array(
+                'kodeBarang',
+                'namaBarang',
+                'satuanBarang',
+                "$saldoAwal AS saldoAwal" , "$pemasukan AS pemasukan", "$pengeluaran AS pengeluaran", "$saldoAkhir as saldoAkhir"));
 
-            $tutupbulan = DB::table('tutup_bulan')->get();
+            $tutupbulan = DB::table('tutup_bulan')->where('periode',$month.$year)->get();
 
             foreach ($tutupbulan as $tb) {
-                $carbon = new Carbon($tb->current); 
-                //$nextmonth = date('M', strtotime($tb->current));
-                //$nextyear = date('Y', strtotime($tb->current));
+                if(!$tb->istutup) { $flag_button = 1; }
+                else $flag_button = 0;
             }
 
-            //return $carbon->format('M') . $carbon->format('Y');
-            //return $nextmonth . $nextyear;
-
-            $newtablename = 'stokbarang_' . $carbon->format('M') . $carbon->format('Y');
-
-            if($tablename == $newtablename) { $flag_button = 1; }
-            else $flag_button = 0;
-
         } else {
-            $tablename = "stokbarang_jan2019";
-            $stock = DB::table($tablename)->where('kodebarang', 'K00000')->get();
+            $tablename = "stockbarang_2019";
+            $stock = DB::table($tablename)->where('kodebarang', 'B00000')->get();
             $month = '';
             $year = '';
             $flag_button = 0;
-        }*/
+        }
 
         return view('pages.stockbarang')->with('stock',$stock)->with('month',$month)->with('year',$year)->with('flag_button',$flag_button);
     }
@@ -173,13 +162,83 @@ class StockController extends Controller
             DB::table($tablename)->update([$pengeluaran=>0]);
         }
 
-        
+        //Calculate pemasukan
 
-        return $tablename;
+        $result  = DB::table('masterbarang')->join('belidtl', 'belidtl.kodeBarang', '=', 'masterbarang.kodeBarang')
+        ->join('belihdr', 'belihdr.noTransaksiBeli', '=', 'belidtl.noTransaksiBeli')->groupBy('masterbarang.kodeBarang','masterbarang.namaBarang','masterbarang.satuanBarang')->where('periodeTransaksiBeli', '=', $month.$year)->get(array(
+            'masterbarang.kodeBarang',
+            'masterbarang.namaBarang',
+            'masterbarang.satuanBarang',
+            DB::raw('SUM(belidtl.quantity) AS Jumlah')));
+
+        foreach ($result as $row) {
+            //return $row->kodeBarang;
+            $flag_data = DB::table($tablename)->where('kodeBarang', $row->kodeBarang)->exists();
+            if(!$flag_data) { 
+                DB::table($tablename)->insert(
+                    ['kodeBarang' => $row->kodeBarang, 'namaBarang' => $row->namaBarang, 'satuanBarang' =>  $row->satuanBarang, $pemasukan => $row->Jumlah]
+                );
+            }
+            else DB::table($tablename)->where('kodeBarang', $row->kodeBarang)->increment($pemasukan,$row->Jumlah);
+        }
+
+        //Calculate pengeluaran
+
+        $result  = DB::table('masterbarang')->join('jualdtl', 'jualdtl.kodeBarang', '=', 'masterbarang.kodeBarang')
+        ->join('jualhdr', 'jualhdr.noTransaksiJual', '=', 'jualdtl.noTransaksiJual')->groupBy('masterbarang.kodeBarang','masterbarang.namaBarang','masterbarang.satuanBarang')->where('periodeTransaksiJual', '=', $month.$year)->get(array(
+            'masterbarang.kodeBarang',
+            'masterbarang.namaBarang',
+            'masterbarang.satuanBarang',
+            DB::raw('SUM(jualdtl.quantity) AS Jumlah')));
+
+        foreach ($result as $row) {
+            //return $row->kodeBarang;
+            $flag_data = DB::table($tablename)->where('kodeBarang', $row->kodeBarang)->exists();
+            if(!$flag_data) { 
+                DB::table($tablename)->insert(
+                    ['kodeBarang' => $row->kodeBarang, 'namaBarang' => $row->namaBarang, 'satuanBarang' =>  $row->satuanBarang, $pengeluaran => $row->Jumlah]
+                );
+            }
+            else DB::table($tablename)->where('kodeBarang', $row->kodeBarang)->increment($pengeluaran,$row->Jumlah);
+        }
+
+        DB::table($tablename)->update([$saldoAkhir => DB::raw("$saldoAwal + $pemasukan - $pengeluaran")]);
+
+        $stock = DB::table($tablename)->get(array(
+            'kodeBarang',
+            'namaBarang',
+            'satuanBarang',
+            "$saldoAwal AS saldoAwal" , "$pemasukan AS pemasukan", "$pengeluaran AS pengeluaran", "$saldoAkhir as saldoAkhir"));
+
+        $tutupbulan = DB::table('tutup_bulan')->where('periode',$month.$year)->get();
+
+        foreach ($tutupbulan as $tb) {
+            if(!$tb->istutup) { $flag_button = 1; }
+            else $flag_button = 0;
+        }
+        
+        return view('pages.stockbarang')->with('stock',$stock)->with('month',$month)->with('year',$year)->with('flag_button',$flag_button);
     }
 
     public function closeTable($month,$year)
     {
-        return "tutup" . $month . $year;
+        $tutupbulan = TutupBulan::find($month.$year);
+        $tutupbulan->istutup = 1;
+        $tutupbulan->save();
+        
+        $tablename = 'stockbarang_' . $year;
+        $pemasukan = 'pemasukan_' . $month;
+        $pengeluaran = 'pengeluaran_' . $month;
+        $saldoAwal = 'saldoAwal_' . $month;
+        $saldoAkhir = 'saldoAkhir_' . $month;
+
+        $stock = DB::table($tablename)->get(array(
+            'kodeBarang',
+            'namaBarang',
+            'satuanBarang',
+            "$saldoAwal AS saldoAwal" , "$pemasukan AS pemasukan", "$pengeluaran AS pengeluaran", "$saldoAkhir as saldoAkhir"));
+        
+        return view('pages.stockbarang')->with('stock',$stock)->with('month',$month)->with('year',$year)->with('flag_button',0);
+
     }
 }
