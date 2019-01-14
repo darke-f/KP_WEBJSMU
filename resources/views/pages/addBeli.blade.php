@@ -65,21 +65,40 @@
 
 
     <script type="text/javascript">
+        var itr=0;
+        
+        function removeInput(divname)
+        {
+            // alert("halo, "+divname+" akan dihapus");
+            $(divname).remove();
+        }
+
         function addInput(divName)
         { 
+            itr++;
+            var newid = 'newitem'+itr+'';
+            var newitem = document.createElement('div');
+            newitem.setAttribute('id', newid);
+            document.getElementById(divName).appendChild(newitem);    
+
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = '<span class="glyphicon glyphicon-minus" onClick="removeInput('+newid+');"> hapus barang</span>';
+            document.getElementById(newid).appendChild(newdiv);    
+
             var newdiv = document.createElement('div');
             newdiv.innerHTML = "<input type='text' name='kodeBarang[]' placeholder='kodeBarang'>";
-            document.getElementById(divName).appendChild(newdiv);    
+            document.getElementById(newid).appendChild(newdiv);    
             var newdiv = document.createElement('div');
             newdiv.innerHTML = "<input type='text' name='namaBarang[]' placeholder='namaBarang'>";
-            document.getElementById(divName).appendChild(newdiv);    
+            document.getElementById(newid).appendChild(newdiv);    
             var newdiv = document.createElement('div');
             newdiv.innerHTML = "<input type='text' name='satuanBarang[]' placeholder='satuanBarang'>";
-            document.getElementById(divName).appendChild(newdiv);    
+            document.getElementById(newid).appendChild(newdiv);    
             var newdiv = document.createElement('div');
             newdiv.innerHTML = "<input type='text' name='quantity[]' placeholder='quantity'>";
-            document.getElementById(divName).appendChild(newdiv);    
+            document.getElementById(newid).appendChild(newdiv);    
         }
+
 
         $(document).ready(function(){    
 

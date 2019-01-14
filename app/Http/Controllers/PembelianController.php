@@ -17,7 +17,7 @@ class PembelianController extends Controller
     public function addBeliPost(Request $request)
     {
         $data = $request->validate([
-            'noTransaksiBeli' => 'required|size:6',
+            'noTransaksiBeli' => 'required|size:6|unique:belihdr',
             'tanggalTransaksiBeli' => 'required|date',
             'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier', //foreign key constraint check
             'periodeTransaksiBeli' => '',
