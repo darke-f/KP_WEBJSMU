@@ -53,7 +53,7 @@
                 <!-- ----dynamic_field---- -->
 
                 <div id="dynamicInput">
-                    <span class="glyphicon glyphicon-plus" onClick="addInput('dynamicInput');">yeah</span>
+                    <span class="glyphicon glyphicon-plus" onClick="addInput('dynamicInput');"> tambah barang</span>
                 </div>
 
                 <!-- ----dynamic_field---- -->

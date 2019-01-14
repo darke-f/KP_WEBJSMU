@@ -15,7 +15,7 @@ class CreateStockbarang2019Table extends Migration
     {
         Schema::create('stockbarang_2019', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->char('kodeBarang', 6);
+            $table->char('kodeBarang', 6)->primary();
             $table->string('namaBarang', 40);
             $table->string('satuanBarang', 10);
             $table->integer('saldoAwal_Jan')->default('0');

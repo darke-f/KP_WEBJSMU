@@ -14,7 +14,7 @@ class CreateTutupBulanTable extends Migration
     public function up()
     {
         Schema::create('tutup_bulan', function (Blueprint $table) {
-            $table->string('periode',10);
+            $table->string('periode',10)->primary();
             $table->boolean('istutup')->default('0');
         });
     }
