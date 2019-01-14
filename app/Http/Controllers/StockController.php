@@ -225,12 +225,20 @@ class StockController extends Controller
         $tutupbulan = TutupBulan::find($month.$year);
         $tutupbulan->istutup = 1;
         $tutupbulan->save();
-        
+
+        $carbon = new Carbon($month);
+        $carbon = $carbon->addMonthNoOverflow();
+        $carbon = $carbon->format('M');
+
         $tablename = 'stockbarang_' . $year;
         $pemasukan = 'pemasukan_' . $month;
         $pengeluaran = 'pengeluaran_' . $month;
         $saldoAwal = 'saldoAwal_' . $month;
         $saldoAkhir = 'saldoAkhir_' . $month;
+        $new_saldoAwal = 'saldoAwal_' . $carbon;
+        $new_saldoAkhir = 'saldoAkhir_' . $carbon;
+        
+        DB::table($tablename)->update([$new_saldoAwal => DB::raw($saldoAkhir), $new_saldoAkhir => DB::raw($saldoAkhir)]);
 
         $stock = DB::table($tablename)->get(array(
             'kodeBarang',

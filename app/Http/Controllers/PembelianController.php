@@ -113,6 +113,9 @@ class PembelianController extends Controller
         return redirect('\dashboardadmin');
     }
 
+    public function show(){
+        return view("pages.showpembelian");
+    }
 
 
 }
