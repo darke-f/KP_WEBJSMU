@@ -4,9 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BeliHdr extends Model
+class JualDtl extends Model
 {
     protected $table = 'jualdtl';
+
+    public $fillable = [
+        'noTransaksiJual',
+        'kodeBarang',
+        'namaBarang',
+        'satuanBarang',
+        'quantity'
+    ];
 
     public $timestamps = false;
 

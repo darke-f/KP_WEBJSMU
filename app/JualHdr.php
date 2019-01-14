@@ -10,6 +10,13 @@ class JualHdr extends Model
 
     public $primaryKey = 'noTransaksiJual';
 
+    public $fillable = [
+        'noTransaksiJual',
+        'tanggalTransaksiJual',
+        'kodeCustomer',
+        'periodeTransaksiJual'
+    ];
+
     public $timestamps = false;
 
     public function dtl()
