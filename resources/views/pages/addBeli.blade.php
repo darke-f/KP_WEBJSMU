@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}"> 
 
     <div class="container">
-        <div class="row">
+        <div>
             <h1>Transaksi Pembelian</h1>
             <form action="/pembelians" method="post">
                 @if ($errors->any())
@@ -19,7 +19,7 @@
 
                 {!! csrf_field() !!}
                 <div class="form-group{{ $errors->has('noTransaksiBeli') ? ' has-error' : '' }}">
-                    <label for="noTransaksiBeli">noTransaksiBeli</label>
+                    <label for="noTransaksiBeli">nomor Transaksi Beli</label>
                     <input type="text" class="form-control" id="noTransaksiBeli" name="noTransaksiBeli" placeholder="noTransaksiBeli" value="{{ old('noTransaksiBeli') }}">
                     @if($errors->has('noTransaksiBeli'))
                         <span class="help-block">{{ $errors->first('noTransaksiBeli') }}</span>
@@ -33,8 +33,8 @@
                     @endif
                 </div> -->
                 <div class="form-group{{ $errors->has('tanggalTransaksiBeli') ? ' has-error' : '' }}">
-                    <label for="tanggalTransaksiBeli">tanggalTransaksiBeli</label>
-                    <div class="col-10">
+                    <label for="tanggalTransaksiBeli">Tanggal Transaksi Beli</label>
+                    <div>
                         <input class="form-control" type="date" id="tanggalTransaksiBeli" name="tanggalTransaksiBeli">
                     </div>
                     @if($errors->has('tanggalTransaksiBeli'))
@@ -43,22 +43,23 @@
                 </div>
                 <div class="form-group{{ $errors->has('kodeSupplier') ? ' has-error' : '' }}">
                     <label for="kodeSupplier">kodeSupplier</label>
-                    <textarea class="form-control" id="kodeSupplier" name="kodeSupplier" placeholder="kodeSupplier">{{ old('kodeSupplier') }}</textarea>
+                    <input type="text" class="form-control" id="kodeSupplier" name="kodeSupplier" placeholder="kodeSupplier" value="{{ old('kodeSupplier') }}">
                     @if($errors->has('kodeSupplier'))
-                        <span class="help-block">{{ $errors->first('kodeSupplier') }}</span>
+                        <span class="help-block">{{ $errors->first('kode Supplier') }}</span>
                     @endif
                 </div>
 
 
                 <!-- ----dynamic_field---- -->
-
-                <div id="dynamicInput">
-                    <span class="glyphicon glyphicon-plus" onClick="addInput('dynamicInput');"> tambah barang</span>
+                <div id="dynamicInput"></div>                
+                <div>
+                    <button type="button" class="btn btn-success" onClick="addInput('dynamicInput');"> tambah barang</button>
                 </div>
 
                 <!-- ----dynamic_field---- -->
-
-                <button id="submit" type="submit" class="btn btn-default">Submit</button>
+                <br>
+                <p id="countitem"></p>
+                <button id="submit" type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
@@ -66,36 +67,38 @@
 
     <script type="text/javascript">
         var itr=0;
+        var itemcount = 0;
         
         function removeInput(divname)
         {
             // alert("halo, "+divname+" akan dihapus");
+            itemcount--;
+            document.getElementById("countitem").innerHTML='Jumlah Barang : '+itemcount+'';
             $(divname).remove();
         }
 
         function addInput(divName)
         { 
             itr++;
+            itemcount++;
+            // $('#countitem').html('Jumlah Barang : '+itemcount+'');
+            document.getElementById("countitem").innerHTML='Jumlah Barang : '+itemcount+'';
             var newid = 'newitem'+itr+'';
             var newitem = document.createElement('div');
             newitem.setAttribute('id', newid);
             document.getElementById(divName).appendChild(newitem);    
 
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = '<span class="glyphicon glyphicon-minus" onClick="removeInput('+newid+');"> hapus barang</span>';
+            newdiv.innerHTML = '<span>Barang '+itr+' :\t</span><button class="btn btn-danger" onClick="removeInput('+newid+');"> hapus barang</button>';
             document.getElementById(newid).appendChild(newdiv);    
 
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<input type='text' name='kodeBarang[]' placeholder='kodeBarang'>";
-            document.getElementById(newid).appendChild(newdiv);    
+            newdiv.setAttribute('class', 'row');
+            newdiv.innerHTML = "<input type='text' class='form-control col-5' name='kodeBarang[]' placeholder='kodeBarang'><input type='text' class='form-control col-6' name='namaBarang[]' placeholder='namaBarang'>";
+            document.getElementById(newid).appendChild(newdiv);       
             var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<input type='text' name='namaBarang[]' placeholder='namaBarang'>";
-            document.getElementById(newid).appendChild(newdiv);    
-            var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<input type='text' name='satuanBarang[]' placeholder='satuanBarang'>";
-            document.getElementById(newid).appendChild(newdiv);    
-            var newdiv = document.createElement('div');
-            newdiv.innerHTML = "<input type='text' name='quantity[]' placeholder='quantity'>";
+            newdiv.setAttribute('class', 'row');
+            newdiv.innerHTML = "<input type='text' class='form-control col-5' name='satuanBarang[]' placeholder='satuanBarang'><input type='text' class='form-control col-6' name='quantity[]' placeholder='quantity'>";
             document.getElementById(newid).appendChild(newdiv);    
         }
 
