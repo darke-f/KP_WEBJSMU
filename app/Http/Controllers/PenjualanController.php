@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\JualHdr;
 use App\JualDtl;
 use Validator;
+use Illuminate\Support\Facades\Input;
 
 class PenjualanController extends Controller
 {
@@ -61,9 +62,23 @@ class PenjualanController extends Controller
 
         return redirect('\dashboardadmin');
     }
+    public function index() {
+        return view('pages.showpenjualan');
+    }
 
+    public function show(){
+        $kode = Input::get('kode', 'default category');
+        
+        $header = JualHdr::where('noTransaksiJual',$kode)->get();
+        //return $header;
+        if(!$header->isEmpty()) {
+            $customer = JualHdr::find($kode)->customer->namaCustomer;
+            $detail = JualDtl::where('noTransaksiJual',$kode)->get();
 
-
+            return view('pages.showpenjualan')->with('header',$header)->with('customer',$customer)->with('detail',$detail);
+        }
+        else return view('pages.showpenjualan')->with('nodata',1);
+    }
 }
 
 

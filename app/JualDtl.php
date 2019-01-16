@@ -22,4 +22,8 @@ class JualDtl extends Model
     {
         return $this->belongsTo('App\JualHdr', 'noTransaksiJual');
     }
+    public function barang()
+    {
+        return $this->belongsTo('App\MasterBarang', 'kodeBarang');
+    }
 }

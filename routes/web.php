@@ -36,7 +36,10 @@ Route::get('/stocktable', 'StockController@showTable');
 Route::get('/stocktable/calc/{month}&{year}', 'StockController@calcTable');
 Route::get('/stocktable/closemonth/{month}&{year}', 'StockController@closeTable');
 
+Route::get('/indexpembelians', 'PembelianController@index');
 Route::get('/showpembelians', 'PembelianController@show');
+Route::get('/indexpenjualans', 'PenjualanController@index');
+Route::get('/showpenjualans', 'PenjualanController@show');
 
 Auth::routes();
 //Route::resource('posts','PostsController');

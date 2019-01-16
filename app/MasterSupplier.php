@@ -10,14 +10,15 @@ class MasterSupplier extends Model
     //table name
     protected $table = 'mastersupplier';
     //Primary key
-    //Primary key
     public $primaryKey = 'kodeSupplier';
     //timestamp
-    public $timestamp = false;
+    public $timestamps = false;
 
-    /*public function user(){
-        return $this->belongsTo('App\User');
-    }*/
+    public $incrementing = false;
+
+    public function beli(){
+        return $this->hasMany('App\BeliHdr', 'kodeSupplier');
+    }
 
    
 }

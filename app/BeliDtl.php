@@ -22,4 +22,8 @@ class BeliDtl extends Model
     {
         return $this->belongsTo('App\BeliHdr', 'noTransaksiBeli');
     }
+    public function barang()
+    {
+        return $this->belongsTo('App\MasterBarang', 'kodeBarang');
+    }
 }

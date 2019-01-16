@@ -12,20 +12,18 @@ class MasterBarang extends Model
     //Primary key
     public $primaryKey = 'kodeBarang';
     //timestamp
-    public $timestamp = false;
+    public $timestamps = false;
 
-    /*public function user(){
-        return $this->belongsTo('App\User');
-    }*/
+    public $incrementing = false;
 
     public function pembelian()
     {
-        return $this->hasMany('App\BeliHdr', 'kodeBarang');
+        return $this->hasMany('App\BeliDtl', 'kodeBarang');
     }
 
     public function penjualan()
     {
-        return $this->hasMany('App\JualHdr', 'kodeBarang');
+        return $this->hasMany('App\JualDtl', 'kodeBarang');
     }
 
    

@@ -18,9 +18,7 @@ class StockController extends Controller
      */
     public function index()
     {
-        $tablename = "stockbarang_2019";
-        $stock = DB::table($tablename)->where('kodebarang', 'B00000')->get();
-        return view('pages.stockbarang')->with('stock',$stock)->with('month','')->with('year','')->with('flag_button',0);
+        return view('pages.stockbarang');
     }
 
     /**
@@ -137,11 +135,13 @@ class StockController extends Controller
             }
 
         } else {
-            $tablename = "stockbarang_2019";
+            /*$tablename = "stockbarang_2019";
             $stock = DB::table($tablename)->where('kodebarang', 'B00000')->get();
             $month = '';
             $year = '';
-            $flag_button = 0;
+            $flag_button = 0;*/
+            return view('pages.stockbarang');
+
         }
 
         return view('pages.stockbarang')->with('stock',$stock)->with('month',$month)->with('year',$year)->with('flag_button',$flag_button);
@@ -246,7 +246,7 @@ class StockController extends Controller
             'satuanBarang',
             "$saldoAwal AS saldoAwal" , "$pemasukan AS pemasukan", "$pengeluaran AS pengeluaran", "$saldoAkhir as saldoAkhir"));
         
-        return view('pages.stockbarang')->with('stock',$stock)->with('month',$month)->with('year',$year)->with('flag_button',0);
+        return view('pages.stockbarang')->with('stock',$stock)->with('month',$month)->with('year',$year);
 
     }
 }

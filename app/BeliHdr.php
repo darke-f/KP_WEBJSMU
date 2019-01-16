@@ -10,6 +10,8 @@ class BeliHdr extends Model
 
     public $primaryKey = 'noTransaksiBeli';
 
+    public $incrementing = false;
+
     public $fillable = [
         'noTransaksiBeli',
         'tanggalTransaksiBeli',
@@ -23,10 +25,8 @@ class BeliHdr extends Model
     {
         return $this->hasMany('App\BeliDtl', 'noTransaksiBeli');
     }
-
-    public function barang()
+    public function supplier()
     {
-        return $this->belongsTo('App\MasterBarang', 'kodeBarang');
-    }
-
+        return $this->belongsTo('App\MasterSupplier', 'kodeSupplier');
+    } 
 }

@@ -115,12 +115,12 @@
             <span>Stock Barang</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/showpembelians">
+          <a class="nav-link" href="/indexpembelians">
             <i class="fas fa-fw fa-table"></i>
             <span>Pembelian</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/showpenjualans">
+          <a class="nav-link" href="/indexpenjualans">
             <i class="fas fa-fw fa-table"></i>
             <span>Penjualan</span></a>
         </li>

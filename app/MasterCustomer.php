@@ -12,11 +12,13 @@ class MasterCustomer extends Model
     //Primary key
     public $primaryKey = 'kodeCustomer';
     //timestamp
-    public $timestamp = false;
+    public $timestamps = false;
 
-    /*public function user(){
-        return $this->belongsTo('App\User');
-    }*/
+    public $incrementing = false;
+
+    public function jual(){
+        return $this->hasMany('App\JualDtl', 'kodeCustomer');
+    }
 
    
 }

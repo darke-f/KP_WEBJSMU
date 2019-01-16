@@ -12,5 +12,7 @@ class TutupBulan extends Model
     public $primaryKey = 'periode';
     //timestamp
     public $timestamps = false;
+
+    public $incrementing = false;
    
 }

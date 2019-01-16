@@ -10,6 +10,8 @@ class JualHdr extends Model
 
     public $primaryKey = 'noTransaksiJual';
 
+    public $incrementing = false;
+
     public $fillable = [
         'noTransaksiJual',
         'tanggalTransaksiJual',
@@ -23,9 +25,8 @@ class JualHdr extends Model
     {
         return $this->hasMany('App\JualDtl', 'noTransaksiJual');
     }
-
-    public function barang()
+    public function customer()
     {
-        return $this->belongsTo('App\MasterBarang', 'kodeBarang');
+        return $this->belongsTo('App\MasterCustomer', 'kodeCustomer');
     }
 }

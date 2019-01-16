@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\BeliHdr;
 use App\BeliDtl;
+use Illuminate\Support\Facades\Input;
 use Validator;
 
 class PembelianController extends Controller
@@ -113,11 +114,23 @@ class PembelianController extends Controller
         return redirect('\dashboardadmin');
     }
 
-    public function show(){
-        return view("pages.showpembelian");
+    public function index() {
+        return view('pages.showpembelian');
     }
 
+    public function show(){
+        $kode = Input::get('kode', 'default category');
+        
+        $header = BeliHdr::where('noTransaksiBeli',$kode)->get();
+        //return $header;
+        if(!$header->isEmpty()) {
+            $supplier = BeliHdr::find($kode)->supplier->namaSupplier;
+            $detail = BeliDtl::where('noTransaksiBeli',$kode)->get();
 
+            return view('pages.showpembelian')->with('header',$header)->with('supplier',$supplier)->with('detail',$detail);
+        }
+        else return view('pages.showpembelian')->with('nodata',1);
+    }
 }
 
 
