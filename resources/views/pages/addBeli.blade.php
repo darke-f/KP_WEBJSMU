@@ -51,6 +51,13 @@
 
 
                 <!-- ----dynamic_field---- -->
+                <datalist id="namabarang">
+                @if(count($barang) >0)
+                    @foreach($barang as $brg)
+                        <option value={{$brg->namaBarang}}>
+                    @endforeach
+                @endif
+                </datalist>
                 <div id="dynamicInput"></div>                
                 <div>
                     <button type="button" class="btn btn-success" onClick="addInput('dynamicInput');"> tambah barang</button>
@@ -104,7 +111,7 @@
 
             var newdiv = document.createElement('div');
             newdiv.setAttribute('class', 'row');
-            newdiv.innerHTML = "<input type='text' class='form-control col-5' name='kodeBarang[]' placeholder='kodeBarang'><input type='text' class='form-control col-6' name='namaBarang[]' placeholder='namaBarang'>";
+            newdiv.innerHTML = "<input type='text' class='form-control col-5' name='kodeBarang[]' placeholder='kodeBarang'><input list='namabarang' class='form-control col-6' name='namaBarang[]' placeholder='namaBarang'>";
             document.getElementById(newid).appendChild(newdiv);       
             var newdiv = document.createElement('div');
             newdiv.setAttribute('class', 'row');
