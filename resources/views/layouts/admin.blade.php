@@ -23,6 +23,8 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('/css/sb-admin.css')}}/" rel="stylesheet">
 
+    @yield('head')
+
   </head>
 
   <body id="page-top">
@@ -93,7 +95,7 @@
       <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="/dashboardadmin">
+          <a class="nav-link" href="/">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
           </a>

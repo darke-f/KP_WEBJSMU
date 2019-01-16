@@ -1,12 +1,16 @@
 @extends('layouts.admin')
-@section('content')
 
+@section('title')
+    <a class="navbar-brand mr-1" href="#">Form Pembelian</a>
+@endsection
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+@section('head')
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
-    <meta name="csrf-token" content="{{ csrf_token() }}"> 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection 
 
+@section('content')
     <div class="container">
         <div>
             <h1>Transaksi Pembelian</h1>
@@ -22,7 +26,7 @@
                     <label for="noTransaksiBeli">Nomor Transaksi Beli</label>
                     <input type="text" class="form-control" id="noTransaksiBeli" name="noTransaksiBeli" placeholder="noTransaksiBeli" value="{{ old('noTransaksiBeli') }}">
                     @if($errors->has('noTransaksiBeli'))
-                        <span class="help-block">{{ $errors->first('noTransaksiBeli') }}</span>
+                        <span class="alert">{{ $errors->first('noTransaksiBeli') }}</span>
                     @endif
                 </div>
                 <!-- <div class="form-group{{ $errors->has('tanggalTransaksiBeli') ? ' has-error' : '' }}">
@@ -122,7 +126,4 @@
         }
 
     </script>
-
-
-
 @endsection
