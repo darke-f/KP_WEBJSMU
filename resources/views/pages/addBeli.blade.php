@@ -70,14 +70,13 @@
         var itemcount = 0;
 
         function validate(form) {
-
-        if(!itemcount) {
-            alert('There\'s no item!');
-            return false;
-        }
-        else {
-            return confirm('Do you really want to submit the form?');
-        }
+            if(!itemcount) {
+                alert('There\'s no item!');
+                return false;
+            }
+            else {
+                return confirm('Do you really want to submit the form?');
+            }
         }
         
         function removeInput(divname)
@@ -109,7 +108,7 @@
             document.getElementById(newid).appendChild(newdiv);       
             var newdiv = document.createElement('div');
             newdiv.setAttribute('class', 'row');
-            newdiv.innerHTML = "<input type='text' class='form-control col-5' name='satuanBarang[]' placeholder='satuanBarang'><input type='text' class='form-control col-6' name='quantity[]' placeholder='quantity'>";
+            newdiv.innerHTML = "<input type='text' class='form-control col-5' name='satuanBarang[]' placeholder='satuanBarang'><input type='number' class='form-control col-6' name='quantity[]' placeholder='quantity'>";
             document.getElementById(newid).appendChild(newdiv);    
             var breakline = document.createElement('br');
             document.getElementById(newid).appendChild(breakline);
