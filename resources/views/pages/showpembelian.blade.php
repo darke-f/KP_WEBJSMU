@@ -27,7 +27,6 @@
                 {{form::submit('Submit',['class'=>'btn btn-primary'])}}
               </div>
             </div>
-          </form>
           {!! Form::close() !!} 
 
           @if(isset($header) && count($header)>0)
