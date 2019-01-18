@@ -17,7 +17,7 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              List Data Pelanggan</div>
+              List Data Pelanggan<a class="btn btn-primary float-right btn-sm" href="/mastercustomers/create">New</a></div></div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -27,6 +27,7 @@
                       <th>Nama</th>
                       <th>Alamat</th>
                       <th>Keterangan</th>
+                      <th data-sortable="false">Modify</th>
                     </tr>
                   </thead>
                   <tfoot>
@@ -35,6 +36,7 @@
                       <th>Nama</th>
                       <th>Alamat</th>
                       <th>Keterangan</th>
+                      <th>Modify</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -45,6 +47,10 @@
                             <td>{{$cust->namaCustomer}}</td>
                             <td>{{$cust->alamatCustomer}}</td>
                             <td>{{$cust->keteranganCustomer}}</td>
+                            <td><div class="btn-group"><a href="/mastercustomers/{{$cust->kodeCustomer}}/edit" class="btn btn-primary mr-2 mb-1">Edit</a>{!!Form::open(['action'=>['MasterCustomerController@destroy',$cust->kodeCustomer],'method' =>'POST','class' => 'pull-right'])!!}
+                                {{Form::hidden('_method','DELETE')}}
+                                {{Form::submit('Delete',['class'=>'btn btn-danger'])}}
+                            {!!Form::close()!!}</div></td>
                           </tr>
                         @endforeach
                     @endif

@@ -14,7 +14,7 @@ class MasterCustomerController extends Controller
      */
     public function index()
     {
-        $customer = \DB::table('mastercustomer')->get();
+        $customer = MasterCustomer::all();
         return view('pages.mastercustomer')->with('customer',$customer);
     }
 
@@ -25,7 +25,7 @@ class MasterCustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.addcustomer');
     }
 
     /**
@@ -36,7 +36,23 @@ class MasterCustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'kodecustomer' => 'required',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'note' => 'required'
+        ]);
+
+        //create post
+        $customer = new MasterCustomer;
+        $customer->kodeCustomer = $request->input('kodecustomer');
+        $customer->namaCustomer = $request->input('nama');
+        $customer->alamatCustomer = $request->input('alamat');
+        $customer->keteranganCustomer = $request->input('note');
+
+        $customer->save();
+        
+        return redirect('/mastercustomers')->with('success','Customer Created');
     }
 
     /**
@@ -58,7 +74,9 @@ class MasterCustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $customer = MasterCustomer::find($id);
+      
+        return view('pages.updatecustomer')->with('customer',$customer);
     }
 
     /**
@@ -70,7 +88,21 @@ class MasterCustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'nama' => 'required',
+            'alamat' => 'required',
+            'note' => 'required'
+        ]);
+
+        //create customer
+        $customer = MasterCustomer::find($id);
+        $customer->namaCustomer = $request->input('nama');
+        $customer->alamatCustomer = $request->input('alamat');
+        $customer->keteranganCustomer = $request->input('note');
+
+        $customer->save();
+        
+        return redirect('/mastercustomers')->with('success','Customer Updated');
     }
 
     /**
@@ -81,6 +113,9 @@ class MasterCustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $customer = MasterCustomer::find($id);
+
+        $customer->delete();
+        return redirect('/mastercustomers')->with('success','Customer Removed');
     }
 }

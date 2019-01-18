@@ -14,7 +14,7 @@ class MasterSupplierController extends Controller
      */
     public function index()
     {
-        $supplier = \DB::table('mastersupplier')->get();
+        $supplier = MasterSupplier::all();
         return view('pages.mastersupplier')->with('supplier',$supplier);
     }
 
@@ -25,7 +25,7 @@ class MasterSupplierController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.addsupplier');
     }
 
     /**
@@ -36,7 +36,25 @@ class MasterSupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'kodesupplier' => 'required',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'kota' => 'required',
+            'jenis' => 'required'
+        ]);
+
+        //create post
+        $supplier = new MasterSupplier;
+        $supplier->kodeSupplier = $request->input('kodesupplier');
+        $supplier->namaSupplier = $request->input('nama');
+        $supplier->alamatSupplier = $request->input('alamat');
+        $supplier->kotaSupplier = $request->input('kota');
+        $supplier->jenisSupplier = $request->input('jenis');
+
+        $supplier->save();
+        
+        return redirect('/mastersuppliers')->with('success','Supplier Created');
     }
 
     /**
@@ -58,7 +76,9 @@ class MasterSupplierController extends Controller
      */
     public function edit($id)
     {
-        //
+        $supplier = MasterSupplier::find($id);
+      
+        return view('pages.updatesupplier')->with('supplier',$supplier);
     }
 
     /**
@@ -70,7 +90,23 @@ class MasterSupplierController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'nama' => 'required',
+            'alamat' => 'required',
+            'kota' => 'required',
+            'jenis' => 'required'
+        ]);
+
+        //create supplier
+        $supplier = MasterSupplier::find($id);
+        $supplier->namaSupplier = $request->input('nama');
+        $supplier->alamatSupplier = $request->input('alamat');
+        $supplier->kotaSupplier = $request->input('kota');
+        $supplier->jenisSupplier = $request->input('jenis');
+
+        $supplier->save();
+        
+        return redirect('/mastersuppliers')->with('success','Supplier Updated');
     }
 
     /**
@@ -81,6 +117,9 @@ class MasterSupplierController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $supplier = MasterSupplier::find($id);
+
+        $supplier->delete();
+        return redirect('/mastersuppliers')->with('success','Supplier Removed');
     }
 }

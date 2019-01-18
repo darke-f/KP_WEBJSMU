@@ -14,7 +14,7 @@ class MasterBarangController extends Controller
      */
     public function index()
     {
-        $barang = \DB::table('masterbarang')->get();
+        $barang = MasterBarang::all();
         return view('pages.masterbarang')->with('barang',$barang);
     }
 
@@ -25,7 +25,7 @@ class MasterBarangController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.addbarang');
     }
 
     /**
@@ -36,7 +36,23 @@ class MasterBarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'kodebarang' => 'required',
+            'nama' => 'required',
+            'satuan' => 'required',
+            'note' => 'required'
+        ]);
+
+        //create post
+        $barang = new MasterBarang;
+        $barang->kodeBarang = $request->input('kodebarang');
+        $barang->namaBarang = $request->input('nama');
+        $barang->satuanBarang = $request->input('satuan');
+        $barang->noteBarang = $request->input('note');
+
+        $barang->save();
+        
+        return redirect('/masterbarangs')->with('success','Barang Created');
     }
 
     /**
@@ -58,7 +74,9 @@ class MasterBarangController extends Controller
      */
     public function edit($id)
     {
-        //
+        $barang = MasterBarang::find($id);
+      
+        return view('pages.updatebarang')->with('barang',$barang);
     }
 
     /**
@@ -70,7 +88,21 @@ class MasterBarangController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'nama' => 'required',
+            'satuan' => 'required',
+            'note' => 'required'
+        ]);
+
+        //create barang
+        $barang = MasterBarang::find($id);
+        $barang->namaBarang = $request->input('nama');
+        $barang->satuanBarang = $request->input('satuan');
+        $barang->noteBarang = $request->input('note');
+
+        $barang->save();
+        
+        return redirect('/masterbarangs')->with('success','Barang Updated');
     }
 
     /**
@@ -81,6 +113,9 @@ class MasterBarangController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $barang = MasterBarang::find($id);
+
+        $barang->delete();
+        return redirect('/masterbarangs')->with('success','Barang Removed');
     }
 }
