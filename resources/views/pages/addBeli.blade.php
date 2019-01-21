@@ -84,12 +84,15 @@
                             <td class="no">1</td>
                             <td class="col-2">
                                 <select id="pilihbarang0" class="form-control pilihbarang" name="namaBarang[]"></select>
+                                <input type="hidden" class="form-control namaBarangH" name="namaBarangH[]">
                             </td>
                             <td class="col-1.5">
                                 <input disabled type="text" class="form-control kodeBarang" name="kodeBarang[]">
+                                <input type="hidden" class="form-control kodeBarangH" name="kodeBarangH[]">
                             </td>
                             <td>
                                 <input disabled type="text" class="form-control satuanBarang" name="satuanBarang[]">
+                                <input type="hidden" class="form-control satuanBarangH" name="satuanBarangH[]">
                             </td>
                             <td>
                                 <input type="number" value="0" class="form-control quantity" name="quantity[]">
@@ -159,9 +162,12 @@
             ittr++;
             var n = ($('.resultbody tr').length - 0) + 1;
             var tr = '<tr><td class="no">' + n + '</td>' +
-                    '<td class="col-2"><select class="form-control pilihbarang" id="pilihbarang'+ittr+'" name="namaBarang[]"></select></td>'+
+                    '<td class="col-2"><select class="form-control pilihbarang" id="pilihbarang'+ittr+'" name="namaBarang[]"></select>'+
+                    '<input type="hidden" class="form-control namaBarangH" name="namaBarangH[]"</td>'+
                     '<td class="col-1.5"><input disabled type="text" class="form-control kodeBarang" name="kodeBarang[]"></td>'+
+                    '<input type="hidden" class="form-control kodeBarangH" name="kodeBarangH[]"</td>'+
                     '<td><input disabled type="text" class="form-control satuanBarang" name="satuanBarang[]"></td>'+
+                    '<input type="hidden" class="form-control satuanBarangH" name="satuanBarangH[]"</td>'+
                     '<td><input type="number" value="0" class="form-control quantity" name="quantity[]"></td>'+
                     '<td><input type="number" value="0" class="form-control hargaSatuan" name="hargaSatuan[]"></td>'+
                     '<td><input type="number" value="0" class="form-control hargaTotal" name="hargaTotal[]"></td>'+
@@ -182,8 +188,11 @@
             var tr = $(this).parent().parent();
             var barangselected = tr.find('.pilihbarang').val();
             // alert(barangselected);
+            tr.find('.namaBarangH').val(j[barangselected].namaBarang);
             tr.find('.kodeBarang').val(j[barangselected].kodeBarang);
+            tr.find('.kodeBarangH').val(j[barangselected].kodeBarang);
             tr.find('.satuanBarang').val(j[barangselected].satuanBarang);
+            tr.find('.satuanBarangH').val(j[barangselected].satuanBarang);
         });
 
         $('.resultbody').delegate('.quantity, .hargaSatuan', 'keyup, change', function () {

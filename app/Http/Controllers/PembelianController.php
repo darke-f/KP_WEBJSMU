@@ -24,10 +24,10 @@ class PembelianController extends Controller
             'tanggalTransaksiBeli' => 'required|date',
             'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier', //foreign key constraint check
             'periodeTransaksiBeli' => '',
-            'kodeBarang.*' => 'required|size:6|exists:masterbarang,kodeBarang',
-            'namaBarang.*' => 'required',
-            'satuanBarang.*' => 'required',
-            'quantity.*' => 'required|numeric'
+            'kodeBarangH.*' => 'required|size:6|exists:masterbarang,kodeBarang',
+            'namaBarangH.*' => 'required',
+            'satuanBarangH.*' => 'required',
+            'quantity.*' => 'required|numeric',
         ]);
 
         $date = strtotime($request->input('tanggalTransaksiBeli'));
@@ -41,9 +41,9 @@ class PembelianController extends Controller
         $BeliHdr->periodeTransaksiBeli = $date2;
 
         $noTransaksiBeli = $request->input('noTransaksiBeli');
-        $kodeBarang = $request->input('kodeBarang');
-        $namaBarang = $request->input('namaBarang');
-        $satuanBarang = $request->input('satuanBarang');
+        $kodeBarang = $request->input('kodeBarangH');
+        $namaBarang = $request->input('namaBarangH');
+        $satuanBarang = $request->input('satuanBarangH');
         $quantity = $request->input('quantity');
 
         
@@ -59,7 +59,7 @@ class PembelianController extends Controller
         //     $BeliDtl->quantity = $quantity[$iter];
         // }
 
-        foreach($kodeBarang as $key => $value) 
+        foreach($namaBarang as $key => $value) 
         {
             $BeliDtl = new \App\BeliDtl;
             $BeliDtl->noTransaksiBeli = $noTransaksiBeli;
