@@ -118,14 +118,40 @@
             <span>Stock Barang</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/indexpembelians">
+          <a class="nav-link" href="/pembelians">
             <i class="fas fa-fw fa-table"></i>
             <span>Pembelian</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/indexpenjualans">
+          <a class="nav-link" href="/penjualans">
             <i class="fas fa-fw fa-table"></i>
             <span>Penjualan</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Report Pembelian</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <h6 class="dropdown-header">Report Berdasarkan:</h6>
+            <a class="dropdown-item" href="/pembelianNo">Nomor Transaksi</a>
+            <a class="dropdown-item" href="/pembelianPer">Periode Transaksi</a>
+            <a class="dropdown-item" href="/pembelianBar">Barang</a>
+            <a class="dropdown-item" href="/pembelianSup">Supplier</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Report Penjualan</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <h6 class="dropdown-header">Report Berdasarkan:</h6>
+            <a class="dropdown-item" href="#">Nomor Transaksi</a>
+            <a class="dropdown-item" href="#">Periode Transaksi</a>
+            <a class="dropdown-item" href="#">Barang</a>
+            <a class="dropdown-item" href="#">Customer</a>
+          </div>
         </li>
       </ul>
 

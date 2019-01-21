@@ -35,8 +35,14 @@ Route::get('/stocktable/calc/{month}&{year}', 'StockController@calcTable');
 Route::get('/stocktable/closemonth/{month}&{year}', 'StockController@closeTable');
 Route::get('/stocktable/closeyear/{month}&{year}', 'StockController@closeYear');
 
-Route::get('/indexpembelians', 'PembelianController@index');
-Route::get('/showpembelians', 'PembelianController@show');
+Route::get('/pembelianNo', 'PembelianController@index_No');
+Route::get('/showpembelianNo', 'PembelianController@show_No');
+Route::get('/pembelianPer', 'PembelianController@index_Periode');
+Route::get('/showpembelianPer', 'PembelianController@show_Periode');
+Route::get('/pembelianBar', 'PembelianController@index_Barang');
+Route::get('/showpembelianBar', 'PembelianController@show_Barang');
+Route::get('/pembelianSup', 'PembelianController@index_Supplier');
+Route::get('/showpembelianSup', 'PembelianController@show_Supplier');
 Route::get('/indexpenjualans', 'PenjualanController@index');
 Route::get('/showpenjualans', 'PenjualanController@show');
 

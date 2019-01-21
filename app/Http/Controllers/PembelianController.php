@@ -116,11 +116,80 @@ class PembelianController extends Controller
         return redirect('\dashboardadmin');
     }
 
-    public function index() {
-        return view('pages.showpembelian');
+    public function index_No() {
+        return view('pages.pembelian_No');
     }
 
-    public function show(){
+    public function index_Periode() {
+        return view('pages.pembelian_Periode');
+    }
+
+    public function index_Barang() {
+        return view('pages.pembelian_Barang');
+    }
+
+    public function index_Supplier() {
+        return view('pages.pembelian_Supplier');
+    }
+
+    public function show_No(){
+        $kode = Input::get('kodebeli', 'default category');
+        
+        $header = BeliHdr::where('noTransaksiBeli',$kode)->get();
+        //return $header;
+        if(!$header->isEmpty()) {
+            $supplier = BeliHdr::find($kode)->supplier->namaSupplier;
+            $detail = BeliDtl::where('noTransaksiBeli',$kode)->get();
+
+            return view('pages.pembelian_No')->with('header',$header)->with('supplier',$supplier)->with('detail',$detail);
+        }
+        else return view('pages.pembelian_No')->with('nodata',1);
+    }
+
+    public function show_Periode(){
+        $month = Input::get('month', 'default category');
+        $year = Input::get('year', 'default category');
+
+        if($month == 1){ $month = 'Jan';}
+        else if($month == 2){ $month = 'Feb';}
+        else if($month == 3){ $month = 'Mar';}
+        else if($month == 4){ $month = 'Apr';}
+        else if($month == 5){ $month = 'May';}
+        else if($month == 6){ $month = 'Jun';}
+        else if($month == 7){ $month = 'Jul';}
+        else if($month == 8){ $month = 'Aug';}
+        else if($month == 9){ $month = 'Sep';}
+        else if($month == 10){ $month = 'Oct';}
+        else if($month == 11){ $month = 'Nov';}
+        else { $month = 'Dec';}
+        
+        $data = BeliHdr::with('dtl')->with('supplier')->where('periodeTransaksiBeli',$month.$year)->get();
+        foreach($data as $dt){
+            return $dt;
+        }
+        return $data->dtl;
+
+        if(!$data->isEmpty()) {
+            return view('pages.showpembelian')->with('periode',$month.$year)->with('data',$data);
+        }
+        else return view('pages.showpembelian')->with('nodata',1);
+    }
+
+    public function show_Barang(){
+        $kode = Input::get('kode', 'default category');
+        
+        $header = BeliHdr::where('noTransaksiBeli',$kode)->get();
+        //return $header;
+        if(!$header->isEmpty()) {
+            $supplier = BeliHdr::find($kode)->supplier->namaSupplier;
+            $detail = BeliDtl::where('noTransaksiBeli',$kode)->get();
+
+            return view('pages.showpembelian')->with('header',$header)->with('supplier',$supplier)->with('detail',$detail);
+        }
+        else return view('pages.showpembelian')->with('nodata',1);
+    }
+
+    public function show_Supplier(){
         $kode = Input::get('kode', 'default category');
         
         $header = BeliHdr::where('noTransaksiBeli',$kode)->get();

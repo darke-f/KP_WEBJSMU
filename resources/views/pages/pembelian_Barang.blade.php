@@ -15,7 +15,7 @@
 
           <h2 class="ml-1 mb-3"> Data pembelian :</h2>
 
-          {!! Form::open(['action'=> 'PembelianController@show','method'=>'GET','class' =>'form-inline ml-1 mb-4']) !!}
+          {!! Form::open(['action'=> 'PembelianController@show_Barang','method'=>'GET','class' =>'form-inline ml-1 mb-4']) !!}
             <div class="form-group row">
               {{form::label('kode','Kode :',['class'=> 'col-3 col-form-label'])}}
               <div class="col-8">

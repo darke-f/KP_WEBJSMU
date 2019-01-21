@@ -23,7 +23,6 @@
               {{form::selectRange('year', 2019, 2050)}}
             </div>
             {{form::submit('Submit',['class'=>'btn btn-default ml-1'])}}
-          </form>
           {!! Form::close() !!} 
 
           <!-- DataTables Example -->
