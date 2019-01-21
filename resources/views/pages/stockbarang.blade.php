@@ -36,8 +36,11 @@
                 @else
                   Stock Barang
                 @endif
-                @if(isset($flag_button) && $flag_button)
+                @if(isset($flag_button) && $flag_button && $month!='Dec')
                   <a class="btn btn-primary float-right btn-sm" href="/stocktable/closemonth/{{$month}}&{{$year}}">Tutup Bulan</a>
+                  <a class="btn btn-primary float-right btn-sm mr-2" href="/stocktable/calc/{{$month}}&{{$year}}">Kalkulasi</a>
+                @elseif(isset($flag_button) && $flag_button && $month=='Dec')
+                  <a class="btn btn-primary float-right btn-sm" href="/stocktable/closeyear/{{$month}}&{{$year}}">Tutup Tahun</a>
                   <a class="btn btn-primary float-right btn-sm mr-2" href="/stocktable/calc/{{$month}}&{{$year}}">Kalkulasi</a>
                 @endif
                 </div>

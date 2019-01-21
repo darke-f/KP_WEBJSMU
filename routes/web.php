@@ -33,6 +33,7 @@ Route::get('/', 'PagesController@index');
 Route::get('/stocktable', 'StockController@showTable');
 Route::get('/stocktable/calc/{month}&{year}', 'StockController@calcTable');
 Route::get('/stocktable/closemonth/{month}&{year}', 'StockController@closeTable');
+Route::get('/stocktable/closeyear/{month}&{year}', 'StockController@closeYear');
 
 Route::get('/indexpembelians', 'PembelianController@index');
 Route::get('/showpembelians', 'PembelianController@show');

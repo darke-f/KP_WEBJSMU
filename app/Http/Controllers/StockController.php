@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use App\TutupBulan;
 use Carbon\Carbon;
 use DB;
@@ -226,19 +227,132 @@ class StockController extends Controller
         $tutupbulan->istutup = 1;
         $tutupbulan->save();
 
-        $carbon = new Carbon($month);
-        $carbon = $carbon->addMonthNoOverflow();
-        $carbon = $carbon->format('M');
+        $newmonth = new Carbon($month);
+        $newmonth = $newmonth->addMonthNoOverflow();
+        $newmonth = $newmonth->format('M');
 
         $tablename = 'stockbarang_' . $year;
         $pemasukan = 'pemasukan_' . $month;
         $pengeluaran = 'pengeluaran_' . $month;
         $saldoAwal = 'saldoAwal_' . $month;
         $saldoAkhir = 'saldoAkhir_' . $month;
-        $new_saldoAwal = 'saldoAwal_' . $carbon;
-        $new_saldoAkhir = 'saldoAkhir_' . $carbon;
+        $new_saldoAwal = 'saldoAwal_' . $newmonth;
+        $new_saldoAkhir = 'saldoAkhir_' . $newmonth;
         
         DB::table($tablename)->update([$new_saldoAwal => DB::raw($saldoAkhir), $new_saldoAkhir => DB::raw($saldoAkhir)]);
+
+        $stock = DB::table($tablename)->get(array(
+            'kodeBarang',
+            'namaBarang',
+            'satuanBarang',
+            "$saldoAwal AS saldoAwal" , "$pemasukan AS pemasukan", "$pengeluaran AS pengeluaran", "$saldoAkhir as saldoAkhir"));
+        
+        return view('pages.stockbarang')->with('stock',$stock)->with('month',$month)->with('year',$year);
+
+    }
+
+    public function closeYear($month,$year)
+    {
+        $tutupbulan = TutupBulan::find($month.$year);
+        $tutupbulan->istutup = 1;
+        $tutupbulan->save();
+
+        $newmonth = new Carbon($month);
+        $newmonth = $newmonth->addMonthNoOverflow();
+        $newmonth = $newmonth->format('M');
+
+        $newyear = new Carbon($year);
+        $newyear = $newyear->addYear();
+        $newyear = $newyear->format('Y');
+
+        Schema::create('stockbarang_'.$newyear, function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->char('kodeBarang', 6)->primary();
+            $table->string('namaBarang', 40);
+            $table->string('satuanBarang', 10);
+            $table->integer('saldoAwal_Jan')->default('0');
+            $table->integer('pemasukan_Jan')->default('0');
+            $table->integer('pengeluaran_Jan')->default('0');
+            $table->integer('saldoAkhir_Jan')->default('0');
+            $table->integer('saldoAwal_Feb')->default('0');
+            $table->integer('pemasukan_Feb')->default('0');
+            $table->integer('pengeluaran_Feb')->default('0');
+            $table->integer('saldoAkhir_Feb')->default('0');
+            $table->integer('saldoAwal_Mar')->default('0');
+            $table->integer('pemasukan_Mar')->default('0');
+            $table->integer('pengeluaran_Mar')->default('0');
+            $table->integer('saldoAkhir_Mar')->default('0');
+            $table->integer('saldoAwal_Apr')->default('0');
+            $table->integer('pemasukan_Apr')->default('0');
+            $table->integer('pengeluaran_Apr')->default('0');
+            $table->integer('saldoAkhir_Apr')->default('0');
+            $table->integer('saldoAwal_May')->default('0');
+            $table->integer('pemasukan_May')->default('0');
+            $table->integer('pengeluaran_May')->default('0');
+            $table->integer('saldoAkhir_May')->default('0');
+            $table->integer('saldoAwal_Jun')->default('0');
+            $table->integer('pemasukan_Jun')->default('0');
+            $table->integer('pengeluaran_Jun')->default('0');
+            $table->integer('saldoAkhir_Jun')->default('0');
+            $table->integer('saldoAwal_Jul')->default('0');
+            $table->integer('pemasukan_Jul')->default('0');
+            $table->integer('pengeluaran_Jul')->default('0');
+            $table->integer('saldoAkhir_Jul')->default('0');
+            $table->integer('saldoAwal_Aug')->default('0');
+            $table->integer('pemasukan_Aug')->default('0');
+            $table->integer('pengeluaran_Aug')->default('0');
+            $table->integer('saldoAkhir_Aug')->default('0');
+            $table->integer('saldoAwal_Sep')->default('0');
+            $table->integer('pemasukan_Sep')->default('0');
+            $table->integer('pengeluaran_Sep')->default('0');
+            $table->integer('saldoAkhir_Sep')->default('0');
+            $table->integer('saldoAwal_Oct')->default('0');
+            $table->integer('pemasukan_Oct')->default('0');
+            $table->integer('pengeluaran_Oct')->default('0');
+            $table->integer('saldoAkhir_Oct')->default('0');
+            $table->integer('saldoAwal_Nov')->default('0');
+            $table->integer('pemasukan_Nov')->default('0');
+            $table->integer('pengeluaran_Nov')->default('0');
+            $table->integer('saldoAkhir_Nov')->default('0');
+            $table->integer('saldoAwal_Dec')->default('0');
+            $table->integer('pemasukan_Dec')->default('0');
+            $table->integer('pengeluaran_Dec')->default('0');
+            $table->integer('saldoAkhir_Dec')->default('0');
+            $table->foreign('kodeBarang')->references('kodeBarang')->on('masterbarang');
+        });
+
+        $data = array(
+            array('periode'=>'Jan'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Feb'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Mar'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Apr'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'May'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Jun'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Jul'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Aug'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Sep'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Okt'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Nov'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Dec'.$newyear, 'istutup'=>'0')
+        );
+        
+        TutupBulan::insert($data);
+
+        $tablename = 'stockbarang_' . $year;
+        $newtablename = 'stockbarang_' . $newyear;
+        $pemasukan = 'pemasukan_' . $month;
+        $pengeluaran = 'pengeluaran_' . $month;
+        $saldoAwal = 'saldoAwal_' . $month;
+        $saldoAkhir = 'saldoAkhir_' . $month;
+        $new_saldoAwal = 'saldoAwal_' . $newmonth;
+        $new_saldoAkhir = 'saldoAkhir_' . $newmonth;
+
+        $result = DB::table($tablename)->get();
+        foreach ($result as $row) {
+            DB::table($newtablename)->insert(
+                ['kodeBarang' => $row->kodeBarang, 'namaBarang' => $row->namaBarang, 'satuanBarang' =>  $row->satuanBarang, $new_saldoAwal => $row->$saldoAkhir]
+            );
+        }
 
         $stock = DB::table($tablename)->get(array(
             'kodeBarang',
