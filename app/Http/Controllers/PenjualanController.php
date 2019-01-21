@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\JualHdr;
 use App\JualDtl;
-use Validator;
 use Illuminate\Support\Facades\Input;
+use Validator;
 
 class PenjualanController extends Controller
 {
 
     public function addJual(){
-        return view("pages.addJual");
+        $barang = \DB::table('masterbarang')->get();
+        $customer = \DB::table('mastercustomer')->get();
+        return view("pages.addJual")->with('barang',$barang)->with('customer',$customer);
     }
 
     public function addJualPost(Request $request)
@@ -22,10 +24,15 @@ class PenjualanController extends Controller
             'tanggalTransaksiJual' => 'required|date',
             'kodeCustomer' => 'required|size:6|exists:mastercustomer,kodeCustomer', //foreign key constraint check
             'periodeTransaksiJual' => '',
-            'kodeBarang.*' => 'required|size:6|exists:masterbarang,kodeBarang',
-            'namaBarang.*' => 'required',
-            'satuanBarang.*' => 'required',
-            'quantity.*' => 'required|numeric'
+            'subtotalH' => '',
+            'discount' => '',
+            'grandtotalH' => '',
+            'kodeBarangH.*' => 'required|size:6|exists:masterbarang,kodeBarang',
+            'namaBarangH.*' => 'required',
+            'satuanBarangH.*' => 'required',
+            'quantity.*' => 'required|numeric',
+            'hargaSatuan.*' => 'required|numeric',
+            'hargaTotal.*' => 'required|numeric',
         ]);
 
         $date = strtotime($request->input('tanggalTransaksiJual'));
@@ -37,12 +44,17 @@ class PenjualanController extends Controller
         $JualHdr->tanggalTransaksiJual = $request->input('tanggalTransaksiJual');
         $JualHdr->kodeCustomer = $request->input('kodeCustomer');
         $JualHdr->periodeTransaksiJual = $date2;
+        $JualHdr->subtotal = $request->input('subtotalH');
+        $JualHdr->discount = $request->input('discount');
+        $JualHdr->grandtotal = $request->input('grandtotalH');
 
         $noTransaksiJual = $request->input('noTransaksiJual');
-        $kodeBarang = $request->input('kodeBarang');
-        $namaBarang = $request->input('namaBarang');
-        $satuanBarang = $request->input('satuanBarang');
+        $kodeBarang = $request->input('kodeBarangH');
+        $namaBarang = $request->input('namaBarangH');
+        $satuanBarang = $request->input('satuanBarangH');
         $quantity = $request->input('quantity');
+        $hargaSatuan = $request->input('hargaSatuan');
+        $hargaTotal = $request->input('hargaTotal');
 
         
         $JualHdr->save();
@@ -56,6 +68,8 @@ class PenjualanController extends Controller
             $JualDtl->namaBarang = $namaBarang[$key];
             $JualDtl->satuanBarang = $satuanBarang[$key];
             $JualDtl->quantity = $quantity[$key];
+            $JualDtl->hargaSatuan = $hargaSatuan[$key];
+            $JualDtl->hargaTotal = $hargaTotal[$key];
 
             $JualDtl->save();
         }

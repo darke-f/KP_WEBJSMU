@@ -24,7 +24,7 @@
                 {!! csrf_field() !!}
                 <div class="form-group{{ $errors->has('noTransaksiBeli') ? ' has-error' : '' }}">
                     <label for="noTransaksiBeli">Nomor Transaksi Beli</label>
-                    <input type="text" class="form-control" id="noTransaksiBeli" name="noTransaksiBeli" placeholder="noTransaksiBeli" value="{{ old('noTransaksiBeli') }}" autofocus>
+                    <input type="text" class="form-control" id="noTransaksiBeli" name="noTransaksiBeli" placeholder="noTransaksiBeli" value="{{ old('noTransaksiBeli') }}" autofocus required>
                     @if($errors->has('noTransaksiBeli'))
                         <span class="alert">{{ $errors->first('noTransaksiBeli') }}</span>
                     @endif
@@ -39,7 +39,7 @@
                 <div class="form-group{{ $errors->has('tanggalTransaksiBeli') ? ' has-error' : '' }}">
                     <label for="tanggalTransaksiBeli">Tanggal Transaksi Beli</label>
                     <div>
-                        <input class="form-control" type="date" id="tanggalTransaksiBeli" name="tanggalTransaksiBeli" value="{{ old('tanggalTransaksiBeli') }}">
+                        <input class="form-control" type="date" id="tanggalTransaksiBeli" name="tanggalTransaksiBeli" value="{{ old('tanggalTransaksiBeli') }}" required>
                     </div>
                     @if($errors->has('tanggalTransaksiBeli'))
                         <span class="help-block">{{ $errors->first('tanggalTransaksiBeli') }}</span>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group{{ $errors->has('kodeSupplier') ? ' has-error' : '' }} supp">
                     <label for="kodeSupplier">Nama Supplier</label>
-                    <select class="form-control selectform" id="kodeSupplier" name="kodeSupplier" value="{{ old('kodeSupplier') }}">
+                    <select class="form-control selectform" id="kodeSupplier" name="kodeSupplier" value="{{ old('kodeSupplier') }}" required>
                         <option value="Balum Dipilih" selected disabled hidden>Pilih Suplier:</option>
                         @if(count($supplier) >0)
                             @foreach($supplier as $spl)
@@ -83,7 +83,7 @@
                         <tr>
                             <td class="no">1</td>
                             <td class="col-2">
-                                <select id="pilihbarang0" class="form-control pilihbarang" name="namaBarang[]"></select>
+                                <select id="pilihbarang0" class="form-control pilihbarang" name="namaBarang[]" required></select>
                                 <input type="hidden" class="form-control namaBarangH" name="namaBarangH[]">
                             </td>
                             <td class="col-1.5">
@@ -164,7 +164,7 @@
             ittr++;
             var n = ($('.resultbody tr').length - 0) + 1;
             var tr = '<tr><td class="no">' + n + '</td>' +
-                    '<td class="col-2"><select class="form-control pilihbarang" id="pilihbarang'+ittr+'" name="namaBarang[]"></select>'+
+                    '<td class="col-2"><select class="form-control pilihbarang" id="pilihbarang'+ittr+'" name="namaBarang[]" required></select>'+
                     '<input type="hidden" class="form-control namaBarangH" name="namaBarangH[]"</td>'+
                     '<td class="col-1.5"><input disabled type="text" class="form-control kodeBarang" name="kodeBarang[]"></td>'+
                     '<input type="hidden" class="form-control kodeBarangH" name="kodeBarangH[]"</td>'+
