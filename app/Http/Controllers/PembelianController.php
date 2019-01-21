@@ -13,7 +13,8 @@ class PembelianController extends Controller
 
     public function addBeli(){
         $barang = \DB::table('masterbarang')->get();
-        return view("pages.addBeli")->with('barang',$barang);
+        $supplier = \DB::table('mastersupplier')->get();
+        return view("pages.addBeli")->with('barang',$barang)->with('supplier',$supplier);
     }
 
     public function addBeliPost(Request $request)

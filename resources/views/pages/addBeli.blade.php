@@ -6,15 +6,15 @@
 
 @section('head')
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 @endsection 
 
 @section('content')
     <div class="container">
         <div>
             <h1>Transaksi Pembelian</h1>
-            <form action="/pembelians" method="post" onsubmit="return validate(this);">
+            <form action="/pembelians" method="post" class="form1" onsubmit="return validate(this);">
                 @if ($errors->any())
                     <div class="alert alert-danger" role="alert">
                         Please fix the following errors
@@ -24,7 +24,7 @@
                 {!! csrf_field() !!}
                 <div class="form-group{{ $errors->has('noTransaksiBeli') ? ' has-error' : '' }}">
                     <label for="noTransaksiBeli">Nomor Transaksi Beli</label>
-                    <input type="text" class="form-control" id="noTransaksiBeli" name="noTransaksiBeli" placeholder="noTransaksiBeli" value="{{ old('noTransaksiBeli') }}">
+                    <input type="text" class="form-control" id="noTransaksiBeli" name="noTransaksiBeli" placeholder="noTransaksiBeli" value="{{ old('noTransaksiBeli') }}" autofocus>
                     @if($errors->has('noTransaksiBeli'))
                         <span class="alert">{{ $errors->first('noTransaksiBeli') }}</span>
                     @endif
@@ -45,31 +45,82 @@
                         <span class="help-block">{{ $errors->first('tanggalTransaksiBeli') }}</span>
                     @endif
                 </div>
-                <div class="form-group{{ $errors->has('kodeSupplier') ? ' has-error' : '' }}">
-                    <label for="kodeSupplier">Kode Supplier</label>
-                    <input type="text" class="form-control" id="kodeSupplier" name="kodeSupplier" placeholder="kodeSupplier" value="{{ old('kodeSupplier') }}">
+                <div class="form-group{{ $errors->has('kodeSupplier') ? ' has-error' : '' }} supp">
+                    <label for="kodeSupplier">Nama Supplier</label>
+                    <select class="form-control selectform" id="kodeSupplier" name="kodeSupplier" value="{{ old('kodeSupplier') }}">
+                        <option value="Balum Dipilih" selected disabled hidden>Pilih Suplier:</option>
+                        @if(count($supplier) >0)
+                            @foreach($supplier as $spl)
+                                <option value ='{{$spl->kodeSupplier}}'>{{$spl->namaSupplier}}</option>
+                            @endforeach
+                        @endif
+                    </select>
                     @if($errors->has('kodeSupplier'))
-                        <span class="help-block">{{ $errors->first('kode Supplier') }}</span>
+                        <span class="help-block">{{ $errors->first('kodeSupplier') }}</span>
                     @endif
+                    <span id="kodsup" class="kodsup">Kode Supplier : belum dipilih<span>
                 </div>
 
 
                 <!-- ----dynamic_field---- -->
-                <datalist id="namabarang">
-                @if(count($barang) >0)
-                    @foreach($barang as $brg)
-                        <option value={{$brg->namaBarang}}>
-                    @endforeach
-                @endif
-                </datalist>
-                <div id="dynamicInput"></div>                
-                <div>
-                    <button type="button" class="btn btn-success" onClick="addInput('dynamicInput');"> tambah barang</button>
-                </div>
+                            
 
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama Barang</th>
+                            <th>Kode Barang</th>
+                            <th>Satuan</th>
+                            <th>Kuantitas</th>
+                            <th>Harga Satuan</th>
+                            <th>Jumlah</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="resultbody">
+                        <tr>
+                            <td class="no">1</td>
+                            <td class="col-2">
+                                <select id="pilihbarang0" class="form-control pilihbarang" name="namaBarang[]"></select>
+                            </td>
+                            <td class="col-1.5">
+                                <input disabled type="text" class="form-control kodeBarang" name="kodeBarang[]">
+                            </td>
+                            <td>
+                                <input disabled type="text" class="form-control satuanBarang" name="satuanBarang[]">
+                            </td>
+                            <td>
+                                <input type="number" value="0" class="form-control quantity" name="quantity[]">
+                            </td>
+                            <td>
+                                <input type="number" value="0" class="form-control hargaSatuan" name="hargaSatuan[]">
+                            </td>
+                            <td>
+                                <input type="number" value="0" class="form-control hargaTotal" name="hargaTotal[]">
+                            </td>
+                            <td class="col-1">
+                                <input type="button" class="btn btn-danger delete" value="x">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table> 
                 <!-- ----dynamic_field---- -->
                 <br>
                 <p id="countitem"></p>
+                <div>
+                    <button type="button" class="btn btn-success add"> tambah barang</button>
+                </div>
+                <p id="subtotal">Subtotal : 0</p>
+                <div class="row">  
+                    <div class="col-2">
+                        <label class="col-1.5" for="discount">Discount (%) : </label>
+                    </div>
+                    <input type="number" value="0" class="form-control col-1" id="discount" name="discount">
+                </div>
+                <p id="grandtotal">Grand Total : 0</p>
                 <button id="submit" type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -77,8 +128,94 @@
 
 
     <script type="text/javascript">
+
+        var ittr = 0;
+        var sum = 0;
+    
+        $('.supp > .kodsup').html('Kode Supplier :'+$('.selectform').val()+'');
+ 
+        var j = @php echo json_encode($barang); @endphp
+
+        var options = '<option value="" selected disabled hidden>Pilih Barang:</option>';
+        for (var i = 0; i < j.length; i++) {
+            options += '<option value="'+i+'">' + j[i].namaBarang + '</option>';
+        }
+        $(".pilihbarang").html(options);    
+        // $(".pilihbarang").select2();
+
+
+        $('.selectform').select2();
+        $(document).on('change','.selectform',function(){
+               $('.supp > .kodsup').html('Kode Supplier :'+$(this).val()+'');
+        });
+
+        // $(document).on('change','.pilihbarang',function(){
+        //        $(this).closest("input").html('Kode Supplier :'+$(this).val());
+        // });
+        
+
+        $('.add').click(function () {
+            itemcount++;
+            ittr++;
+            var n = ($('.resultbody tr').length - 0) + 1;
+            var tr = '<tr><td class="no">' + n + '</td>' +
+                    '<td class="col-2"><select class="form-control pilihbarang" id="pilihbarang'+ittr+'" name="namaBarang[]"></select></td>'+
+                    '<td class="col-1.5"><input disabled type="text" class="form-control kodeBarang" name="kodeBarang[]"></td>'+
+                    '<td><input disabled type="text" class="form-control satuanBarang" name="satuanBarang[]"></td>'+
+                    '<td><input type="number" value="0" class="form-control quantity" name="quantity[]"></td>'+
+                    '<td><input type="number" value="0" class="form-control hargaSatuan" name="hargaSatuan[]"></td>'+
+                    '<td><input type="number" value="0" class="form-control hargaTotal" name="hargaTotal[]"></td>'+
+                    '<td class="col-1"><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
+            $('.resultbody').append(tr);
+            $('#pilihbarang'+ittr+'').html(options);
+            $('#pilihbarang'+ittr+'').focus();
+
+        });
+
+        $('.resultbody').delegate('.delete', 'click', function () {
+            itemcount--;
+            $(this).parent().parent().remove();
+        });
+
+        $('.resultbody').delegate('.pilihbarang', 'change', function () {
+            // alert("hola");
+            var tr = $(this).parent().parent();
+            var barangselected = tr.find('.pilihbarang').val();
+            // alert(barangselected);
+            tr.find('.kodeBarang').val(j[barangselected].kodeBarang);
+            tr.find('.satuanBarang').val(j[barangselected].satuanBarang);
+        });
+
+        $('.resultbody').delegate('.quantity, .hargaSatuan', 'keyup, change', function () {
+            // alert("hola");
+            var tr = $(this).parent().parent();
+            var quantity = tr.find('.quantity').val()-0;
+            var hargaSatuan = tr.find('.hargaSatuan').val()-0;
+            // alert(hargaSatuan);
+            tr.find('.hargaTotal').val(quantity*hargaSatuan);
+        });
+
+        $('.resultbody').delegate('.hargaTotal, .quantity, .hargaSatuan', 'keyup, change', function () {
+            sum = 0;
+            $('.hargaTotal').each(function(){
+                sum+=$(this).val()-0;
+            });
+            // alert(sum);
+            $('#subtotal').html("Subtotal : "+sum);
+            $('#subtotal').val(sum);
+        });
+
+        $('.form1').delegate('#discount', 'keyup, change', function () {
+            var disc = $(this).val()-0;
+            var vara = sum;
+            var reslt = vara - (vara * disc / 100);
+            // alert(vara);
+            $('#grandtotal').html("Grand Total : "+reslt);
+        });
+
+
         var itr=0;
-        var itemcount = 0;
+        var itemcount = 1;
 
         function validate(form) {
             if(!itemcount) {
@@ -88,41 +225,6 @@
             else {
                 return confirm('Do you really want to submit the form?');
             }
-        }
-        
-        function removeInput(divname)
-        {
-            // alert("halo, "+divname+" akan dihapus");
-            itemcount--;
-            document.getElementById("countitem").innerHTML='Jumlah Barang : '+itemcount+'';
-            $(divname).remove();
-        }
-
-        function addInput(divName)
-        { 
-            itr++;
-            itemcount++;
-            // $('#countitem').html('Jumlah Barang : '+itemcount+'');
-            document.getElementById("countitem").innerHTML='Jumlah Barang : '+itemcount+'';
-            var newid = 'newitem'+itr+'';
-            var newitem = document.createElement('div');
-            newitem.setAttribute('id', newid);
-            document.getElementById(divName).appendChild(newitem);    
-
-            var newdiv = document.createElement('div');
-            newdiv.innerHTML = '<span>Barang '+itr+' :\t</span><button class="btn btn-danger" onClick="removeInput('+newid+');"> hapus barang</button>';
-            document.getElementById(newid).appendChild(newdiv);    
-
-            var newdiv = document.createElement('div');
-            newdiv.setAttribute('class', 'row');
-            newdiv.innerHTML = "<input type='text' class='form-control col-5' name='kodeBarang[]' placeholder='kodeBarang'><input list='namabarang' class='form-control col-6' name='namaBarang[]' placeholder='namaBarang'>";
-            document.getElementById(newid).appendChild(newdiv);       
-            var newdiv = document.createElement('div');
-            newdiv.setAttribute('class', 'row');
-            newdiv.innerHTML = "<input type='text' class='form-control col-5' name='satuanBarang[]' placeholder='satuanBarang'><input type='number' class='form-control col-6' name='quantity[]' placeholder='quantity'>";
-            document.getElementById(newid).appendChild(newdiv);    
-            var breakline = document.createElement('br');
-            document.getElementById(newid).appendChild(breakline);
         }
 
     </script>
