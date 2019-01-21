@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\BeliHdr;
 use App\BeliDtl;
+use App\MasterBarang;
+use App\MasterSupplier;
 use Illuminate\Support\Facades\Input;
 use Validator;
 
@@ -176,43 +178,39 @@ class PembelianController extends Controller
         else { $month = 'Dec';}
         
         $data = BeliHdr::with('dtl')->with('supplier')->where('periodeTransaksiBeli',$month.$year)->get();
-        foreach($data as $dt){
-            return $dt;
-        }
-        return $data->dtl;
 
         if(!$data->isEmpty()) {
-            return view('pages.showpembelian')->with('periode',$month.$year)->with('data',$data);
+            return view('pages.pembelian_Periode')->with('periode',$month." ".$year)->with('data',$data);
         }
-        else return view('pages.showpembelian')->with('nodata',1);
+        else return view('pages.pembelian_Periode')->with('nodata',1);
     }
 
     public function show_Barang(){
-        $kode = Input::get('kode', 'default category');
+        $kode = Input::get('namabarang', 'default category');
         
-        $header = BeliHdr::where('noTransaksiBeli',$kode)->get();
-        //return $header;
-        if(!$header->isEmpty()) {
-            $supplier = BeliHdr::find($kode)->supplier->namaSupplier;
-            $detail = BeliDtl::where('noTransaksiBeli',$kode)->get();
+        $header = MasterBarang::where('namaBarang', $kode)->get();
 
-            return view('pages.showpembelian')->with('header',$header)->with('supplier',$supplier)->with('detail',$detail);
+        if(!$header->isEmpty()) {
+            $data = BeliDtl::with('hdr')->where('namaBarang',$kode)->get();
+            
+            $supplier = MasterSupplier::where('kodeSupplier', $data[0]->hdr->kodeSupplier)->pluck('namaSupplier');
+
+            return view('pages.pembelian_Barang')->with('header',$header)->with('supplier',$supplier)->with('data',$data);
         }
-        else return view('pages.showpembelian')->with('nodata',1);
+        else return view('pages.pembelian_Barang')->with('nodata',1);
     }
 
     public function show_Supplier(){
-        $kode = Input::get('kode', 'default category');
-        
-        $header = BeliHdr::where('noTransaksiBeli',$kode)->get();
-        //return $header;
-        if(!$header->isEmpty()) {
-            $supplier = BeliHdr::find($kode)->supplier->namaSupplier;
-            $detail = BeliDtl::where('noTransaksiBeli',$kode)->get();
+        $kode = Input::get('namasupplier', 'default category');
 
-            return view('pages.showpembelian')->with('header',$header)->with('supplier',$supplier)->with('detail',$detail);
+        $header = MasterSupplier::where('namaSupplier', $kode)->get();
+
+        if(!$header->isEmpty()) {
+            $data = BeliHdr::with('dtl')->where('kodeSupplier',$header[0]->kodeSupplier)->get();
+
+            return view('pages.pembelian_Supplier')->with('header',$header)->with('data',$data);
         }
-        else return view('pages.showpembelian')->with('nodata',1);
+        else return view('pages.pembelian_Supplier')->with('nodata',1);
     }
 }
 

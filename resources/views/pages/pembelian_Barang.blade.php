@@ -17,9 +17,9 @@
 
           {!! Form::open(['action'=> 'PembelianController@show_Barang','method'=>'GET','class' =>'form-inline ml-1 mb-4']) !!}
             <div class="form-group row">
-              {{form::label('kode','Kode :',['class'=> 'col-3 col-form-label'])}}
+              {{form::label('namabarang','Barang :',['class'=> 'col-3 col-form-label'])}}
               <div class="col-8">
-                {{form::text('kode','',['class' =>'form-control here','placeholder' => 'No Transaksi'])}}
+                {{form::text('namabarang','',['class' =>'form-control here','placeholder' => 'Nama Barang'])}}
               </div>
             </div>
             <div class="form-group row">
@@ -31,9 +31,10 @@
 
           @if(isset($header) && count($header)>0)
             @foreach($header as $hdr)
-              <h6 class="ml-1"> No Transaksi : {{$hdr->noTransaksiBeli}}</h6>
-              <h6 class="ml-1"> Tanggal Transaksi : {{$hdr->tanggalTransaksiBeli}}</h6>
-              <h6 class="ml-1"> Supplier : {{$supplier}}</h6>
+              <h6 class="ml-1"> Kode Barang : {{$hdr->kodeBarang}}</h6>
+              <h6 class="ml-1"> Nama Barang : {{$hdr->namaBarang}}</h6>
+              <h6 class="ml-1"> Satuan : {{$hdr->satuanBarang}}</h6>
+              <h6 class="ml-1"> Supplier : {{$supplier[0]}}</h6>
             @endforeach
           @elseif(isset($nodata))
             <div class="alert alert-danger col-sm-2" role="alert">
@@ -55,28 +56,28 @@
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
-                        <th>Kode</th>
-                        <th>Nama Barang</th>
-                        <th>Satuan</th>
+                        <th>No Transaksi</th>
+                        <th>Periode Transaksi</th>
+                        <th>Tanggal Transaksi</th>
                         <th>Jumlah</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
-                        <th>Kode</th>
-                        <th>Nama Barang</th>
-                        <th>Satuan</th>
+                        <th>No Transaksi</th>
+                        <th>Periode Transaksi</th>
+                        <th>Tanggal Transaksi</th>
                         <th>Jumlah</th>
                       </tr>
                     </tfoot>
                     <tbody>
-                    @if(isset($detail))
-                        @foreach($detail as $dtl)
+                    @if(isset($data))
+                        @foreach($data as $dt)
                           <tr>
-                              <td>{{$dtl->kodeBarang}}</td>
-                              <td>{{$dtl->namaBarang}}</td>
-                              <td>{{$dtl->satuanBarang}}</td>
-                              <td>{{$dtl->quantity}}</td>
+                              <td>{{$dt->noTransaksiBeli}}</td>
+                              <td>{{$dt->hdr->periodeTransaksiBeli}}</td>
+                              <td>{{$dt->hdr->tanggalTransaksiBeli}}</td>
+                              <td>{{$dt->quantity}}</td>
                           </tr>
                         @endforeach
                     @endif

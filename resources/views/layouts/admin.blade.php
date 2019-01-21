@@ -147,10 +147,10 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <h6 class="dropdown-header">Report Berdasarkan:</h6>
-            <a class="dropdown-item" href="#">Nomor Transaksi</a>
-            <a class="dropdown-item" href="#">Periode Transaksi</a>
-            <a class="dropdown-item" href="#">Barang</a>
-            <a class="dropdown-item" href="#">Customer</a>
+            <a class="dropdown-item" href="/penjualanNo">Nomor Transaksi</a>
+            <a class="dropdown-item" href="/penjualanPer">Periode Transaksi</a>
+            <a class="dropdown-item" href="/penjualanBar">Barang</a>
+            <a class="dropdown-item" href="/penjualanCus">Customer</a>
           </div>
         </li>
       </ul>

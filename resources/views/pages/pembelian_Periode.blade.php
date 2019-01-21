@@ -32,12 +32,8 @@
             </div>
           {!! Form::close() !!} 
 
-          @if(isset($header) && count($header)>0)
-            @foreach($header as $hdr)
-              <h6 class="ml-1"> No Transaksi : {{$hdr->noTransaksiBeli}}</h6>
-              <h6 class="ml-1"> Tanggal Transaksi : {{$hdr->tanggalTransaksiBeli}}</h6>
-              <h6 class="ml-1"> Supplier : {{$supplier}}</h6>
-            @endforeach
+          @if(isset($data) && count($data)>0)
+            <h6 class="ml-1"> Periode Transaksi : {{$periode}}</h6>
           @elseif(isset($nodata))
             <div class="alert alert-danger col-sm-2" role="alert">
               Data transaksi tidak ditemukan!
@@ -46,7 +42,7 @@
 
           <br>
 
-          @if(isset($hdr))
+          @if(isset($data))
             <!-- DataTables Example -->
             <div class="card mb-3">
               <div class="card-header">
@@ -58,31 +54,40 @@
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
-                        <th>Kode</th>
+                        <th>No Transaksi</th>
+                        <th>Tanggal Transaksi</th>
+                        <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Satuan</th>
                         <th>Jumlah</th>
+                        <th>Supplier</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
-                        <th>Kode</th>
+                        <th>No Transaksi</th>
+                        <th>Tanggal Transaksi</th>
+                        <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Satuan</th>
                         <th>Jumlah</th>
+                        <th>Supplier</th>
                       </tr>
                     </tfoot>
                     <tbody>
-                    @if(isset($detail))
-                        @foreach($detail as $dtl)
-                          <tr>
-                              <td>{{$dtl->kodeBarang}}</td>
-                              <td>{{$dtl->namaBarang}}</td>
-                              <td>{{$dtl->satuanBarang}}</td>
-                              <td>{{$dtl->quantity}}</td>
-                          </tr>
-                        @endforeach
-                    @endif
+                    @foreach($data as $dt)
+                      @foreach($dt->dtl as $dtl)
+                      <tr>
+                        <td>{{$dt->noTransaksiBeli}}</td>
+                        <td>{{$dt->tanggalTransaksiBeli}}</td>
+                        <td>{{$dtl->kodeBarang}}</td>
+                        <td>{{$dtl->namaBarang}}</td>
+                        <td>{{$dtl->satuanBarang}}</td>
+                        <td>{{$dtl->quantity}}</td>
+                        <td>{{$dt->supplier->namaSupplier}}</td>
+                      </tr>
+                      @endforeach
+                    @endforeach
                     </tbody>
                   </table>
                 </div>

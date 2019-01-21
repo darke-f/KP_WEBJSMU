@@ -43,8 +43,14 @@ Route::get('/pembelianBar', 'PembelianController@index_Barang');
 Route::get('/showpembelianBar', 'PembelianController@show_Barang');
 Route::get('/pembelianSup', 'PembelianController@index_Supplier');
 Route::get('/showpembelianSup', 'PembelianController@show_Supplier');
-Route::get('/indexpenjualans', 'PenjualanController@index');
-Route::get('/showpenjualans', 'PenjualanController@show');
+Route::get('/penjualanNo', 'PenjualanController@index_No');
+Route::get('/showpenjualanNo', 'PenjualanController@show_No');
+Route::get('/penjualanPer', 'PenjualanController@index_Periode');
+Route::get('/showpenjualanPer', 'PenjualanController@show_Periode');
+Route::get('/penjualanBar', 'PenjualanController@index_Barang');
+Route::get('/showpenjualanBar', 'PenjualanController@show_Barang');
+Route::get('/penjualanCus', 'PenjualanController@index_Customer');
+Route::get('/showpenjualanCus', 'PenjualanController@show_Customer');
 
 Auth::routes();
 //Route::resource('posts','PostsController');

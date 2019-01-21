@@ -32,6 +32,7 @@
           @if(isset($header) && count($header)>0)
             @foreach($header as $hdr)
               <h6 class="ml-1"> No Transaksi : {{$hdr->noTransaksiBeli}}</h6>
+              <h6 class="ml-1"> Periode Transaksi : {{$hdr->periodeTransaksiBeli}}</h6>
               <h6 class="ml-1"> Tanggal Transaksi : {{$hdr->tanggalTransaksiBeli}}</h6>
               <h6 class="ml-1"> Supplier : {{$supplier}}</h6>
             @endforeach
