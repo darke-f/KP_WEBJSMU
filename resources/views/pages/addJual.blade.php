@@ -1,14 +1,20 @@
 @extends('layouts.admin')
-@section('content')
 
+@section('title')
+    <a class="navbar-brand mr-1" href="#">Form Penjualan</a>
+@endsection
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+@section('head')
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
     <meta name="csrf-token" content="{{ csrf_token() }}"> 
+@endsection 
 
+@section('content')
     <div class="container">
-        <div class="row">
+        <div>
             <h1>Transaksi Penjualan</h1>
             <form action="/penjualans" method="post">
                 @if ($errors->any())
