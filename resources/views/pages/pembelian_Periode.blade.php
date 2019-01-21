@@ -34,6 +34,7 @@
 
           @if(isset($data) && count($data)>0)
             <h6 class="ml-1"> Periode Transaksi : {{$periode}}</h6>
+            <h6 class="ml-1"> Grand Total : {{$grandtotal}}</h6>
           @elseif(isset($nodata))
             <div class="alert alert-danger col-sm-2" role="alert">
               Data transaksi tidak ditemukan!
@@ -59,7 +60,11 @@
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Satuan</th>
+                        <th>Harga Satuan</th>
                         <th>Jumlah</th>
+                        <th>Harga Total</th>
+                        <th>Diskon</th>
+                        <th>Harga Akhir</th>
                         <th>Supplier</th>
                       </tr>
                     </thead>
@@ -70,7 +75,11 @@
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Satuan</th>
+                        <th>Harga Satuan</th>
                         <th>Jumlah</th>
+                        <th>Harga Total</th>
+                        <th>Diskon</th>
+                        <th>Harga Akhir</th>
                         <th>Supplier</th>
                       </tr>
                     </tfoot>
@@ -83,7 +92,11 @@
                         <td>{{$dtl->kodeBarang}}</td>
                         <td>{{$dtl->namaBarang}}</td>
                         <td>{{$dtl->satuanBarang}}</td>
+                        <td>{{$dtl->hargaSatuan}}</td>
                         <td>{{$dtl->quantity}}</td>
+                        <td>{{$dtl->hargaTotal}}</td>
+                        <td>{{$dt->discount."%"}}</td>
+                        <td>{{$dtl->hargaTotal * (100-$dt->discount)/100}}</td>
                         <td>{{$dt->supplier->namaSupplier}}</td>
                       </tr>
                       @endforeach

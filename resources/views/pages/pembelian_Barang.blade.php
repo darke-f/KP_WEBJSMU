@@ -35,6 +35,7 @@
               <h6 class="ml-1"> Nama Barang : {{$hdr->namaBarang}}</h6>
               <h6 class="ml-1"> Satuan : {{$hdr->satuanBarang}}</h6>
               <h6 class="ml-1"> Supplier : {{$supplier[0]}}</h6>
+              <h6 class="ml-1"> Grand Total : {{$grandtotal}}</h6>
             @endforeach
           @elseif(isset($nodata))
             <div class="alert alert-danger col-sm-2" role="alert">
@@ -59,7 +60,11 @@
                         <th>No Transaksi</th>
                         <th>Periode Transaksi</th>
                         <th>Tanggal Transaksi</th>
+                        <th>Harga Satuan</th>
                         <th>Jumlah</th>
+                        <th>Harga Total</th>
+                        <th>Diskon</th>
+                        <th>Harga Akhir</th>
                       </tr>
                     </thead>
                     <tfoot>
@@ -67,7 +72,11 @@
                         <th>No Transaksi</th>
                         <th>Periode Transaksi</th>
                         <th>Tanggal Transaksi</th>
+                        <th>Harga Satuan</th>
                         <th>Jumlah</th>
+                        <th>Harga Total</th>
+                        <th>Diskon</th>
+                        <th>Harga Akhir</th>
                       </tr>
                     </tfoot>
                     <tbody>
@@ -77,7 +86,11 @@
                               <td>{{$dt->noTransaksiBeli}}</td>
                               <td>{{$dt->hdr->periodeTransaksiBeli}}</td>
                               <td>{{$dt->hdr->tanggalTransaksiBeli}}</td>
+                              <td>{{$dt->hargaSatuan}}</td>
                               <td>{{$dt->quantity}}</td>
+                              <td>{{$dt->hargaTotal}}</td>
+                              <td>{{$dt->hdr->discount."%"}}</td>
+                              <td>{{$dt->hargaTotal * (100-$dt->hdr->discount)/100}}</td>
                           </tr>
                         @endforeach
                     @endif

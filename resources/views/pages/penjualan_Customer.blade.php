@@ -33,6 +33,7 @@
             @foreach($header as $hdr)
               <h6 class="ml-1"> Kode Customer : {{$hdr->kodeCustomer}}</h6>
               <h6 class="ml-1"> Nama Customer : {{$hdr->namaCustomer}}</h6>
+              <h6 class="ml-1"> Grand Total : {{$grandtotal}}</h6>
             @endforeach
           @elseif(isset($nodata))
             <div class="alert alert-danger col-sm-2" role="alert">
@@ -60,7 +61,11 @@
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Satuan</th>
+                        <th>Harga Satuan</th>
                         <th>Jumlah</th>
+                        <th>Harga Total</th>
+                        <th>Diskon</th>
+                        <th>Harga Akhir</th>
                       </tr>
                     </thead>
                     <tfoot>
@@ -71,7 +76,11 @@
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Satuan</th>
+                        <th>Harga Satuan</th>
                         <th>Jumlah</th>
+                        <th>Harga Total</th>
+                        <th>Diskon</th>
+                        <th>Harga Akhir</th>
                       </tr>
                     </tfoot>
                     <tbody>
@@ -85,7 +94,11 @@
                           <td>{{$dtl->kodeBarang}}</td>
                           <td>{{$dtl->namaBarang}}</td>
                           <td>{{$dtl->satuanBarang}}</td>
+                          <td>{{$dtl->hargaSatuan}}</td>
                           <td>{{$dtl->quantity}}</td>
+                          <td>{{$dtl->hargaTotal}}</td>
+                          <td>{{$dt->discount."%"}}</td>
+                          <td>{{$dtl->hargaTotal * (100-$dt->discount)/100}}</td>
                         </tr>
                         @endforeach
                       @endforeach

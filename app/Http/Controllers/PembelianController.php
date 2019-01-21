@@ -127,7 +127,7 @@ class PembelianController extends Controller
         //         }
 
 
-        return redirect('\dashboardadmin');
+        return redirect('/');
     }
 
     public function index_No() {
@@ -180,7 +180,12 @@ class PembelianController extends Controller
         $data = BeliHdr::with('dtl')->with('supplier')->where('periodeTransaksiBeli',$month.$year)->get();
 
         if(!$data->isEmpty()) {
-            return view('pages.pembelian_Periode')->with('periode',$month." ".$year)->with('data',$data);
+            $grandtotal = 0;
+            foreach($data as $dt) {
+                $grandtotal = $grandtotal + $dt->grandtotal;
+            }
+
+            return view('pages.pembelian_Periode')->with('periode',$month." ".$year)->with('data',$data)->with('grandtotal',$grandtotal);
         }
         else return view('pages.pembelian_Periode')->with('nodata',1);
     }
@@ -192,10 +197,18 @@ class PembelianController extends Controller
 
         if(!$header->isEmpty()) {
             $data = BeliDtl::with('hdr')->where('namaBarang',$kode)->get();
-            
-            $supplier = MasterSupplier::where('kodeSupplier', $data[0]->hdr->kodeSupplier)->pluck('namaSupplier');
 
-            return view('pages.pembelian_Barang')->with('header',$header)->with('supplier',$supplier)->with('data',$data);
+            if(!$data->isEmpty()) {
+                $grandtotal = 0;
+                foreach($data as $dt) {
+                    $grandtotal = $grandtotal + $dt->hargaTotal * (100-$dt->hdr->discount) / 100;
+                }
+
+                $supplier = MasterSupplier::where('kodeSupplier', $data[0]->hdr->kodeSupplier)->pluck('namaSupplier');
+
+                return view('pages.pembelian_Barang')->with('header',$header)->with('supplier',$supplier)->with('data',$data)->with('grandtotal',$grandtotal);
+            }
+                else return view('pages.pembelian_Supplier')->with('nodata',1);
         }
         else return view('pages.pembelian_Barang')->with('nodata',1);
     }
@@ -208,7 +221,15 @@ class PembelianController extends Controller
         if(!$header->isEmpty()) {
             $data = BeliHdr::with('dtl')->where('kodeSupplier',$header[0]->kodeSupplier)->get();
 
-            return view('pages.pembelian_Supplier')->with('header',$header)->with('data',$data);
+            if(!$data->isEmpty()) {
+                $grandtotal = 0;
+                foreach($data as $dt) {
+                    $grandtotal = $grandtotal + $dt->grandtotal;
+                }
+
+                return view('pages.pembelian_Supplier')->with('header',$header)->with('data',$data)->with('grandtotal',$grandtotal);
+            }
+            else return view('pages.pembelian_Supplier')->with('nodata',1);
         }
         else return view('pages.pembelian_Supplier')->with('nodata',1);
     }

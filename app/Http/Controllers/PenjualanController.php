@@ -76,7 +76,7 @@ class PenjualanController extends Controller
             $JualDtl->save();
         }
 
-        return redirect('\dashboardadmin');
+        return redirect('/');
     }
 
     public function index_No() {
@@ -129,7 +129,12 @@ class PenjualanController extends Controller
         $data = JualHdr::with('dtl')->with('customer')->where('periodeTransaksiJual',$month.$year)->get();
 
         if(!$data->isEmpty()) {
-            return view('pages.penjualan_Periode')->with('periode',$month." ".$year)->with('data',$data);
+            $grandtotal = 0;
+            foreach($data as $dt) {
+                $grandtotal = $grandtotal + $dt->grandtotal;
+            }
+
+            return view('pages.penjualan_Periode')->with('periode',$month." ".$year)->with('data',$data)->with('grandtotal',$grandtotal);
         }
         else return view('pages.penjualan_Periode')->with('nodata',1);
     }
@@ -141,10 +146,18 @@ class PenjualanController extends Controller
 
         if(!$header->isEmpty()) {
             $data = JualDtl::with('hdr')->where('namaBarang',$kode)->get();
-            
-            $customer = MasterCustomer::where('kodeCustomer', $data[0]->hdr->kodeCustomer)->pluck('namaCustomer');
 
-            return view('pages.penjualan_Barang')->with('header',$header)->with('customer',$customer)->with('data',$data);
+            if(!$data->isEmpty()) {
+                $grandtotal = 0;
+                foreach($data as $dt) {
+                    $grandtotal = $grandtotal + $dt->hargaTotal * (100-$dt->hdr->discount) / 100;
+                }
+
+                $customer = MasterCustomer::where('kodeCustomer', $data[0]->hdr->kodeCustomer)->pluck('namaCustomer');
+
+                return view('pages.penjualan_Barang')->with('header',$header)->with('customer',$customer)->with('data',$data)->with('grandtotal',$grandtotal);
+            }
+                else return view('pages.penjualan_Barang')->with('nodata',1);
         }
         else return view('pages.penjualan_Barang')->with('nodata',1);
     }
@@ -157,7 +170,15 @@ class PenjualanController extends Controller
         if(!$header->isEmpty()) {
             $data = JualHdr::with('dtl')->where('kodeCustomer',$header[0]->kodeCustomer)->get();
 
-            return view('pages.penjualan_Customer')->with('header',$header)->with('data',$data);
+            if(!$data->isEmpty()) {
+                $grandtotal = 0;
+                foreach($data as $dt) {
+                    $grandtotal = $grandtotal + $dt->grandtotal;
+                }
+
+                return view('pages.penjualan_Customer')->with('header',$header)->with('data',$data)->with('grandtotal',$grandtotal);
+            }
+            else return view('pages.penjualan_Customer')->with('nodata',1);
         }
         else return view('pages.penjualan_Customer')->with('nodata',1);
     }

@@ -35,6 +35,9 @@
               <h6 class="ml-1"> Periode Transaksi : {{$hdr->periodeTransaksiBeli}}</h6>
               <h6 class="ml-1"> Tanggal Transaksi : {{$hdr->tanggalTransaksiBeli}}</h6>
               <h6 class="ml-1"> Supplier : {{$supplier}}</h6>
+              <h6 class="ml-1"> Subtotal : {{$hdr->subtotal}}</h6>
+              <h6 class="ml-1"> Diskon : {{$hdr->discount."%"}}</h6>
+              <h6 class="ml-1"> Grand Total : {{$hdr->grandtotal}}</h6>
             @endforeach
           @elseif(isset($nodata))
             <div class="alert alert-danger col-sm-2" role="alert">
@@ -56,18 +59,22 @@
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
-                        <th>Kode</th>
+                        <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Satuan</th>
+                        <th>Harga Satuan</th>
                         <th>Jumlah</th>
+                        <th>Harga Total</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
-                        <th>Kode</th>
+                        <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Satuan</th>
+                        <th>Harga Satuan</th>
                         <th>Jumlah</th>
+                        <th>Harga Total</th>
                       </tr>
                     </tfoot>
                     <tbody>
@@ -77,7 +84,9 @@
                               <td>{{$dtl->kodeBarang}}</td>
                               <td>{{$dtl->namaBarang}}</td>
                               <td>{{$dtl->satuanBarang}}</td>
+                              <td>{{$dtl->hargaSatuan}}</td>
                               <td>{{$dtl->quantity}}</td>
+                              <td>{{$dtl->hargaTotal}}</td>
                           </tr>
                         @endforeach
                     @endif
