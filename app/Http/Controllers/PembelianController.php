@@ -24,10 +24,15 @@ class PembelianController extends Controller
             'tanggalTransaksiBeli' => 'required|date',
             'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier', //foreign key constraint check
             'periodeTransaksiBeli' => '',
+            'subtotalH' => '',
+            'discount' => '',
+            'grandtotalH' => '',
             'kodeBarangH.*' => 'required|size:6|exists:masterbarang,kodeBarang',
             'namaBarangH.*' => 'required',
             'satuanBarangH.*' => 'required',
             'quantity.*' => 'required|numeric',
+            'hargaSatuan.*' => 'required|numeric',
+            'hargaTotal.*' => 'required|numeric',
         ]);
 
         $date = strtotime($request->input('tanggalTransaksiBeli'));
@@ -39,12 +44,17 @@ class PembelianController extends Controller
         $BeliHdr->tanggalTransaksiBeli = $request->input('tanggalTransaksiBeli');
         $BeliHdr->kodeSupplier = $request->input('kodeSupplier');
         $BeliHdr->periodeTransaksiBeli = $date2;
+        $BeliHdr->subtotal = $request->input('subtotalH');
+        $BeliHdr->discount = $request->input('discount');
+        $BeliHdr->grandtotal = $request->input('grandtotalH');
 
         $noTransaksiBeli = $request->input('noTransaksiBeli');
         $kodeBarang = $request->input('kodeBarangH');
         $namaBarang = $request->input('namaBarangH');
         $satuanBarang = $request->input('satuanBarangH');
         $quantity = $request->input('quantity');
+        $hargaSatuan = $request->input('hargaSatuan');
+        $hargaTotal = $request->input('hargaTotal');
 
         
         $BeliHdr->save();
@@ -67,6 +77,8 @@ class PembelianController extends Controller
             $BeliDtl->namaBarang = $namaBarang[$key];
             $BeliDtl->satuanBarang = $satuanBarang[$key];
             $BeliDtl->quantity = $quantity[$key];
+            $BeliDtl->hargaSatuan = $hargaSatuan[$key];
+            $BeliDtl->hargaTotal = $hargaTotal[$key];
 
             $BeliDtl->save();
         }

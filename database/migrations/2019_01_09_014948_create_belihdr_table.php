@@ -19,6 +19,9 @@ class CreateBelihdrTable extends Migration
             $table->date('tanggalTransaksiBeli');
             $table->string('periodeTransaksiBeli',10);
             $table->char('kodeSupplier', 6);
+            $table->integer('subtotal');
+            $table->integer('discount');
+            $table->integer('grandtotal');
 
             $table->foreign('kodeSupplier')->references('kodeSupplier')->on('mastersupplier');
         });

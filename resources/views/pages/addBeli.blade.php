@@ -117,6 +117,7 @@
                     <button type="button" class="btn btn-success add"> tambah barang</button>
                 </div>
                 <p id="subtotal">Subtotal : 0</p>
+                <input type="hidden" class="form-control subtotalH" name="subtotalH">
                 <div class="row">  
                     <div class="col-2">
                         <label class="col-1.5" for="discount">Discount (%) : </label>
@@ -124,6 +125,7 @@
                     <input type="number" value="0" class="form-control col-1" id="discount" name="discount">
                 </div>
                 <p id="grandtotal">Grand Total : 0</p>
+                <input type="hidden" class="form-control grandtotalH" name="grandtotalH">
                 <button id="submit" type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -212,6 +214,14 @@
             // alert(sum);
             $('#subtotal').html("Subtotal : "+sum);
             $('#subtotal').val(sum);
+            $('.subtotalH').val(sum);
+            
+            var disc = $('#discount').val()-0;
+            var vara = sum;
+            var reslt = vara - (vara * disc / 100);
+            // alert(vara);
+            $('#grandtotal').html("Grand Total : "+reslt);
+            $('.grandtotalH').val(reslt);
         });
 
         $('.form1').delegate('#discount', 'keyup, change', function () {
@@ -220,6 +230,7 @@
             var reslt = vara - (vara * disc / 100);
             // alert(vara);
             $('#grandtotal').html("Grand Total : "+reslt);
+            $('.grandtotalH').val(reslt);
         });
 
 

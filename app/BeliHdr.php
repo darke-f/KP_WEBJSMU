@@ -16,7 +16,10 @@ class BeliHdr extends Model
         'noTransaksiBeli',
         'tanggalTransaksiBeli',
         'kodeSupplier',
-        'periodeTransaksiBeli'
+        'periodeTransaksiBeli',
+        'subtotal',
+        'discount',
+        'grandtotal',
     ];
 
     public $timestamps = false;

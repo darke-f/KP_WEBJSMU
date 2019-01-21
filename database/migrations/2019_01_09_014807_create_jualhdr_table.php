@@ -19,6 +19,9 @@ class CreateJualhdrTable extends Migration
             $table->date('tanggalTransaksiJual');
             $table->string('periodeTransaksiJual',10);
             $table->char('kodeCustomer', 6);
+            $table->integer('subtotal');
+            $table->integer('discount');
+            $table->integer('grandtotal');
 
             $table->foreign('kodeCustomer')->references('kodeCustomer')->on('mastercustomer');
         });

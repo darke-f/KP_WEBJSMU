@@ -76,3 +76,11 @@ Route::get('/pembelians', 'PembelianController@addBeli');
 Route::post('/pembelians','PembelianController@addBeliPost');
 Route::get('/penjualans', 'PenjualanController@addJual');
 Route::post('/penjualans','PenjualanController@addJualPost');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

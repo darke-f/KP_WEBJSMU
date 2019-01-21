@@ -20,6 +20,8 @@ class CreateJualdtlTable extends Migration
             $table->string('namaBarang', 40);
             $table->string('satuanBarang', 10);
             $table->integer('quantity');
+            $table->integer('hargaSatuan');
+            $table->integer('hargaTotal');
 
             $table->foreign('noTransaksiJual')->references('noTransaksiJual')->on('jualhdr');
             $table->foreign('kodeBarang')->references('kodeBarang')->on('masterbarang');

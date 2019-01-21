@@ -13,7 +13,9 @@ class JualDtl extends Model
         'kodeBarang',
         'namaBarang',
         'satuanBarang',
-        'quantity'
+        'quantity',
+        'hargaSatuan',
+        'hargaTotal',
     ];
 
     public $timestamps = false;

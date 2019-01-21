@@ -16,7 +16,10 @@ class JualHdr extends Model
         'noTransaksiJual',
         'tanggalTransaksiJual',
         'kodeCustomer',
-        'periodeTransaksiJual'
+        'periodeTransaksiJual',
+        'subtotal',
+        'discount',
+        'grandtotal',
     ];
 
     public $timestamps = false;
