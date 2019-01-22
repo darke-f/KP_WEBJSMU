@@ -67,7 +67,7 @@
                             <div class="col-md-6">
                                 <select name="level" class="form-control" >
                                     <option value="admin">Admin</option>
-                                    <option value="agent">User</option>
+                                    <option value="user">User</option>
                                 </select> 
                             </div>
                         </div>

@@ -50,7 +50,7 @@
               <h6 class="ml-1"> Nama Barang : {{$hdr->namaBarang}}</h6>
               <h6 class="ml-1"> Satuan : {{$hdr->satuanBarang}}</h6>
               <h6 class="ml-1"> Customer : {{$customer[0]}}</h6>
-              <h6 class="ml-1"> Grand Total : {{$grandtotal}}</h6>
+              <h6 class="ml-1"> Grand Total : {{number_format($grandtotal)}}</h6>
             @endforeach
           @elseif(isset($nodata))
             <div class="alert alert-danger col-sm-2" role="alert">
@@ -101,11 +101,11 @@
                               <td>{{$dt->noTransaksiJual}}</td>
                               <td>{{$dt->hdr->periodeTransaksiJual}}</td>
                               <td>{{$dt->hdr->tanggalTransaksiJual}}</td>
-                              <td>{{$dt->hargaSatuan}}</td>
+                              <td>{{number_format($dt->hargaSatuan)}}</td>
                               <td>{{$dt->quantity}}</td>
-                              <td>{{$dt->hargaTotal}}</td>
+                              <td>{{number_format($dt->hargaTotal)}}</td>
                               <td>{{$dt->hdr->discount."%"}}</td>
-                              <td>{{$dt->hargaTotal * (100-$dt->hdr->discount)/100}}</td>
+                              <td>{{number_format($dt->hargaTotal * (100-$dt->hdr->discount)/100)}}</td>
                           </tr>
                         @endforeach
                     @endif
