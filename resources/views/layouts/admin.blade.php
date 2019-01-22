@@ -36,6 +36,13 @@
         </ul>
     </div>
   @endif
+  <!-- @if(Auth::user()->level == 'admin')
+    <div class="alert alert-danger">
+        <ul>
+            <li>hi admin</li>
+        </ul>
+    </div>
+  @endif -->
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
