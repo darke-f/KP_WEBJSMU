@@ -141,7 +141,8 @@ class PembelianController extends Controller
     }
 
     public function index_No() {
-        return view('pages.pembelian_No');
+        $beli = \DB::table('belihdr')->get();
+        return view('pages.pembelian_No')->with('beli',$beli);
     }
 
     public function index_Periode() {
@@ -149,14 +150,17 @@ class PembelianController extends Controller
     }
 
     public function index_Barang() {
-        return view('pages.pembelian_Barang');
+        $barang = \DB::table('masterbarang')->get();
+        return view('pages.pembelian_Barang')->with('barang',$barang);
     }
 
     public function index_Supplier() {
-        return view('pages.pembelian_Supplier');
+        $supplier = \DB::table('mastersupplier')->get();
+        return view('pages.pembelian_Supplier')->with('supplier',$supplier);
     }
 
     public function show_No(){
+        $beli = \DB::table('belihdr')->get();
         $kode = Input::get('kodebeli', 'default category');
         
         $header = BeliHdr::where('noTransaksiBeli',$kode)->get();
@@ -165,9 +169,9 @@ class PembelianController extends Controller
             $supplier = BeliHdr::find($kode)->supplier->namaSupplier;
             $detail = BeliDtl::where('noTransaksiBeli',$kode)->get();
 
-            return view('pages.pembelian_No')->with('header',$header)->with('supplier',$supplier)->with('detail',$detail);
+            return view('pages.pembelian_No')->with('header',$header)->with('supplier',$supplier)->with('detail',$detail)->with('beli',$beli);
         }
-        else return view('pages.pembelian_No')->with('nodata',1);
+        else return view('pages.pembelian_No')->with('nodata',1)->with('beli',$beli);
     }
 
     public function show_Periode(){
@@ -201,6 +205,7 @@ class PembelianController extends Controller
     }
 
     public function show_Barang(){
+        $barang = \DB::table('masterbarang')->get();
         $kode = Input::get('namabarang', 'default category');
         
         $header = MasterBarang::where('namaBarang', $kode)->get();
@@ -216,14 +221,15 @@ class PembelianController extends Controller
 
                 $supplier = MasterSupplier::where('kodeSupplier', $data[0]->hdr->kodeSupplier)->pluck('namaSupplier');
 
-                return view('pages.pembelian_Barang')->with('header',$header)->with('supplier',$supplier)->with('data',$data)->with('grandtotal',$grandtotal);
+                return view('pages.pembelian_Barang')->with('header',$header)->with('supplier',$supplier)->with('data',$data)->with('grandtotal',$grandtotal)->with('barang',$barang);
             }
-                else return view('pages.pembelian_Supplier')->with('nodata',1);
+                else return view('pages.pembelian_Barang')->with('nodata',1)->with('barang',$barang);
         }
-        else return view('pages.pembelian_Barang')->with('nodata',1);
+        else return view('pages.pembelian_Barang')->with('nodata',1)->with('barang',$barang);
     }
 
     public function show_Supplier(){
+        $supplier = \DB::table('mastersupplier')->get();
         $kode = Input::get('namasupplier', 'default category');
 
         $header = MasterSupplier::where('namaSupplier', $kode)->get();
@@ -237,11 +243,11 @@ class PembelianController extends Controller
                     $grandtotal = $grandtotal + $dt->grandtotal;
                 }
 
-                return view('pages.pembelian_Supplier')->with('header',$header)->with('data',$data)->with('grandtotal',$grandtotal);
+                return view('pages.pembelian_Supplier')->with('header',$header)->with('data',$data)->with('grandtotal',$grandtotal)->with('supplier',$supplier);
             }
-            else return view('pages.pembelian_Supplier')->with('nodata',1);
+            else return view('pages.pembelian_Supplier')->with('nodata',1)->with('supplier',$supplier);
         }
-        else return view('pages.pembelian_Supplier')->with('nodata',1);
+        else return view('pages.pembelian_Supplier')->with('nodata',1)->with('supplier',$supplier);
     }
 }
 

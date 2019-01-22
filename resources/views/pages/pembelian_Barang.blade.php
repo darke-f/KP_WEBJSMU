@@ -4,6 +4,13 @@
         <a class="navbar-brand mr-1" href="#">Data Pembelian</a>
 @endsection
 
+@section('head')
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+@endsection 
+
+
 @section('content')
         <!-- Breadcrumbs-->
           <ol class="breadcrumb">
@@ -19,7 +26,15 @@
             <div class="form-group row">
               {{form::label('namabarang','Barang :',['class'=> 'col-3 col-form-label'])}}
               <div class="col-8">
-                {{form::text('namabarang','',['class' =>'form-control here','placeholder' => 'Nama Barang'])}}
+                <!-- {{form::text('namabarang','',['class' =>'form-control here','placeholder' => 'Nama Barang'])}} -->
+                <select class="form-control selectform" name="namabarang" value="{{ old('namabarang') }}" required>
+                    <option value="Balum Dipilih" selected disabled hidden>Nama Barang:</option>
+                    @if(count($barang) >0)
+                        @foreach($barang as $brg)
+                            <option value ='{{$brg->namaBarang}}'>{{$brg->namaBarang}}</option>
+                        @endforeach
+                    @endif
+                </select>
               </div>
             </div>
             <div class="form-group row">
@@ -100,4 +115,9 @@
               </div>
             </div>
           @endif
+
+
+    <script type="text/javascript">
+      $('.selectform').select2();
+    </script>
 @endsection

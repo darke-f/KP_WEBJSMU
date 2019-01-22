@@ -4,6 +4,13 @@
         <a class="navbar-brand mr-1" href="#">Data Pembelian</a>
 @endsection
 
+@section('head')
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+@endsection 
+
+
 @section('content')
         <!-- Breadcrumbs-->
           <ol class="breadcrumb">
@@ -19,7 +26,15 @@
             <div class="form-group row">
               {{form::label('kodebeli','Kode :',['class'=> 'col-3 col-form-label'])}}
               <div class="col-8">
-                {{form::text('kodebeli','',['class' =>'form-control here','placeholder' => 'No Transaksi'])}}
+                <!-- {{form::text('kodebeli','',['class' =>'form-control here','placeholder' => 'No Transaksi'])}} -->
+                <select class="form-control selectform" name="kodebeli" value="{{ old('kodebeli') }}" required>
+                    <option value="Balum Dipilih" selected disabled hidden>Kode Transaksi:</option>
+                    @if(count($beli) >0)
+                        @foreach($beli as $bli)
+                            <option value ='{{$bli->noTransaksiBeli}}'>{{$bli->noTransaksiBeli}}</option>
+                        @endforeach
+                    @endif
+                </select>
               </div>
             </div>
             <div class="form-group row">
@@ -96,4 +111,9 @@
               </div>
             </div>
           @endif
+
+
+    <script type="text/javascript">
+      $('.selectform').select2();
+    </script>
 @endsection

@@ -90,7 +90,8 @@ class PenjualanController extends Controller
     }
 
     public function index_No() {
-        return view('pages.penjualan_No');
+        $jual = \DB::table('jualhdr')->get();
+        return view('pages.penjualan_No')->with('jual',$jual);
     }
 
     public function index_Periode() {
@@ -98,14 +99,17 @@ class PenjualanController extends Controller
     }
 
     public function index_Barang() {
-        return view('pages.penjualan_Barang');
+        $barang = \DB::table('masterbarang')->get();
+        return view('pages.penjualan_Barang')->with('barang',$barang);
     }
 
     public function index_Customer() {
-        return view('pages.penjualan_Customer');
+        $customer = \DB::table('mastercustomer')->get();
+        return view('pages.penjualan_Customer')->with('customer',$customer);
     }
 
     public function show_No(){
+        $jual = \DB::table('jualhdr')->get();
         $kode = Input::get('kodejual', 'default category');
         
         $header = JualHdr::where('noTransaksiJual',$kode)->get();
@@ -114,9 +118,9 @@ class PenjualanController extends Controller
             $customer = JualHdr::find($kode)->customer->namaCustomer;
             $detail = JualDtl::where('noTransaksiJual',$kode)->get();
 
-            return view('pages.penjualan_No')->with('header',$header)->with('customer',$customer)->with('detail',$detail);
+            return view('pages.penjualan_No')->with('header',$header)->with('customer',$customer)->with('detail',$detail)->with('jual',$jual);
         }
-        else return view('pages.penjualan_No')->with('nodata',1);
+        else return view('pages.penjualan_No')->with('nodata',1)->with('jual',$jual);
     }
 
     public function show_Periode(){
@@ -150,6 +154,7 @@ class PenjualanController extends Controller
     }
 
     public function show_Barang(){
+        $barang = \DB::table('masterbarang')->get();
         $kode = Input::get('namabarang', 'default category');
         
         $header = MasterBarang::where('namaBarang', $kode)->get();
@@ -165,14 +170,15 @@ class PenjualanController extends Controller
 
                 $customer = MasterCustomer::where('kodeCustomer', $data[0]->hdr->kodeCustomer)->pluck('namaCustomer');
 
-                return view('pages.penjualan_Barang')->with('header',$header)->with('customer',$customer)->with('data',$data)->with('grandtotal',$grandtotal);
+                return view('pages.penjualan_Barang')->with('header',$header)->with('customer',$customer)->with('data',$data)->with('grandtotal',$grandtotal)->with('barang',$barang);
             }
-                else return view('pages.penjualan_Barang')->with('nodata',1);
+                else return view('pages.penjualan_Barang')->with('nodata',1)->with('barang',$barang);
         }
-        else return view('pages.penjualan_Barang')->with('nodata',1);
+        else return view('pages.penjualan_Barang')->with('nodata',1)->with('barang',$barang);
     }
 
     public function show_Customer(){
+        $customer = \DB::table('mastercustomer')->get();
         $kode = Input::get('namacustomer', 'default category');
 
         $header = MasterCustomer::where('namaCustomer', $kode)->get();
@@ -186,11 +192,11 @@ class PenjualanController extends Controller
                     $grandtotal = $grandtotal + $dt->grandtotal;
                 }
 
-                return view('pages.penjualan_Customer')->with('header',$header)->with('data',$data)->with('grandtotal',$grandtotal);
+                return view('pages.penjualan_Customer')->with('header',$header)->with('data',$data)->with('grandtotal',$grandtotal)->with('customer',$customer);
             }
-            else return view('pages.penjualan_Customer')->with('nodata',1);
+            else return view('pages.penjualan_Customer')->with('nodata',1)->with('customer',$customer);
         }
-        else return view('pages.penjualan_Customer')->with('nodata',1);
+        else return view('pages.penjualan_Customer')->with('nodata',1)->with('customer',$customer);
     }
 }
 
