@@ -12,6 +12,16 @@ use Validator;
 
 class PenjualanController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
 
     public function addJual(){
         $barang = \DB::table('masterbarang')->get();

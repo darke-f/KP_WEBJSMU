@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('password');
             $table->string('level');
+            $table->string('bagian');
             $table->boolean('masterperm')->default('0');
             $table->boolean('stockperm')->default('0');
             $table->boolean('pembelianperm')->default('0');

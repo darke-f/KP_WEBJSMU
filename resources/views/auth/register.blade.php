@@ -72,6 +72,21 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="bagian" class="col-md-4 col-form-label text-md-right">Bagian</label>
+
+                            <div class="col-md-6">
+                                <input id="bagian" type="text" class="form-control{{ $errors->has('bagian') ? ' is-invalid' : '' }}" name="bagian" value="{{ old('bagian') }}" required>
+
+                                @if ($errors->has('bagian'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('bagian') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
