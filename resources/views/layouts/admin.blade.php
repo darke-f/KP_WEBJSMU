@@ -29,6 +29,14 @@
 
   <body id="page-top">
 
+  @if (\Session::has('err'))
+    <div class="alert alert-danger">
+        <ul>
+            <li>{!! \Session::get('err') !!}</li>
+        </ul>
+    </div>
+  @endif
+
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
       @yield('title')

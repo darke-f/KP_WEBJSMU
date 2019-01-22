@@ -20,6 +20,7 @@ class StockController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('stockperm');
     }
     
     /**
@@ -341,7 +342,7 @@ class StockController extends Controller
             array('periode'=>'Jul'.$newyear, 'istutup'=>'0'),
             array('periode'=>'Aug'.$newyear, 'istutup'=>'0'),
             array('periode'=>'Sep'.$newyear, 'istutup'=>'0'),
-            array('periode'=>'Okt'.$newyear, 'istutup'=>'0'),
+            array('periode'=>'Oct'.$newyear, 'istutup'=>'0'),
             array('periode'=>'Nov'.$newyear, 'istutup'=>'0'),
             array('periode'=>'Dec'.$newyear, 'istutup'=>'0')
         );

@@ -35,22 +35,22 @@ Route::get('/stocktable/calc/{month}&{year}', 'StockController@calcTable');
 Route::get('/stocktable/closemonth/{month}&{year}', 'StockController@closeTable');
 Route::get('/stocktable/closeyear/{month}&{year}', 'StockController@closeYear');
 
-Route::get('/pembelianNo', 'PembelianController@index_No');
-Route::get('/showpembelianNo', 'PembelianController@show_No');
-Route::get('/pembelianPer', 'PembelianController@index_Periode');
-Route::get('/showpembelianPer', 'PembelianController@show_Periode');
-Route::get('/pembelianBar', 'PembelianController@index_Barang');
-Route::get('/showpembelianBar', 'PembelianController@show_Barang');
-Route::get('/pembelianSup', 'PembelianController@index_Supplier');
-Route::get('/showpembelianSup', 'PembelianController@show_Supplier');
-Route::get('/penjualanNo', 'PenjualanController@index_No');
-Route::get('/showpenjualanNo', 'PenjualanController@show_No');
-Route::get('/penjualanPer', 'PenjualanController@index_Periode');
-Route::get('/showpenjualanPer', 'PenjualanController@show_Periode');
-Route::get('/penjualanBar', 'PenjualanController@index_Barang');
-Route::get('/showpenjualanBar', 'PenjualanController@show_Barang');
-Route::get('/penjualanCus', 'PenjualanController@index_Customer');
-Route::get('/showpenjualanCus', 'PenjualanController@show_Customer');
+Route::get('/pembelianNo', 'PembelianController@index_No')->middleware('auth','reportbeliperm');
+Route::get('/showpembelianNo', 'PembelianController@show_No')->middleware('auth','reportbeliperm');
+Route::get('/pembelianPer', 'PembelianController@index_Periode')->middleware('auth','reportbeliperm');
+Route::get('/showpembelianPer', 'PembelianController@show_Periode')->middleware('auth','reportbeliperm');
+Route::get('/pembelianBar', 'PembelianController@index_Barang')->middleware('auth','reportbeliperm');
+Route::get('/showpembelianBar', 'PembelianController@show_Barang')->middleware('auth','reportbeliperm');
+Route::get('/pembelianSup', 'PembelianController@index_Supplier')->middleware('auth','reportbeliperm');
+Route::get('/showpembelianSup', 'PembelianController@show_Supplier')->middleware('auth','reportbeliperm');
+Route::get('/penjualanNo', 'PenjualanController@index_No')->middleware('auth','reportjualperm');
+Route::get('/showpenjualanNo', 'PenjualanController@show_No')->middleware('auth','reportjualperm');
+Route::get('/penjualanPer', 'PenjualanController@index_Periode')->middleware('auth','reportjualperm');
+Route::get('/showpenjualanPer', 'PenjualanController@show_Periode')->middleware('auth','reportjualperm');
+Route::get('/penjualanBar', 'PenjualanController@index_Barang')->middleware('auth','reportjualperm');
+Route::get('/showpenjualanBar', 'PenjualanController@show_Barang')->middleware('auth','reportjualperm');
+Route::get('/penjualanCus', 'PenjualanController@index_Customer')->middleware('auth','reportjualperm');
+Route::get('/showpenjualanCus', 'PenjualanController@show_Customer')->middleware('auth','reportjualperm');
 
 Auth::routes();
 //Route::resource('posts','PostsController');
@@ -78,10 +78,10 @@ Route::get('/dataevent', 'AdminController@indexevent');
 Route::get('/datareview', 'AdminController@indexreview');
 Route::get('/adminsetting', 'AdminController@setting');
 
-Route::get('/pembelians', 'PembelianController@addBeli');
-Route::post('/pembelians','PembelianController@addBeliPost');
-Route::get('/penjualans', 'PenjualanController@addJual');
-Route::post('/penjualans','PenjualanController@addJualPost');
+Route::get('/pembelians', 'PembelianController@addBeli')->middleware('auth','pembelianperm');
+Route::post('/pembelians','PembelianController@addBeliPost')->middleware('auth','pembelianperm');
+Route::get('/penjualans', 'PenjualanController@addJual')->middleware('auth','penjualanperm');
+Route::post('/penjualans','PenjualanController@addJualPost')->middleware('auth','penjualanperm');
 
 Auth::routes();
 

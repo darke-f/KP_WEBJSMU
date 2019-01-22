@@ -24,7 +24,7 @@
 
           {!! Form::open(['action'=> 'PembelianController@show_No','method'=>'GET','class' =>'form-inline ml-1 mb-4']) !!}
             <div class="form-group row">
-              {{form::label('kodebeli','Kode :',['class'=> 'col-3 col-form-label'])}}
+              {{form::label('kodebeli','Kode:',['class'=> 'col-3 col-form-label'])}}
               <div class="col-8">
                 <!-- {{form::text('kodebeli','',['class' =>'form-control here','placeholder' => 'No Transaksi'])}} -->
                 <select class="form-control selectform" name="kodebeli" value="{{ old('kodebeli') }}" required>

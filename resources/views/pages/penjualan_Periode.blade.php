@@ -17,7 +17,7 @@
 
           {!! Form::open(['action'=> 'PenjualanController@show_Periode','method'=>'GET','class' =>'form-inline ml-1 mb-4']) !!}
             <div class="form-group row ml-1">
-              {{form::label('periode','Periode :',['class'=> 'col-3 col-form-label'])}}
+              {{form::label('periode','Periode:',['class'=> 'col-3 col-form-label'])}}
               <div class="form-group mr-1 ml-1">
                 {{form::selectMonth('month')}}
               </div>

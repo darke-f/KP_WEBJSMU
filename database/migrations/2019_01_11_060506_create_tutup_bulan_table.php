@@ -28,7 +28,7 @@ class CreateTutupBulanTable extends Migration
             array('periode'=>'Jul2019', 'istutup'=>'0'),
             array('periode'=>'Aug2019', 'istutup'=>'0'),
             array('periode'=>'Sep2019', 'istutup'=>'0'),
-            array('periode'=>'Okt2019', 'istutup'=>'0'),
+            array('periode'=>'Oct2019', 'istutup'=>'0'),
             array('periode'=>'Nov2019', 'istutup'=>'0'),
             array('periode'=>'Dec2019', 'istutup'=>'0')
         );

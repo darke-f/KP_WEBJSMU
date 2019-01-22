@@ -24,7 +24,7 @@
 
           {!! Form::open(['action'=> 'PembelianController@show_Supplier','method'=>'GET','class' =>'form-inline ml-1 mb-4']) !!}
             <div class="form-group row">
-              {{form::label('namasupplier','Supplier :',['class'=> 'col-3 col-form-label'])}}
+              {{form::label('namasupplier','Supplier:',['class'=> 'col-3 col-form-label'])}}
               <div class="col-8">
                 <!-- {{form::text('namasupplier','',['class' =>'form-control here','placeholder' => 'Nama Supplier'])}} -->
                 <select class="form-control selectform" name="namasupplier" value="{{ old('namasupplier') }}" required>

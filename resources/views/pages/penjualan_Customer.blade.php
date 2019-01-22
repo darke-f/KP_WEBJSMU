@@ -24,7 +24,7 @@
 
           {!! Form::open(['action'=> 'PenjualanController@show_Customer','method'=>'GET','class' =>'form-inline ml-1 mb-4']) !!}
             <div class="form-group row">
-              {{form::label('namacustomer','Customer :',['class'=> 'col-3 col-form-label'])}}
+              {{form::label('namacustomer','Customer:',['class'=> 'col-3 col-form-label'])}}
               <div class="col-8">
                 <!-- {{form::text('namacustomer','',['class' =>'form-control here','placeholder' => 'Nama Customer'])}} -->
                 <select class="form-control selectform" name="namacustomer" value="{{ old('namacustomer') }}" required>

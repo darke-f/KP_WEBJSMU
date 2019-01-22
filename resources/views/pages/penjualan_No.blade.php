@@ -24,7 +24,7 @@
 
           {!! Form::open(['action'=> 'PenjualanController@show_No','method'=>'GET','class' =>'form-inline ml-1 mb-4']) !!}
             <div class="form-group row">
-              {{form::label('kodejual','Kode :',['class'=> 'col-3 col-form-label'])}}
+              {{form::label('kodejual','Kode:',['class'=> 'col-3 col-form-label'])}}
               <div class="col-8">
                 <!-- {{form::text('kodejual','',['class' =>'form-control here','placeholder' => 'No Transaksi'])}} -->
                 <select class="form-control selectform" name="kodejual" value="{{ old('kodejual') }}" required>
