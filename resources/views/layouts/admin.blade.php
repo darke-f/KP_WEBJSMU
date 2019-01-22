@@ -115,59 +115,71 @@
             <span>Dashboard</span>
           </a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Data</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">Available Data:</h6>
-            <a class="dropdown-item" href="/masterbarangs">Data Barang</a>
-            <a class="dropdown-item" href="/mastersuppliers">Data Supplier</a>
-            <a class="dropdown-item" href="/mastercustomers">Data Customer</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/stockbarangs">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Stock Barang</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/pembelians">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Pembelian</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/penjualans">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Penjualan</span></a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Report Pembelian</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">Report Berdasarkan:</h6>
-            <a class="dropdown-item" href="/pembelianNo">Nomor Transaksi</a>
-            <a class="dropdown-item" href="/pembelianPer">Periode Transaksi</a>
-            <a class="dropdown-item" href="/pembelianBar">Barang</a>
-            <a class="dropdown-item" href="/pembelianSup">Supplier</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Report Penjualan</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">Report Berdasarkan:</h6>
-            <a class="dropdown-item" href="/penjualanNo">Nomor Transaksi</a>
-            <a class="dropdown-item" href="/penjualanPer">Periode Transaksi</a>
-            <a class="dropdown-item" href="/penjualanBar">Barang</a>
-            <a class="dropdown-item" href="/penjualanCus">Customer</a>
-          </div>
-        </li>
+        @if(Auth::user()->level == 'admin' || Auth::user()->masterperm == '1')
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>Data</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+              <h6 class="dropdown-header">Available Data:</h6>
+              <a class="dropdown-item" href="/masterbarangs">Data Barang</a>
+              <a class="dropdown-item" href="/mastersuppliers">Data Supplier</a>
+              <a class="dropdown-item" href="/mastercustomers">Data Customer</a>
+            </div>
+          </li>
+        @endif
+        @if(Auth::user()->level == 'admin' || Auth::user()->stockperm == '1')
+          <li class="nav-item">
+            <a class="nav-link" href="/stockbarangs">
+              <i class="fas fa-fw fa-table"></i>
+              <span>Stock Barang</span></a>
+          </li>
+        @endif
+        @if(Auth::user()->level == 'admin' || Auth::user()->pembelianperm == '1')
+          <li class="nav-item">
+            <a class="nav-link" href="/pembelians">
+              <i class="fas fa-fw fa-table"></i>
+              <span>Pembelian</span></a>
+          </li>
+        @endif
+        @if(Auth::user()->level == 'admin' || Auth::user()->penjualanperm == '1')
+          <li class="nav-item">
+            <a class="nav-link" href="/penjualans">
+              <i class="fas fa-fw fa-table"></i>
+              <span>Penjualan</span></a>
+          </li>
+        @endif
+        @if(Auth::user()->level == 'admin' || Auth::user()->reportbeliperm == '1')
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>Report Pembelian</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+              <h6 class="dropdown-header">Report Berdasarkan:</h6>
+              <a class="dropdown-item" href="/pembelianNo">Nomor Transaksi</a>
+              <a class="dropdown-item" href="/pembelianPer">Periode Transaksi</a>
+              <a class="dropdown-item" href="/pembelianBar">Barang</a>
+              <a class="dropdown-item" href="/pembelianSup">Supplier</a>
+            </div>
+          </li>
+        @endif
+        @if(Auth::user()->level == 'admin' || Auth::user()->reportjualperm == '1')
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>Report Penjualan</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+              <h6 class="dropdown-header">Report Berdasarkan:</h6>
+              <a class="dropdown-item" href="/penjualanNo">Nomor Transaksi</a>
+              <a class="dropdown-item" href="/penjualanPer">Periode Transaksi</a>
+              <a class="dropdown-item" href="/penjualanBar">Barang</a>
+              <a class="dropdown-item" href="/penjualanCus">Customer</a>
+            </div>
+          </li>
+        @endif
       </ul>
 
       <div id="content-wrapper">
