@@ -100,7 +100,7 @@
             <i class="fas fa-user-circle fa-fw"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="#">Settings</a>
+            <a class="dropdown-item" href="/changepassword">Change Password</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
           </div>
@@ -123,7 +123,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-fw fa-folder"></i>
-              <span>Data</span>
+              <span>Data Master</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="pagesDropdown">
               <h6 class="dropdown-header">Available Data:</h6>
@@ -182,6 +182,13 @@
               <a class="dropdown-item" href="/penjualanBar">Barang</a>
               <a class="dropdown-item" href="/penjualanCus">Customer</a>
             </div>
+          </li>
+        @endif
+        @if(Auth::user()->level == 'admin')
+        <li class="nav-item">
+            <a class="nav-link" href="/users">
+              <i class="fas fa-fw fa-table"></i>
+              <span>User</span></a>
           </li>
         @endif
       </ul>

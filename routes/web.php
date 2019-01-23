@@ -51,6 +51,11 @@ Route::get('/penjualanBar', 'PenjualanController@index_Barang')->middleware('aut
 Route::get('/showpenjualanBar', 'PenjualanController@show_Barang')->middleware('auth','reportjualperm');
 Route::get('/penjualanCus', 'PenjualanController@index_Customer')->middleware('auth','reportjualperm');
 Route::get('/showpenjualanCus', 'PenjualanController@show_Customer')->middleware('auth','reportjualperm');
+Route::get('/users','PagesController@user');
+Route::get('/users/{id}/edit','PagesController@userpermission');
+Route::put('/users/{id}','PagesController@updatepermission');
+Route::get('/changepassword', 'PagesController@showChangePasswordForm');
+Route::post('/changePassword','PagesController@changePassword')->name('changePassword'); 
 
 Auth::routes();
 //Route::resource('posts','PostsController');
@@ -71,7 +76,6 @@ Route::resources([
     'mastercustomers' => 'MasterCustomerController'
 ]); 
 
-Route::get('/dashboard', 'DashboardController@index');
 Route::get('/dashboardadmin', 'AdminController@index');
 Route::get('/datawisata', 'AdminController@indexwisata');
 Route::get('/dataevent', 'AdminController@indexevent');
