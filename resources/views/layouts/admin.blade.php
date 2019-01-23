@@ -23,6 +23,8 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('/css/sb-admin.css')}}" rel="stylesheet">
 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
     @yield('head')
 
   </head>
@@ -30,11 +32,13 @@
   <body id="page-top">
 
   @if (\Session::has('err'))
-    <div class="alert alert-danger">
-        <ul>
-            <li>{!! \Session::get('err') !!}</li>
-        </ul>
+    <div class="alert alert-danger alert-dismissible" id="permalert">
+        <p>You don't have permission.</p>
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     </div>
+    <script type="text/javascript">
+      $("#permalert").delay(3200).fadeOut(300);
+    </script>    
   @endif
   <!-- @if(Auth::user()->level == 'admin')
     <div class="alert alert-danger">
