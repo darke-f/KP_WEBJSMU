@@ -114,11 +114,11 @@
                     </tbody>
                 </table> 
                 <!-- ----dynamic_field---- -->
-                <br>
                 <p id="countitem"></p>
                 <div>
                     <button type="button" class="btn btn-success add"> tambah barang</button>
                 </div>
+                <br>
                 <p id="subtotal">Subtotal : 0</p>
                 <input type="hidden" class="form-control subtotalH" name="subtotalH">
                 <div class="row">  
