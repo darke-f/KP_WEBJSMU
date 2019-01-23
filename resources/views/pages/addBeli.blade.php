@@ -7,6 +7,7 @@
 @section('head')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0"></script>
 @endsection 
 
 @section('content')
@@ -83,6 +84,7 @@
                             <td class="no">1</td>
                             <td class="col-2">
                                 <select id="pilihbarang0" class="form-control pilihbarang" name="namaBarang[]" required></select>
+                                <input type="hidden" value="0" class="form-control indexH" name="indexH[]">
                                 <input type="hidden" class="form-control namaBarangH" name="namaBarangH[]">
                             </td>
                             <td class="col-1.5">
@@ -94,13 +96,15 @@
                                 <input type="hidden" class="form-control satuanBarangH" name="satuanBarangH[]">
                             </td>
                             <td>
-                                <input type="number" value="0" class="form-control quantity" name="quantity[]">
+                                <input type="number" min="0" value="0" class="form-control quantity" name="quantity[]">
                             </td>
                             <td>
-                                <input type="number" value="0" class="form-control hargaSatuan" name="hargaSatuan[]">
+                                <input type="text" id="satuanval0" value="0" class="form-control hargaSatuan" name="hargaSatuan[]">
+                                <input type="hidden" value="0" class="form-control hargaSatuanH" name="hargaSatuanH[]">
                             </td>
                             <td>
-                                <input type="number" value="0" class="form-control hargaTotal" name="hargaTotal[]">
+                                <input disabled type="text" value="0" class="form-control hargaTotal" name="hargaTotal[]">
+                                <input type="hidden" value="0" class="form-control hargaTotalH" name="hargaTotalH[]">
                             </td>
                             <td class="col-1">
                                 <input type="button" class="btn btn-danger delete" value="x">
@@ -136,7 +140,8 @@
         var ittr = 0;
         var sum = 0;
     
-        $('.supp > .kodsup').html('Kode Supplier :'+$('.selectform').val()+'');
+        var aunum = [];
+        aunum.push(new AutoNumeric('.hargaSatuan'));
  
         var j = @php echo json_encode($barang); @endphp
 
@@ -151,6 +156,7 @@
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
+        $('.supp > .kodsup').html('Kode Supplier :'+$('.selectform').val()+'');
         $('.selectform').select2();
         $(document).on('change','.selectform',function(){
                $('.supp > .kodsup').html('Kode Supplier :'+$(this).val()+'');
@@ -167,19 +173,23 @@
             var n = ($('.resultbody tr').length - 0) + 1;
             var tr = '<tr><td class="no">' + n + '</td>' +
                     '<td class="col-2"><select class="form-control pilihbarang" id="pilihbarang'+ittr+'" name="namaBarang[]" required></select>'+
+                    '<input type="hidden" value="'+ittr+'" class="form-control indexH" name="indexH[]">'+
                     '<input type="hidden" class="form-control namaBarangH" name="namaBarangH[]"</td>'+
                     '<td class="col-1.5"><input disabled type="text" class="form-control kodeBarang" name="kodeBarang[]"></td>'+
                     '<input type="hidden" class="form-control kodeBarangH" name="kodeBarangH[]"</td>'+
                     '<td><input disabled type="text" class="form-control satuanBarang" name="satuanBarang[]"></td>'+
                     '<input type="hidden" class="form-control satuanBarangH" name="satuanBarangH[]"</td>'+
                     '<td><input type="number" value="0" class="form-control quantity" name="quantity[]"></td>'+
-                    '<td><input type="number" value="0" class="form-control hargaSatuan" name="hargaSatuan[]"></td>'+
-                    '<td><input type="number" value="0" class="form-control hargaTotal" name="hargaTotal[]"></td>'+
+                    '<td><input type="text" id="satuanval'+ittr+'" value="0" class="form-control hargaSatuan" name="hargaSatuan[]">'+
+                    '<input type="hidden" value="0" class="form-control hargaSatuanH" name="hargaSatuanH[]"></td>'+
+                    '<td><input disabled type="text" value="0" class="form-control hargaTotal" name="hargaTotal[]">'+
+                    '<input type="hidden" value="0" class="form-control hargaTotalH" name="hargaTotalH[]"></td>'+
                     '<td class="col-1"><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
             $('.resultbody').append(tr);
             $('#pilihbarang'+ittr+'').html(options);
             $('#pilihbarang'+ittr+'').select2();
             $('#pilihbarang'+ittr+'').focus();
+            aunum.push(new AutoNumeric('#satuanval'+ittr+''));
 
         });
 
@@ -200,18 +210,23 @@
             tr.find('.satuanBarangH').val(j[barangselected].satuanBarang);
         });
 
-        $('.resultbody').delegate('.quantity, .hargaSatuan', 'keyup, change', function () {
+        $('.resultbody').delegate('.quantity, .hargaSatuan', 'change', function () {
             // alert("hola");
             var tr = $(this).parent().parent();
             var quantity = tr.find('.quantity').val()-0;
-            var hargaSatuan = tr.find('.hargaSatuan').val()-0;
+            $idx = tr.find('.indexH').val()-0;
+            var hargaSatuan = aunum[$idx].getNumericString();
             // alert(hargaSatuan);
-            tr.find('.hargaTotal').val(quantity*hargaSatuan);
+            tr.find('.hargaSatuanH').val(hargaSatuan);
+            var hargaTotal = quantity * hargaSatuan;
+            // alert(hargaTotal);
+            tr.find('.hargaTotal').val(numberWithCommas(hargaTotal));
+            tr.find('.hargaTotalH').val(hargaTotal);
         });
 
         $('.resultbody').delegate('.hargaTotal, .quantity, .hargaSatuan', 'keyup, change', function () {
             sum = 0;
-            $('.hargaTotal').each(function(){
+            $('.hargaTotalH').each(function(){
                 sum+=$(this).val()-0;
             });
             // alert(sum);

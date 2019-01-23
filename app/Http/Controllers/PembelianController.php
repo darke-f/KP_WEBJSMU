@@ -36,15 +36,15 @@ class PembelianController extends Controller
             'tanggalTransaksiBeli' => 'required|date',
             'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier', //foreign key constraint check
             'periodeTransaksiBeli' => '',
-            'subtotalH' => '',
-            'discount' => '',
-            'grandtotalH' => '',
+            'subtotalH' => 'required|numeric',
+            'discount' => 'required|numeric',
+            'grandtotalH' => 'required|numeric',
             'kodeBarangH.*' => 'required|size:6|exists:masterbarang,kodeBarang',
             'namaBarangH.*' => 'required',
             'satuanBarangH.*' => 'required',
             'quantity.*' => 'required|numeric',
-            'hargaSatuan.*' => 'required|numeric',
-            'hargaTotal.*' => 'required|numeric',
+            'hargaSatuanH.*' => 'required|numeric',
+            'hargaTotalH.*' => 'required|numeric',
         ]);
 
         $date = strtotime($request->input('tanggalTransaksiBeli'));
@@ -65,8 +65,8 @@ class PembelianController extends Controller
         $namaBarang = $request->input('namaBarangH');
         $satuanBarang = $request->input('satuanBarangH');
         $quantity = $request->input('quantity');
-        $hargaSatuan = $request->input('hargaSatuan');
-        $hargaTotal = $request->input('hargaTotal');
+        $hargaSatuan = $request->input('hargaSatuanH');
+        $hargaTotal = $request->input('hargaTotalH');
 
         
         $BeliHdr->save();
