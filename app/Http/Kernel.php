@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'penjualanperm' => 'App\Http\Middleware\penjualanperm',
         'reportbeliperm' => 'App\Http\Middleware\reportbeliperm',
         'reportjualperm' => 'App\Http\Middleware\reportjualperm',
+        'adminperm' => 'App\Http\Middleware\adminperm',
     ];
 
     /**

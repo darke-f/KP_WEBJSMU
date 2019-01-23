@@ -5,7 +5,6 @@
 @endsection
 
 @section('head')
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 @endsection 
@@ -146,8 +145,11 @@
             options += '<option value="'+i+'">' + j[i].namaBarang + '</option>';
         }
         $(".pilihbarang").html(options);    
-        // $(".pilihbarang").select2();
+        $(".pilihbarang").select2();
 
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
 
         $('.selectform').select2();
         $(document).on('change','.selectform',function(){
@@ -176,6 +178,7 @@
                     '<td class="col-1"><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
             $('.resultbody').append(tr);
             $('#pilihbarang'+ittr+'').html(options);
+            $('#pilihbarang'+ittr+'').select2();
             $('#pilihbarang'+ittr+'').focus();
 
         });
@@ -212,7 +215,7 @@
                 sum+=$(this).val()-0;
             });
             // alert(sum);
-            $('#subtotal').html("Subtotal : "+sum);
+            $('#subtotal').html("Subtotal : "+numberWithCommas(sum));
             $('#subtotal').val(sum);
             $('.subtotalH').val(sum);
             
@@ -220,7 +223,7 @@
             var vara = sum;
             var reslt = vara - (vara * disc / 100);
             // alert(vara);
-            $('#grandtotal').html("Grand Total : "+reslt);
+            $('#grandtotal').html("Grand Total : "+numberWithCommas(reslt));
             $('.grandtotalH').val(reslt);
         });
 
@@ -229,7 +232,7 @@
             var vara = sum;
             var reslt = vara - (vara * disc / 100);
             // alert(vara);
-            $('#grandtotal').html("Grand Total : "+reslt);
+            $('#grandtotal').html("Grand Total : "+numberWithCommas(reslt));
             $('.grandtotalH').val(reslt);
         });
 

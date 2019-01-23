@@ -23,7 +23,7 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('/css/sb-admin.css')}}" rel="stylesheet">
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{{asset('/vendor/jquery/jquery.min.js')}}"></script>
 
     @yield('head')
 
@@ -247,7 +247,6 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{asset('/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Core plugin JavaScript-->
