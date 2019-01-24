@@ -8,6 +8,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.1.0"></script>
+
+    <style>
+        .select2 {
+            width:100%!important;
+        }
+    </style>
 @endsection 
 
 @section('content')
@@ -22,32 +28,32 @@
                 @endif
 
                 {!! csrf_field() !!}
-                <div class="form-group{{ $errors->has('noTransaksiJual') ? ' has-error' : '' }}">
+                <div class="form-group{{ $errors->has('noTransaksiJual') ? ' is-invalid' : '' }}">
                     <label for="noTransaksiJual">Nomor Transaksi Jual</label>
-                    <input type="text" class="form-control" id="noTransaksiJual" name="noTransaksiJual" placeholder="noTransaksiJual" value="{{ old('noTransaksiJual') }}" autofocus required>
+                    <input type="text" class="form-control{{ $errors->has('noTransaksiJual') ? ' is-invalid' : '' }}" id="noTransaksiJual" name="noTransaksiJual" placeholder="noTransaksiJual" value="{{ old('noTransaksiJual') }}" autofocus required>
                     @if($errors->has('noTransaksiJual'))
                         <span class="alert">{{ $errors->first('noTransaksiJual') }}</span>
                     @endif
                 </div>
-                <!-- <div class="form-group{{ $errors->has('tanggalTransaksiJual') ? ' has-error' : '' }}">
+                <!-- <div class="form-group{{ $errors->has('tanggalTransaksiJual') ? ' is-invalid' : '' }}">
                     <label for="tanggalTransaksiJual">tanggalTransaksiJual</label>
                     <input type="text" class="form-control" id="tanggalTransaksiJual" name="tanggalTransaksiJual" placeholder="tanggalTransaksiJual" value="{{ old('tanggalTransaksiJual') }}">
                     @if($errors->has('tanggalTransaksiJual'))
                         <span class="help-block">{{ $errors->first('tanggalTransaksiJual') }}</span>
                     @endif
                 </div> -->
-                <div class="form-group{{ $errors->has('tanggalTransaksiJual') ? ' has-error' : '' }}">
+                <div class="form-group{{ $errors->has('tanggalTransaksiJual') ? ' is-invalid' : '' }}">
                     <label for="tanggalTransaksiJual">Tanggal Transaksi Jual</label>
                     <div>
-                        <input class="form-control" type="date" id="tanggalTransaksiJual" name="tanggalTransaksiJual" value="{{ old('tanggalTransaksiJual') }}" required>
+                        <input class="form-control{{ $errors->has('tanggalTransaksiJual') ? ' is-invalid' : '' }}" type="date" id="tanggalTransaksiJual" name="tanggalTransaksiJual" value="{{ old('tanggalTransaksiJual') }}" required>
                     </div>
                     @if($errors->has('tanggalTransaksiJual'))
                         <span class="help-block">{{ $errors->first('tanggalTransaksiJual') }}</span>
                     @endif
                 </div>
-                <div class="form-group{{ $errors->has('kodeCustomer') ? ' has-error' : '' }} cuss">
+                <div class="form-group{{ $errors->has('kodeCustomer') ? ' is-invalid' : '' }} cuss">
                     <label for="kodeCustomer">Nama Customer</label>
-                    <select class="form-control selectform" id="kodeCustomer" name="kodeCustomer" value="{{ old('kodeCustomer') }}" required>
+                    <select class="form-control selectform{{ $errors->has('kodeSupplier') ? ' is-invalid' : '' }}" id="kodeCustomer" name="kodeCustomer" value="{{ old('kodeCustomer') }}" required>
                         <option value="Balum Dipilih" selected disabled hidden>Pilih Customer:</option>
                         @if(count($customer) >0)
                             @foreach($customer as $ctm)
@@ -66,23 +72,23 @@
                             
 
 
-                <table class="table table-striped">
+                <table class="table table-striped table-responsive">
                     <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Nama Barang</th>
-                            <th>Kode Barang</th>
-                            <th>Satuan</th>
-                            <th>Kuantitas</th>
-                            <th>Harga Satuan</th>
-                            <th>Jumlah</th>
-                            <th>Delete</th>
+                        <tr class="d-flex">
+                            <th class="no">No.</th>
+                            <th class="col-3 col-sm-2">Nama Barang</th>
+                            <th class="col-1 col-sm-2">Kode Barang</th>
+                            <th class="col-sm">Satuan</th>
+                            <th class="col-sm">Kuantitas</th>
+                            <th class="col-sm">Harga Satuan</th>
+                            <th class="col-sm">Jumlah</th>
+                            <th class="col-sm-1">Delete</th>
                         </tr>
                     </thead>
                     <tbody class="resultbody">
-                        <tr>
+                        <tr class="d-flex">
                             <td class="no">1</td>
-                            <td class="col-2">
+                            <td class="col-sm-2">
                                 <select id="pilihbarang0" class="form-control pilihbarang" name="namaBarang[]" required></select>
                                 <input type="hidden" value="0" class="form-control indexH" name="indexH[]">
                                 <input type="hidden" class="form-control namaBarangH" name="namaBarangH[]">
@@ -123,9 +129,9 @@
                 <input type="hidden" class="form-control subtotalH" name="subtotalH">
                 <div class="row">  
                     <div class="col-2">
-                        <label class="col-1.5" for="discount">Discount (%) : </label>
+                        <label class="col-sm-1.5" for="discount">Discount (%) : </label>
                     </div>
-                    <input type="number" value="0" class="form-control col-1" id="discount" name="discount">
+                    <input type="number" value="0" class="form-control col-sm-1" id="discount" name="discount">
                 </div>
                 <p id="grandtotal">Grand Total : 0</p>
                 <input type="hidden" class="form-control grandtotalH" name="grandtotalH">
@@ -171,11 +177,11 @@
             itemcount++;
             ittr++;
             var n = ($('.resultbody tr').length - 0) + 1;
-            var tr = '<tr><td class="no">' + n + '</td>' +
-                    '<td class="col-2"><select class="form-control pilihbarang" id="pilihbarang'+ittr+'" name="namaBarang[]" required></select>'+
+            var tr = '<tr class="d-flex"><td class="no">' + n + '</td>' +
+                    '<td class="col-sm-2"><select class="form-control pilihbarang" id="pilihbarang'+ittr+'" name="namaBarang[]" required></select>'+
                     '<input type="hidden" value="'+ittr+'" class="form-control indexH" name="indexH[]">'+
                     '<input type="hidden" class="form-control namaBarangH" name="namaBarangH[]"</td>'+
-                    '<td class="col-1.5"><input disabled type="text" class="form-control kodeBarang" name="kodeBarang[]"></td>'+
+                    '<td class="col-sm-1.5"><input disabled type="text" class="form-control kodeBarang" name="kodeBarang[]"></td>'+
                     '<input type="hidden" class="form-control kodeBarangH" name="kodeBarangH[]"</td>'+
                     '<td><input disabled type="text" class="form-control satuanBarang" name="satuanBarang[]"></td>'+
                     '<input type="hidden" class="form-control satuanBarangH" name="satuanBarangH[]"</td>'+
@@ -184,7 +190,7 @@
                     '<input type="hidden" value="0" class="form-control hargaSatuanH" name="hargaSatuanH[]"></td>'+
                     '<td><input disabled type="text" value="0" class="form-control hargaTotal" name="hargaTotal[]">'+
                     '<input type="hidden" value="0" class="form-control hargaTotalH" name="hargaTotalH[]"></td>'+
-                    '<td class="col-1"><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
+                    '<td class="col-sm-1"><input type="button" class="btn btn-danger delete" value="x"></td></tr>';
             $('.resultbody').append(tr);
             $('#pilihbarang'+ittr+'').html(options);
             $('#pilihbarang'+ittr+'').select2();
