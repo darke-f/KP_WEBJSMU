@@ -17,6 +17,11 @@
 @endsection 
 
 @section('content')
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Pembelian</li>
+    </ol>
+
     <div class="container">
         <div>
             <h1>Transaksi Penjualan</h1>

@@ -8,10 +8,12 @@
         <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Users</a>
+              <a href="/users">Users</a>
             </li>
             <li class="breadcrumb-item active">Overview</li>
           </ol>
+
+          @include('inc.messages')
 
           <!-- DataTables Example -->
           <div class="card mb-3">

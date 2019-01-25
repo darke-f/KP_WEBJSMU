@@ -8,12 +8,9 @@
 <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="/">Dashboard</a>
-            </li>
-            <li class="breadcrumb-item">
               <a href="/masterbarangs">Data Barang</a>
             </li>
-            <li class="breadcrumb-item active">Iput Barang</li>
+            <li class="breadcrumb-item active">Input Barang</li>
           </ol>
 
           <div class="col-md-9">

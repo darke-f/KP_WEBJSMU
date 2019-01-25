@@ -54,16 +54,20 @@ class MasterBarangController extends Controller
             'note' => 'required'
         ]);
 
-        //create post
-        $barang = new MasterBarang;
-        $barang->kodeBarang = $request->input('kodebarang');
-        $barang->namaBarang = $request->input('nama');
-        $barang->satuanBarang = $request->input('satuan');
-        $barang->noteBarang = $request->input('note');
+        try {
+            $barang = new MasterBarang;
+            $barang->kodeBarang = $request->input('kodebarang');
+            $barang->namaBarang = $request->input('nama');
+            $barang->satuanBarang = $request->input('satuan');
+            $barang->noteBarang = $request->input('note');
 
-        $barang->save();
-        
-        return redirect('/masterbarangs')->with('success','Barang Created');
+            $barang->save();
+
+            return redirect('/masterbarangs')->with('success','Barang Created.');
+         } catch ( \Exception $e) {
+             return redirect('/masterbarangs')->with('error','Item cannot be added.');
+              //var_dump($e->errorInfo );
+         }
     }
 
     /**
@@ -113,7 +117,7 @@ class MasterBarangController extends Controller
 
         $barang->save();
         
-        return redirect('/masterbarangs')->with('success','Barang Updated');
+        return redirect('/masterbarangs')->with('success','Barang Updated.');
     }
 
     /**
@@ -126,7 +130,12 @@ class MasterBarangController extends Controller
     {
         $barang = MasterBarang::find($id);
 
-        $barang->delete();
-        return redirect('/masterbarangs')->with('success','Barang Removed');
+        try {
+            $barang->delete();
+            return redirect('/masterbarangs')->with('success','Barang Removed.');
+         } catch ( \Exception $e) {
+             return redirect('/masterbarangs')->with('error','Item cannot be deleted.');
+              //var_dump($e->errorInfo );
+         }
     }
 }

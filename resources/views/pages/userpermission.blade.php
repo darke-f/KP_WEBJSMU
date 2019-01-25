@@ -6,7 +6,14 @@
 
 @section('content')
 <!-- Breadcrumbs-->
-          <div class="col-md-9">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/users">Users</a>
+            </li>
+            <li class="breadcrumb-item active">Permissions</li>
+      </ol>
+
         <div class="card">
             <div class="card-body">
                 <div class="row">

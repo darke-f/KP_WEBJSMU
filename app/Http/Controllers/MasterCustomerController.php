@@ -54,16 +54,20 @@ class MasterCustomerController extends Controller
             'note' => 'required'
         ]);
 
-        //create post
-        $customer = new MasterCustomer;
-        $customer->kodeCustomer = $request->input('kodecustomer');
-        $customer->namaCustomer = $request->input('nama');
-        $customer->alamatCustomer = $request->input('alamat');
-        $customer->keteranganCustomer = $request->input('note');
+        try {
+            $customer = new MasterCustomer;
+            $customer->kodeCustomer = $request->input('kodecustomer');
+            $customer->namaCustomer = $request->input('nama');
+            $customer->alamatCustomer = $request->input('alamat');
+            $customer->keteranganCustomer = $request->input('note');
 
-        $customer->save();
-        
-        return redirect('/mastercustomers')->with('success','Customer Created');
+            $customer->save();
+            
+            return redirect('/mastercustomers')->with('success','Customer Created.');
+         } catch ( \Exception $e) {
+             return redirect('/mastercustomers')->with('error','Customer cannot be added.');
+              //var_dump($e->errorInfo );
+         }
     }
 
     /**
@@ -113,7 +117,7 @@ class MasterCustomerController extends Controller
 
         $customer->save();
         
-        return redirect('/mastercustomers')->with('success','Customer Updated');
+        return redirect('/mastercustomers')->with('success','Customer Updated.');
     }
 
     /**
@@ -126,7 +130,12 @@ class MasterCustomerController extends Controller
     {
         $customer = MasterCustomer::find($id);
 
-        $customer->delete();
-        return redirect('/mastercustomers')->with('success','Customer Removed');
+        try {
+            $customer->delete();
+            return redirect('/mastercustomers')->with('success','Customer Removed.');
+         } catch ( \Exception $e) {
+            return redirect('/mastercustomers')->with('error','Customer cannot be deleted.');
+              //var_dump($e->errorInfo );
+         }
     }
 }

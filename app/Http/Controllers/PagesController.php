@@ -73,7 +73,7 @@ class PagesController extends Controller
 
         $users->save();
         
-        return redirect('/users');
+        return redirect('/users')->with('success','User permisson updated.');;
     }
 
     public function showChangePasswordForm() 

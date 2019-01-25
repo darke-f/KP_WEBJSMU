@@ -55,17 +55,21 @@ class MasterSupplierController extends Controller
             'jenis' => 'required'
         ]);
 
-        //create post
-        $supplier = new MasterSupplier;
-        $supplier->kodeSupplier = $request->input('kodesupplier');
-        $supplier->namaSupplier = $request->input('nama');
-        $supplier->alamatSupplier = $request->input('alamat');
-        $supplier->kotaSupplier = $request->input('kota');
-        $supplier->jenisSupplier = $request->input('jenis');
+        try {
+            $supplier = new MasterSupplier;
+            $supplier->kodeSupplier = $request->input('kodesupplier');
+            $supplier->namaSupplier = $request->input('nama');
+            $supplier->alamatSupplier = $request->input('alamat');
+            $supplier->kotaSupplier = $request->input('kota');
+            $supplier->jenisSupplier = $request->input('jenis');
 
-        $supplier->save();
-        
-        return redirect('/mastersuppliers')->with('success','Supplier Created');
+            $supplier->save();
+            
+            return redirect('/mastersuppliers')->with('success','Supplier Created.');
+         } catch ( \Exception $e) {
+             return redirect('/mastersuppliers')->with('error','Supplier cannot be added.');
+              //var_dump($e->errorInfo );
+         }
     }
 
     /**
@@ -117,7 +121,7 @@ class MasterSupplierController extends Controller
 
         $supplier->save();
         
-        return redirect('/mastersuppliers')->with('success','Supplier Updated');
+        return redirect('/mastersuppliers')->with('success','Supplier Updated.');
     }
 
     /**
@@ -130,7 +134,12 @@ class MasterSupplierController extends Controller
     {
         $supplier = MasterSupplier::find($id);
 
-        $supplier->delete();
-        return redirect('/mastersuppliers')->with('success','Supplier Removed');
+        try {
+            $supplier->delete();
+            return redirect('/mastersuppliers')->with('success','Supplier Removed.');
+         } catch ( \Exception $e) {
+            return redirect('/mastersuppliers')->with('error','Supplier cannot be deleted.');
+              //var_dump($e->errorInfo );
+         }
     }
 }
