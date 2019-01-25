@@ -40,6 +40,13 @@
                         <span class="alert">{{ $errors->first('noTransaksiBeli') }}</span>
                     @endif
                 </div>
+                <div class="form-group{{ $errors->has('noPPB') ? ' is-invalid' : '' }}">
+                    <label for="noPPB">No. PPB</label>
+                    <input type="text" class="form-control{{ $errors->has('noPPB') ? ' is-invalid' : '' }}" id="noPPB" name="noPPB" placeholder="noPPB" value="{{ old('noPPB') }}" required>
+                    @if($errors->has('noPPB'))
+                        <span class="alert">{{ $errors->first('noPPB') }}</span>
+                    @endif
+                </div>
                 <!-- <div class="form-group{{ $errors->has('tanggalTransaksiBeli') ? ' is-invalid' : '' }}">
                     <label for="tanggalTransaksiBeli">tanggalTransaksiBeli</label>
                     <input type="text" class="form-control" id="tanggalTransaksiBeli" name="tanggalTransaksiBeli" placeholder="tanggalTransaksiBeli" value="{{ old('tanggalTransaksiBeli') }}">
@@ -54,6 +61,15 @@
                     </div>
                     @if($errors->has('tanggalTransaksiBeli'))
                         <span class="help-block">{{ $errors->first('tanggalTransaksiBeli') }}</span>
+                    @endif
+                </div>
+                <div class="form-group{{ $errors->has('tanggalKirim') ? ' is-invalid' : '' }}">
+                    <label for="tanggalKirim">Tanggal Kirim</label>
+                    <div>
+                        <input class="form-control{{ $errors->has('tanggalKirim') ? ' is-invalid' : '' }}" type="date" id="tanggalKirim" name="tanggalKirim" value="{{ old('tanggalKirim') }}" required>
+                    </div>
+                    @if($errors->has('tanggalKirim'))
+                        <span class="help-block">{{ $errors->first('tanggalKirim') }}</span>
                     @endif
                 </div>
                 <div class="form-group{{ $errors->has('kodeSupplier') ? ' is-invalid' : '' }} supp">
@@ -137,6 +153,14 @@
                         <label class="col-sm-1.5" for="discount">Discount (%) : </label>
                     </div>
                     <input type="number" value="0" class="form-control col-sm-1" id="discount" name="discount">
+                </div>
+                <p id="total">Total : 0</p>
+                <input type="hidden" class="form-control totalH" name="totalH">
+                <div class="row">  
+                    <div class="col-2">
+                        <label class="col-sm-1.5" for="discount">PPN (%) : </label>
+                    </div>
+                    <input type="number" value="10" class="form-control col-sm-1" id="ppn" name="ppn">
                 </div>
                 <p id="grandtotal">Grand Total : 0</p>
                 <input type="hidden" class="form-control grandtotalH" name="grandtotalH">
@@ -231,37 +255,47 @@
             tr.find('.hargaSatuanH').val(hargaSatuan);
             var hargaTotal = quantity * hargaSatuan;
             // alert(hargaTotal);
-            tr.find('.hargaTotal').val(numberWithCommas(hargaTotal));
             tr.find('.hargaTotalH').val(hargaTotal);
+            tr.find('.hargaTotal').val(numberWithCommas(hargaTotal)).change();
         });
 
-        $('.resultbody').delegate('.hargaTotal, .quantity, .hargaSatuan', 'keyup, change', function () {
+        $('.resultbody').delegate('.hargaTotal', 'change', function () {
             sum = 0;
             $('.hargaTotalH').each(function(){
                 sum+=$(this).val()-0;
             });
             // alert(sum);
-            $('#subtotal').html("Subtotal : "+numberWithCommas(sum));
-            $('#subtotal').val(sum);
             $('.subtotalH').val(sum);
+            $('#subtotal').html("Subtotal : "+numberWithCommas(sum));
+            $('#subtotal').val(sum).change();
             
             var disc = $('#discount').val()-0;
             var vara = sum;
             var reslt = vara - (vara * disc / 100);
             // alert(vara);
-            $('#grandtotal').html("Grand Total : "+numberWithCommas(reslt));
-            $('.grandtotalH').val(reslt);
+            $('.totalH').val(sum);
+            $('#total').html("Total : "+numberWithCommas(reslt));
+            $('#total').val(reslt).change();
         });
 
-        $('.form1').delegate('#discount', 'keyup, change', function () {
+        $('.form1').delegate('#discount', 'change', function () {
             var disc = $(this).val()-0;
             var vara = sum;
             var reslt = vara - (vara * disc / 100);
             // alert(vara);
-            $('#grandtotal').html("Grand Total : "+numberWithCommas(reslt));
-            $('.grandtotalH').val(reslt);
+            $('.totalH').val(reslt);
+            $('#total').html("Total : "+numberWithCommas(reslt));
+            $('#total').val(reslt).change();
         });
 
+        $('.form1').delegate('#total, #ppn', 'change', function () {
+            var addppn = $('#ppn').val()-0;
+            var vara = $('#total').val()-0;
+            var reslt = vara + (vara * addppn / 100);
+            // alert(vara);
+            $('.grandtotalH').val(reslt);
+            $('#grandtotal').html("Grand Total : "+numberWithCommas(reslt)).change();
+        });
 
         var itr=0;
         var itemcount = 1;

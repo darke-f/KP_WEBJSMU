@@ -14,11 +14,15 @@ class JualHdr extends Model
 
     public $fillable = [
         'noTransaksiJual',
+        'noPPB',
         'tanggalTransaksiJual',
+        'tanggalKirim',
         'kodeCustomer',
         'periodeTransaksiJual',
         'subtotal',
         'discount',
+        'total',
+        'ppn',
         'grandtotal',
     ];
 

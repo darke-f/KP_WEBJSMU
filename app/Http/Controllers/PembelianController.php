@@ -33,11 +33,15 @@ class PembelianController extends Controller
     {
         $data = $request->validate([
             'noTransaksiBeli' => 'required|size:6|unique:belihdr',
+            'noPPB' => 'required',
             'tanggalTransaksiBeli' => 'required|date',
+            'tanggalKirim' => 'required|date',
             'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier', //foreign key constraint check
             'periodeTransaksiBeli' => '',
             'subtotalH' => 'required|numeric',
             'discount' => 'required|numeric',
+            'totalH' => 'required|numeric',
+            'ppn' => 'required|numeric',
             'grandtotalH' => 'required|numeric',
             'kodeBarangH.*' => 'required|size:6|exists:masterbarang,kodeBarang',
             'namaBarangH.*' => 'required',
@@ -53,11 +57,15 @@ class PembelianController extends Controller
         // $BeliHdr = tap(new \App\BeliHdr($data))->save();
         $BeliHdr = new \App\BeliHdr;
         $BeliHdr->noTransaksiBeli = $request->input('noTransaksiBeli');
+        $BeliHdr->noPPB = $request->input('noPPB');
         $BeliHdr->tanggalTransaksiBeli = $request->input('tanggalTransaksiBeli');
+        $BeliHdr->tanggalKirim = $request->input('tanggalKirim');
         $BeliHdr->kodeSupplier = $request->input('kodeSupplier');
         $BeliHdr->periodeTransaksiBeli = $date2;
         $BeliHdr->subtotal = $request->input('subtotalH');
         $BeliHdr->discount = $request->input('discount');
+        $BeliHdr->total = $request->input('totalH');
+        $BeliHdr->ppn = $request->input('ppn');
         $BeliHdr->grandtotal = $request->input('grandtotalH');
 
         $noTransaksiBeli = $request->input('noTransaksiBeli');

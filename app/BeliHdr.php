@@ -14,11 +14,15 @@ class BeliHdr extends Model
 
     public $fillable = [
         'noTransaksiBeli',
+        'noPPB',
         'tanggalTransaksiBeli',
+        'tanggalKirim',
         'kodeSupplier',
         'periodeTransaksiBeli',
         'subtotal',
         'discount',
+        'total',
+        'ppn',
         'grandtotal',
     ];
 

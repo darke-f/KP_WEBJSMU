@@ -33,11 +33,15 @@ class PenjualanController extends Controller
     {
         $data = $request->validate([
             'noTransaksiJual' => 'required|size:6|unique:Jualhdr',
+            'noPPB' => 'required',
             'tanggalTransaksiJual' => 'required|date',
+            'tanggalKirim' => 'required|date',
             'kodeCustomer' => 'required|size:6|exists:mastercustomer,kodeCustomer', //foreign key constraint check
             'periodeTransaksiJual' => '',
             'subtotalH' => 'required|numeric',
             'discount' => 'required|numeric',
+            'totalH' => 'required|numeric',
+            'ppn' => 'required|numeric',
             'grandtotalH' => 'required|numeric',
             'kodeBarangH.*' => 'required|size:6|exists:masterbarang,kodeBarang',
             'namaBarangH.*' => 'required',
@@ -53,11 +57,15 @@ class PenjualanController extends Controller
         // $JualHdr = tap(new \App\JualHdr($data))->save();
         $JualHdr = new \App\JualHdr;
         $JualHdr->noTransaksiJual = $request->input('noTransaksiJual');
+        $JualHdr->noPPB = $request->input('noPPB');
         $JualHdr->tanggalTransaksiJual = $request->input('tanggalTransaksiJual');
+        $JualHdr->tanggalKirim = $request->input('tanggalKirim');
         $JualHdr->kodeCustomer = $request->input('kodeCustomer');
         $JualHdr->periodeTransaksiJual = $date2;
         $JualHdr->subtotal = $request->input('subtotalH');
         $JualHdr->discount = $request->input('discount');
+        $JualHdr->total = $request->input('totalH');
+        $JualHdr->ppn = $request->input('ppn');
         $JualHdr->grandtotal = $request->input('grandtotalH');
 
         $noTransaksiJual = $request->input('noTransaksiJual');
