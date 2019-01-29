@@ -182,6 +182,91 @@ class PembelianController extends Controller
         else return view('pages.pembelian_No')->with('nodata',1)->with('beli',$beli);
     }
 
+    public function edit($id)
+    {
+        $header = BeliHdr::find($id);
+        $cursupplier = BeliHdr::find($id);
+        $barang = \DB::table('masterbarang')->get();
+        $supplier = \DB::table('mastersupplier')->get();
+        $detail = BeliDtl::where('noTransaksiBeli',$id)->get();
+      
+        return view('pages.updatebeli')->with('header',$header)->with('barang',$barang)->with('supplier',$supplier)->with('cursupplier',$cursupplier)->with('detail',$detail);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'noTransaksiBeli' => 'required',
+            'noPPB' => 'required',
+            'tanggalTransaksiBeli' => 'required|date',
+            'tanggalKirim' => 'required|date',
+            'kodeSupplier' => 'required|size:6|exists:mastersupplier,kodeSupplier', //foreign key constraint check
+            'periodeTransaksiBeli' => '',
+            'subtotalH' => 'required|numeric',
+            'discount' => 'required|numeric',
+            'totalH' => 'required|numeric',
+            'ppn' => 'required|numeric',
+            'grandtotalH' => 'required|numeric',
+            'kodeBarangH.*' => 'required|size:6|exists:masterbarang,kodeBarang',
+            'namaBarangH.*' => 'required',
+            'satuanBarangH.*' => 'required',
+            'quantity.*' => 'required|numeric',
+            'hargaSatuanH.*' => 'required|numeric',
+            'hargaTotalH.*' => 'required|numeric',
+        ]);
+
+        $date = strtotime($request->input('tanggalTransaksiBeli'));
+        $date2 = date('MY',$date);
+
+        $BeliHdr = BeliHdr::find($id);
+        $BeliHdr->noTransaksiBeli = $request->input('noTransaksiBeli');
+        $BeliHdr->noPPB = $request->input('noPPB');
+        $BeliHdr->tanggalTransaksiBeli = $request->input('tanggalTransaksiBeli');
+        $BeliHdr->tanggalKirim = $request->input('tanggalKirim');
+        $BeliHdr->kodeSupplier = $request->input('kodeSupplier');
+        $BeliHdr->periodeTransaksiBeli = $date2;
+        $BeliHdr->subtotal = $request->input('subtotalH');
+        $BeliHdr->discount = $request->input('discount');
+        $BeliHdr->total = $request->input('totalH');
+        $BeliHdr->ppn = $request->input('ppn');
+        $BeliHdr->grandtotal = $request->input('grandtotalH');
+
+        $noTransaksiBeli = $request->input('noTransaksiBeli');
+        $kodeBarang = $request->input('kodeBarangH');
+        $namaBarang = $request->input('namaBarangH');
+        $satuanBarang = $request->input('satuanBarangH');
+        $quantity = $request->input('quantity');
+        $hargaSatuan = $request->input('hargaSatuanH');
+        $hargaTotal = $request->input('hargaTotalH');
+
+
+        try {
+        $detail = BeliDtl::where('noTransaksiBeli',$id)->delete();
+    } catch ( \Exception $e) {
+            return redirect()->back()->with('err', var_dump($e->errorInfo ));
+              //var_dump($e->errorInfo );
+         }
+        
+        $BeliHdr->save();
+
+        foreach($namaBarang as $key => $value) 
+        {
+            $BeliDtl = new \App\BeliDtl;
+            $BeliDtl->noTransaksiBeli = $noTransaksiBeli;
+            $BeliDtl->kodeBarang = $kodeBarang[$key];
+            $BeliDtl->namaBarang = $namaBarang[$key];
+            $BeliDtl->satuanBarang = $satuanBarang[$key];
+            $BeliDtl->quantity = $quantity[$key];
+            $BeliDtl->hargaSatuan = $hargaSatuan[$key];
+            $BeliDtl->hargaTotal = $hargaTotal[$key];
+
+            $BeliDtl->save();
+        }
+
+        return redirect('/');
+    }
+
+
     public function show_Periode(){
         $month = Input::get('month', 'default category');
         $year = Input::get('year', 'default category');

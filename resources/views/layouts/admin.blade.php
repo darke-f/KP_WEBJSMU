@@ -33,7 +33,7 @@
 
   @if (\Session::has('err'))
     <div class="alert alert-danger alert-dismissible" id="permalert">
-        <p>You don't have permission.</p>
+        {{ \Session::get('err') }}
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     </div>
     <script type="text/javascript">
