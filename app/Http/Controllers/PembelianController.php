@@ -224,7 +224,7 @@ class PembelianController extends Controller
             if(!$data->isEmpty()) {
                 $grandtotal = 0;
                 foreach($data as $dt) {
-                    $grandtotal = $grandtotal + $dt->hargaTotal * (100-$dt->hdr->discount) / 100;
+                    $grandtotal = $grandtotal + $dt->hargaTotal * (100-$dt->hdr->discount) / 100 * (100+$dt->hdr->ppn) / 100;
                 }
 
                 $supplier = MasterSupplier::where('kodeSupplier', $data[0]->hdr->kodeSupplier)->pluck('namaSupplier');

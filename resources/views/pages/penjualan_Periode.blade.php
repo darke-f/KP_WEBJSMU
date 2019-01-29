@@ -64,6 +64,7 @@
                         <th>Jumlah</th>
                         <th>Harga Total</th>
                         <th>Diskon</th>
+                        <th>PPN</th>
                         <th>Harga Akhir</th>
                         <th>Customer</th>
                       </tr>
@@ -79,6 +80,7 @@
                         <th>Jumlah</th>
                         <th>Harga Total</th>
                         <th>Diskon</th>
+                        <th>PPN</th>
                         <th>Harga Akhir</th>
                         <th>Customer</th>
                       </tr>
@@ -96,7 +98,8 @@
                         <td>{{$dtl->quantity}}</td>
                         <td>{{number_format($dtl->hargaTotal)}}</td>
                         <td>{{$dt->discount."%"}}</td>
-                        <td>{{number_format($dtl->hargaTotal * (100-$dt->discount)/100)}}</td>
+                        <td>{{$dt->ppn."%"}}</td>
+                        <td>{{number_format($dtl->hargaTotal * ((100-$dt->discount)/100) * ((100+$dt->ppn)/100))}}</td>
                         <td>{{$dt->customer->namaCustomer}}</td>
                       </tr>
                       @endforeach

@@ -173,7 +173,7 @@ class PenjualanController extends Controller
             if(!$data->isEmpty()) {
                 $grandtotal = 0;
                 foreach($data as $dt) {
-                    $grandtotal = $grandtotal + $dt->hargaTotal * (100-$dt->hdr->discount) / 100;
+                    $grandtotal = $grandtotal + $dt->hargaTotal * (100-$dt->hdr->discount) / 100 * (100+$dt->hdr->ppn) / 100;
                 }
 
                 $customer = MasterCustomer::where('kodeCustomer', $data[0]->hdr->kodeCustomer)->pluck('namaCustomer');

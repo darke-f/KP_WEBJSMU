@@ -52,6 +52,8 @@
               <h6 class="ml-1"> Customer : {{$customer}}</h6>
               <h6 class="ml-1"> Subtotal : {{number_format($hdr->subtotal)}}</h6>
               <h6 class="ml-1"> Diskon : {{$hdr->discount."%"}}</h6>
+              <h6 class="ml-1"> Total : {{number_format($hdr->total)}}</h6>
+              <h6 class="ml-1"> PPN : {{$hdr->ppn."%"}}</h6>
               <h6 class="ml-1"> Grand Total : {{number_format($hdr->grandtotal)}}</h6>
             @endforeach
           @elseif(isset($nodata))
