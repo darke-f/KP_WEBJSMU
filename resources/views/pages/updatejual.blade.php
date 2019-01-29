@@ -19,13 +19,13 @@
 @section('content')
 
     <ol class="breadcrumb">
-        <li class="breadcrumb-item active">Pembelian</li>
+        <li class="breadcrumb-item active">Penjualan</li>
     </ol>
 
     <div class="container">
         <div>
-            <h1>Transaksi Pembelian</h1>
-            <form action="/pembelians" method="post" class="form1" onsubmit="return validate(this);">
+            <h1>Update Transaksi Penjualan</h1>
+            <form action="/penjualans/{{ $header->noTransaksiJual }}/update" method="post" class="form1" onsubmit="return validate(this);">
                 @if ($errors->any())
                     <div class="alert alert-danger" role="alert">
                         Please fix the following errors
@@ -33,59 +33,52 @@
                 @endif
 
                 {!! csrf_field() !!}
-                <div class="form-group{{ $errors->has('noTransaksiBeli') ? ' is-invalid' : '' }}">
-                    <label for="noTransaksiBeli">Nomor Transaksi Beli</label>
-                    <input type="text" class="form-control{{ $errors->has('noTransaksiBeli') ? ' is-invalid' : '' }}" id="noTransaksiBeli" name="noTransaksiBeli" placeholder="noTransaksiBeli" value="{{ old('noTransaksiBeli') }}" autofocus required>
-                    @if($errors->has('noTransaksiBeli'))
-                        <span class="alert">{{ $errors->first('noTransaksiBeli') }}</span>
+                <div class="form-group{{ $errors->has('noTransaksiJual') ? ' is-invalid' : '' }}">
+                    <label for="noTransaksiJual">Nomor Transaksi Jual</label>
+                    <input readonly type="text" class="form-control{{ $errors->has('noTransaksiJual') ? ' is-invalid' : '' }}" id="noTransaksiJual" name="noTransaksiJual" placeholder="noTransaksiJual" value="{{ $header->noTransaksiJual }}" autofocus required>
+                    @if($errors->has('noTransaksiJual'))
+                        <span class="alert">{{ $errors->first('noTransaksiJual') }}</span>
                     @endif
                 </div>
                 <div class="form-group{{ $errors->has('noPPB') ? ' is-invalid' : '' }}">
                     <label for="noPPB">No. PPB</label>
-                    <input type="text" class="form-control{{ $errors->has('noPPB') ? ' is-invalid' : '' }}" id="noPPB" name="noPPB" placeholder="noPPB" value="{{ old('noPPB') }}" required>
+                    <input type="text" class="form-control{{ $errors->has('noPPB') ? ' is-invalid' : '' }}" id="noPPB" name="noPPB" placeholder="noPPB" value="{{ $header->noPPB }}" required>
                     @if($errors->has('noPPB'))
                         <span class="alert">{{ $errors->first('noPPB') }}</span>
                     @endif
                 </div>
-                <!-- <div class="form-group{{ $errors->has('tanggalTransaksiBeli') ? ' is-invalid' : '' }}">
-                    <label for="tanggalTransaksiBeli">tanggalTransaksiBeli</label>
-                    <input type="text" class="form-control" id="tanggalTransaksiBeli" name="tanggalTransaksiBeli" placeholder="tanggalTransaksiBeli" value="{{ old('tanggalTransaksiBeli') }}">
-                    @if($errors->has('tanggalTransaksiBeli'))
-                        <span class="help-block">{{ $errors->first('tanggalTransaksiBeli') }}</span>
-                    @endif
-                </div> -->
-                <div class="form-group{{ $errors->has('tanggalTransaksiBeli') ? ' is-invalid' : '' }}">
-                    <label for="tanggalTransaksiBeli">Tanggal Transaksi Beli</label>
+                <div class="form-group{{ $errors->has('tanggalTransaksiJual') ? ' is-invalid' : '' }}">
+                    <label for="tanggalTransaksiJual">Tanggal Transaksi Jual</label>
                     <div>
-                        <input class="form-control{{ $errors->has('tanggalTransaksiBeli') ? ' is-invalid' : '' }}" type="date" id="tanggalTransaksiBeli" name="tanggalTransaksiBeli" value="{{ old('tanggalTransaksiBeli') }}" required>
+                        <input class="form-control{{ $errors->has('tanggalTransaksiJual') ? ' is-invalid' : '' }}" type="date" id="tanggalTransaksiJual" name="tanggalTransaksiJual" value="{{ $header->tanggalTransaksiJual }}" required>
                     </div>
-                    @if($errors->has('tanggalTransaksiBeli'))
-                        <span class="help-block">{{ $errors->first('tanggalTransaksiBeli') }}</span>
+                    @if($errors->has('tanggalTransaksiJual'))
+                        <span class="help-block">{{ $errors->first('tanggalTransaksiJual') }}</span>
                     @endif
                 </div>
                 <div class="form-group{{ $errors->has('tanggalKirim') ? ' is-invalid' : '' }}">
                     <label for="tanggalKirim">Tanggal Kirim</label>
                     <div>
-                        <input class="form-control{{ $errors->has('tanggalKirim') ? ' is-invalid' : '' }}" type="date" id="tanggalKirim" name="tanggalKirim" value="{{ old('tanggalKirim') }}" required>
+                        <input class="form-control{{ $errors->has('tanggalKirim') ? ' is-invalid' : '' }}" type="date" id="tanggalKirim" name="tanggalKirim" value="{{ $header->tanggalKirim }}" required>
                     </div>
                     @if($errors->has('tanggalKirim'))
                         <span class="help-block">{{ $errors->first('tanggalKirim') }}</span>
                     @endif
                 </div>
-                <div class="form-group{{ $errors->has('kodeSupplier') ? ' is-invalid' : '' }} supp">
-                    <label for="kodeSupplier">Nama Supplier</label>
-                    <select class="form-control selectform{{ $errors->has('kodeSupplier') ? ' is-invalid' : '' }}" id="kodeSupplier" name="kodeSupplier" value="{{ old('kodeSupplier') }}" required>
-                        <option value="Balum Dipilih" selected disabled hidden>Pilih Suplier:</option>
-                        @if(count($supplier) >0)
-                            @foreach($supplier as $spl)
-                                <option value ='{{$spl->kodeSupplier}}'>{{$spl->namaSupplier}}</option>
+                <div class="form-group{{ $errors->has('kodeCustomer') ? ' is-invalid' : '' }} cuss">
+                    <label for="kodeCustomer">Nama Customer</label>
+                    <select class="form-control selectform{{ $errors->has('kodeCustomer') ? ' is-invalid' : '' }}" id="kodeCustomer" name="kodeCustomer" value="{{ $curcustomer->kodeCustomer}}" required>
+                        <option value="Balum Dipilih" disabled hidden>Pilih Customer:</option>
+                        @if(count($customer) >0)
+                            @foreach($customer as $ctm)
+                                <option value ='{{$ctm->kodeCustomer}}'>{{$ctm->namaCustomer}}</option>
                             @endforeach
                         @endif
                     </select>
-                    @if($errors->has('kodeSupplier'))
-                        <span class="help-block">{{ $errors->first('kodeSupplier') }}</span>
+                    @if($errors->has('kodeCustomer'))
+                        <span class="help-block">{{ $errors->first('kodeCustomer') }}</span>
                     @endif
-                    <span id="kodsup" class="kodsup">Kode Supplier : belum dipilih<span>
+                    <span id="kodcus" class="kodcus">Kode Customer : belum dipilih<span>
                 </div>
 
 
@@ -107,37 +100,40 @@
                         </tr>
                     </thead>
                     <tbody class="resultbody">
-                        <tr class="d-flex">
-                            <td class="no">1</td>
-                            <td class="col-sm-2">
-                                <select id="pilihbarang0" class="form-control pilihbarang" name="namaBarang[]" required></select>
-                                <input type="hidden" value="0" class="form-control indexH" name="indexH[]">
-                                <input type="hidden" class="form-control namaBarangH" name="namaBarangH[]">
-                            </td>
-                            <td class="col-1.5">
-                                <input disabled type="text" class="form-control kodeBarang" name="kodeBarang[]">
-                                <input type="hidden" class="form-control kodeBarangH" name="kodeBarangH[]">
-                            </td>
-                            <td>
-                                <input disabled type="text" class="form-control satuanBarang" name="satuanBarang[]">
-                                <input type="hidden" class="form-control satuanBarangH" name="satuanBarangH[]">
-                            </td>
-                            <td>
-                                <input type="number" min="0" value="0" class="form-control quantity" name="quantity[]">
-                            </td>
-                            <td>
-                                <input type="text" id="satuanval0" value="0" class="form-control hargaSatuan" name="hargaSatuan[]">
-                                <input type="hidden" value="0" class="form-control hargaSatuanH" name="hargaSatuanH[]">
-                            </td>
-                            <td>
-                                <input disabled type="text" value="0" class="form-control hargaTotal" name="hargaTotal[]">
-                                <input type="hidden" value="0" class="form-control hargaTotalH" name="hargaTotalH[]">
-                            </td>
-                            <td class="col-1">
-                                <input type="button" class="btn btn-danger delete" value="x">
-                            </td>
-                        </tr>
-
+                        @php $counter = 0; @endphp
+                        @foreach($detail as $key=>$dtl)
+                            <tr class="d-flex">
+                                <td class="no">{{$key + 1}}</td>
+                                <td class="col-sm-2">
+                                    <select id="pilihbarang{{$key}}" class="form-control pilihbarang" name="namaBarang[]" required></select>
+                                    <input type="hidden" value="{{$key}}" class="form-control indexH" name="indexH[]">
+                                    <input type="hidden" value="{{$dtl->namaBarang}}" class="form-control namaBarangH" name="namaBarangH[]">
+                                </td>
+                                <td class="col-1.5">
+                                    <input disabled type="text" value="{{$dtl->kodeBarang}}" class="form-control kodeBarang" name="kodeBarang[]">
+                                    <input type="hidden" value="{{$dtl->kodeBarang}}" class="form-control kodeBarangH" name="kodeBarangH[]">
+                                </td>
+                                <td>
+                                    <input disabled type="text" value="{{$dtl->satuanBarang}}" class="form-control satuanBarang" name="satuanBarang[]">
+                                    <input type="hidden" value="{{$dtl->satuanBarang}}" class="form-control satuanBarangH" name="satuanBarangH[]">
+                                </td>
+                                <td>
+                                    <input type="number" value="{{$dtl->quantity}}" min="0" value="0" class="form-control quantity" name="quantity[]">
+                                </td>
+                                <td>
+                                    <input type="text" id="satuanval{{$key}}" value="{{$dtl->hargaSatuan}}" class="form-control hargaSatuan" name="hargaSatuan[]">
+                                    <input type="hidden" value="{{$dtl->hargaSatuan}}" class="form-control hargaSatuanH" name="hargaSatuanH[]">
+                                </td>
+                                <td>
+                                    <input disabled type="text" value="{{$dtl->hargaTotal}}" class="form-control hargaTotal" name="hargaTotal[]">
+                                    <input type="hidden" value="{{$dtl->hargaTotal}}" class="form-control hargaTotalH" name="hargaTotalH[]">
+                                </td>
+                                <td class="col-1">
+                                    <input type="button" class="btn btn-danger delete" value="x">
+                                </td>
+                            </tr>
+                            @php $counter++; @endphp
+                        @endforeach
                     </tbody>
                 </table> 
                 <!-- ----dynamic_field---- -->
@@ -146,24 +142,24 @@
                     <button type="button" class="btn btn-success add"> tambah barang</button>
                 </div>
                 <br>
-                <p id="subtotal">Subtotal : 0</p>
-                <input type="hidden" class="form-control subtotalH" name="subtotalH">
+                <p id="subtotal">Subtotal : {{ number_format($header->subtotal) }}</p>
+                <input type="hidden" value="{{ $header->subtotal }}" class="form-control subtotalH" name="subtotalH">
                 <div class="row">  
                     <div class="col-2">
                         <label class="col-sm-1.5" for="discount">Discount (%) : </label>
                     </div>
-                    <input type="number" value="0" class="form-control col-sm-1" id="discount" name="discount">
+                    <input type="number" value="{{ $header->discount }}" class="form-control col-sm-1" id="discount" name="discount">
                 </div>
-                <p id="total">Total : 0</p>
-                <input type="hidden" class="form-control totalH" name="totalH">
+                <p id="total">Total : {{ number_format($header->total) }}</p>
+                <input type="hidden" value="{{ $header->total }}" class="form-control totalH" name="totalH">
                 <div class="row">  
                     <div class="col-2">
                         <label class="col-sm-1.5" for="discount">PPN (%) : </label>
                     </div>
-                    <input type="number" value="10" class="form-control col-sm-1" id="ppn" name="ppn">
+                    <input type="number" value="{{ $header->ppn }}" class="form-control col-sm-1" id="ppn" name="ppn">
                 </div>
-                <p id="grandtotal">Grand Total : 0</p>
-                <input type="hidden" class="form-control grandtotalH" name="grandtotalH">
+                <p id="grandtotal">Grand Total : {{ number_format($header->grandtotal) }}</p>
+                <input type="hidden" value="{{ $header->grandtotal }}" class="form-control grandtotalH" name="grandtotalH">
                 <button id="submit" type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -172,35 +168,48 @@
 
     <script type="text/javascript">
 
-        var ittr = 0;
+        var ittr = @php echo $counter-1; @endphp
+
+        var itr=0;
+        var itemcount = ittr+1;
+        
         var sum = 0;
+        $('.hargaTotalH').each(function(){
+                sum+=$(this).val()-0;
+            });
     
         var aunum = [];
-        aunum.push(new AutoNumeric('.hargaSatuan'));
+        for(var i = 0; i <= ittr; i++){
+            aunum.push(new AutoNumeric('#satuanval'+i+''));
+        }
  
         var j = @php echo json_encode($barang); @endphp
 
-        var options = '<option value="" selected disabled hidden>Pilih Barang:</option>';
+        var options = '';
         for (var i = 0; i < j.length; i++) {
             options += '<option value="'+i+'">' + j[i].namaBarang + '</option>';
         }
         $(".pilihbarang").html(options);    
         $(".pilihbarang").select2();
 
+        options += '<option value="" selected disabled hidden>Pilih Barang:</option>';
+
+        
+        @foreach($detail as $key=>$dtl)
+            var pos = j.map(function(e) { return e.namaBarang; }).indexOf('{{$dtl->namaBarang}}');
+            // alert({{$key}}+" "+pos);
+            $('#pilihbarang{{$key}}').select2("val",""+pos+"");
+        @endforeach
+
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
-        $('.supp > .kodsup').html('Kode Supplier :'+$('.selectform').val()+'');
+        $('.cuss > .kodcus').html('Kode Customer :'+$('.selectform').val()+'');
         $('.selectform').select2();
         $(document).on('change','.selectform',function(){
-               $('.supp > .kodsup').html('Kode Supplier :'+$(this).val()+'');
+               $('.cuss > .kodcus').html('Kode Customer :'+$(this).val()+'');
         });
-
-        // $(document).on('change','.pilihbarang',function(){
-        //        $(this).closest("input").html('Kode Supplier :'+$(this).val());
-        // });
-        
 
         $('.add').click(function () {
             itemcount++;
@@ -300,8 +309,6 @@
             $('#grandtotal').html("Grand Total : "+numberWithCommas(reslt)).change();
         });
 
-        var itr=0;
-        var itemcount = 1;
 
         function validate(form) {
             if(!itemcount) {

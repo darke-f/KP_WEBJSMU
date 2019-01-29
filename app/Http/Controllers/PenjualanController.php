@@ -131,6 +131,91 @@ class PenjualanController extends Controller
         else return view('pages.penjualan_No')->with('nodata',1)->with('jual',$jual);
     }
 
+    public function edit($id)
+    {
+        $header = JualHdr::find($id);
+        $curcustomer = JualHdr::find($id);
+        $barang = \DB::table('masterbarang')->get();
+        $customer = \DB::table('mastercustomer')->get();
+        $detail = JualDtl::where('noTransaksiJual',$id)->get();
+      
+        return view('pages.updatejual')->with('header',$header)->with('barang',$barang)->with('customer',$customer)->with('curcustomer',$curcustomer)->with('detail',$detail);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'noTransaksiJual' => 'required',
+            'noPPB' => 'required',
+            'tanggalTransaksiJual' => 'required|date',
+            'tanggalKirim' => 'required|date',
+            'kodeCustomer' => 'required|size:6|exists:mastercustomer,kodeCustomer', //foreign key constraint check
+            'periodeTransaksiJual' => '',
+            'subtotalH' => 'required|numeric',
+            'discount' => 'required|numeric',
+            'totalH' => 'required|numeric',
+            'ppn' => 'required|numeric',
+            'grandtotalH' => 'required|numeric',
+            'kodeBarangH.*' => 'required|size:6|exists:masterbarang,kodeBarang',
+            'namaBarangH.*' => 'required',
+            'satuanBarangH.*' => 'required',
+            'quantity.*' => 'required|numeric',
+            'hargaSatuanH.*' => 'required|numeric',
+            'hargaTotalH.*' => 'required|numeric',
+        ]);
+
+        $date = strtotime($request->input('tanggalTransaksiJual'));
+        $date2 = date('MY',$date);
+
+        $JualHdr = JualHdr::find($id);
+        $JualHdr->noTransaksiJual = $request->input('noTransaksiJual');
+        $JualHdr->noPPB = $request->input('noPPB');
+        $JualHdr->tanggalTransaksiJual = $request->input('tanggalTransaksiJual');
+        $JualHdr->tanggalKirim = $request->input('tanggalKirim');
+        $JualHdr->kodeCustomer = $request->input('kodeCustomer');
+        $JualHdr->periodeTransaksiJual = $date2;
+        $JualHdr->subtotal = $request->input('subtotalH');
+        $JualHdr->discount = $request->input('discount');
+        $JualHdr->total = $request->input('totalH');
+        $JualHdr->ppn = $request->input('ppn');
+        $JualHdr->grandtotal = $request->input('grandtotalH');
+
+        $noTransaksiJual = $request->input('noTransaksiJual');
+        $kodeBarang = $request->input('kodeBarangH');
+        $namaBarang = $request->input('namaBarangH');
+        $satuanBarang = $request->input('satuanBarangH');
+        $quantity = $request->input('quantity');
+        $hargaSatuan = $request->input('hargaSatuanH');
+        $hargaTotal = $request->input('hargaTotalH');
+
+
+        try {
+        $detail = JualDtl::where('noTransaksiJual',$id)->delete();
+    } catch ( \Exception $e) {
+            return redirect()->back()->with('err', 'Fail to remove item');
+              //var_dump($e->errorInfo );
+         }
+        
+        $JualHdr->save();
+
+        foreach($kodeBarang as $key => $value) 
+        {
+            $JualDtl = new \App\JualDtl;
+            $JualDtl->noTransaksiJual = $noTransaksiJual;
+            $JualDtl->kodeBarang = $kodeBarang[$key];
+            $JualDtl->namaBarang = $namaBarang[$key];
+            $JualDtl->satuanBarang = $satuanBarang[$key];
+            $JualDtl->quantity = $quantity[$key];
+            $JualDtl->hargaSatuan = $hargaSatuan[$key];
+            $JualDtl->hargaTotal = $hargaTotal[$key];
+
+            $JualDtl->save();
+        }
+
+        return redirect('/');
+    }
+
+
     public function show_Periode(){
         $month = Input::get('month', 'default category');
         $year = Input::get('year', 'default category');

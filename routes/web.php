@@ -88,6 +88,8 @@ Route::get('/penjualans', 'PenjualanController@addJual')->middleware('auth','pen
 Route::post('/penjualans','PenjualanController@addJualPost')->middleware('auth','penjualanperm');
 Route::get('/pembelians/{id}/edit', 'PembelianController@edit')->middleware('auth','pembelianperm');
 Route::post('/pembelians/{id}/update','PembelianController@update')->middleware('auth','pembelianperm');
+Route::get('/penjualans/{id}/edit', 'PenjualanController@edit')->middleware('auth','penjualanperm');
+Route::post('/penjualans/{id}/update','PenjualanController@update')->middleware('auth','penjualanperm');
 
 
 Auth::routes();

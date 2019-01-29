@@ -243,7 +243,7 @@ class PembelianController extends Controller
         try {
         $detail = BeliDtl::where('noTransaksiBeli',$id)->delete();
     } catch ( \Exception $e) {
-            return redirect()->back()->with('err', var_dump($e->errorInfo ));
+            return redirect()->back()->with('err', 'Fail to remove item');
               //var_dump($e->errorInfo );
          }
         

@@ -231,6 +231,7 @@
         $('.resultbody').delegate('.delete', 'click', function () {
             itemcount--;
             $(this).parent().parent().remove();
+            hargatotalchange();
         });
 
         $('.resultbody').delegate('.pilihbarang', 'change', function () {
@@ -251,7 +252,7 @@
             var quantity = tr.find('.quantity').val()-0;
             $idx = tr.find('.indexH').val()-0;
             var hargaSatuan = aunum[$idx].getNumericString();
-            // alert(hargaSatuan);
+            // alert(hargaSatuan+" "+aunum.length);
             tr.find('.hargaSatuanH').val(hargaSatuan);
             var hargaTotal = quantity * hargaSatuan;
             // alert(hargaTotal);
@@ -259,7 +260,7 @@
             tr.find('.hargaTotal').val(numberWithCommas(hargaTotal)).change();
         });
 
-        $('.resultbody').delegate('.hargaTotal', 'change', function () {
+        function hargatotalchange() {
             sum = 0;
             $('.hargaTotalH').each(function(){
                 sum+=$(this).val()-0;
@@ -273,16 +274,17 @@
             var vara = sum;
             var reslt = vara - (vara * disc / 100);
             // alert(vara);
-            $('.totalH').val(sum);
+            $('.totalH').val(reslt);
             $('#total').html("Total : "+numberWithCommas(reslt));
             $('#total').val(reslt).change();
-        });
+        }
+        $('.resultbody').delegate('.hargaTotal', 'change', hargatotalchange);
 
         $('.form1').delegate('#discount', 'change', function () {
             var disc = $(this).val()-0;
             var vara = sum;
             var reslt = vara - (vara * disc / 100);
-            // alert(vara);
+            // alert("disc:"+disc+" vara:"+vara+" reslt :"+reslt);
             $('.totalH').val(reslt);
             $('#total').html("Total : "+numberWithCommas(reslt));
             $('#total').val(reslt).change();
@@ -290,9 +292,10 @@
 
         $('.form1').delegate('#total, #ppn', 'change', function () {
             var addppn = $('#ppn').val()-0;
-            var vara = $('#total').val()-0;
+            var vara = $('.totalH').val()-0;
             var reslt = vara + (vara * addppn / 100);
             // alert(vara);
+            // alert("ppn:"+ppn+" vara:"+vara+" reslt :"+reslt);
             $('.grandtotalH').val(reslt);
             $('#grandtotal').html("Grand Total : "+numberWithCommas(reslt)).change();
         });
