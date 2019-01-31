@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('name');
             $table->string('password');
-            $table->string('level');
+            $table->string('level')->default('user');
             $table->string('bagian');
             $table->boolean('masterperm')->default('0');
             $table->boolean('stockperm')->default('0');
@@ -29,6 +29,12 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        $data = array(
+            array('username'=>'admin', 'name'=>'admin', 'password'=>Hash::make('admin'), 'level'=>'admin', 'bagian'=>'IT', 'masterperm'=>'1', 'stockperm'=>'1', 'pembelianperm'=>'1', 'penjualanperm'=>'1', 'reportbeliperm'=>'1', 'reportjualperm'=>'1')
+        );
+        
+        DB::table('users')->insert($data);
     }
 
     /**
