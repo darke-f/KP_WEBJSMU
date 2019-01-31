@@ -55,7 +55,10 @@
               <h6 class="ml-1"> Total : {{number_format($hdr->total)}}</h6>
               <h6 class="ml-1"> PPN : {{$hdr->ppn."%"}}</h6>
               <h6 class="ml-1"> Grand Total : {{number_format($hdr->grandtotal)}}</h6>
-              <div class="btn-group"><a href="/pembelians/{{$hdr->noTransaksiBeli}}/edit" class="btn btn-primary mr-2 mb-1">Edit</a></div>
+              <div class="btn-group">
+                <a href="/pembelians/{{$hdr->noTransaksiBeli}}/edit" class="btn btn-primary mr-2 mb-1">Edit</a>
+                <a href="/pdf/{{$hdr->noTransaksiBeli}}" class="btn btn-primary mr-2 mb-1">Print</a>
+              </div>
             @endforeach
           @elseif(isset($nodata))
             <div class="alert alert-danger col-sm-2" role="alert">
