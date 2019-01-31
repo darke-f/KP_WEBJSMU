@@ -100,4 +100,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/pdf/{id}', 'PDFMaker@makebeli');
+Route::get('/pembelians/{id}/print', 'PDFMaker@makebeli')->middleware('auth','reportbeliperm');;
+Route::get('/penjualans/{id}/print', 'PDFMaker@makejual')->middleware('auth','reportjualperm');;

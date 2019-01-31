@@ -57,7 +57,7 @@
               <h6 class="ml-1"> Grand Total : {{number_format($hdr->grandtotal)}}</h6>
               <div class="btn-group">
                 <a href="/pembelians/{{$hdr->noTransaksiBeli}}/edit" class="btn btn-primary mr-2 mb-1">Edit</a>
-                <a href="/pdf/{{$hdr->noTransaksiBeli}}" class="btn btn-primary mr-2 mb-1">Print</a>
+                <a target="_blank" rel="noopener noreferrer" href="/pembelians/{{$hdr->noTransaksiBeli}}/print" class="btn btn-primary mr-2 mb-1">Print</a>
               </div>
             @endforeach
           @elseif(isset($nodata))

@@ -31,10 +31,10 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/about';
+    protected $redirectTo = '/dashboard';
     protected function _construct(){
         if($user->bool !== 1){
-            return $redirectTo = '/dashboardadmin';
+            return $redirectTo = '/dashboard';
         } else {
             return $redirectTo = '/dashboard';
         }
