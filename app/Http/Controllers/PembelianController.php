@@ -168,6 +168,7 @@ class PembelianController extends Controller
     }
 
     public function show_No(){
+        /*
         $beli = \DB::table('belihdr')->get();
         $kode = Input::get('kodebeli', 'default category');
         
@@ -179,7 +180,24 @@ class PembelianController extends Controller
 
             return view('pages.pembelian_No')->with('header',$header)->with('supplier',$supplier)->with('detail',$detail)->with('beli',$beli);
         }
-        else return view('pages.pembelian_No')->with('nodata',1)->with('beli',$beli);
+        else return view('pages.pembelian_No')->with('nodata',1)->with('beli',$beli);*/
+
+        $start = Input::get('tanggalmulai', 'default category');
+        $end = Input::get('tanggalselesai', 'default category');
+
+        $header = BeliHdr::whereBetween('tanggalTransaksiBeli', [$start, $end])->with('supplier')->get();
+
+        if(!$header->isEmpty()) return view('pages.pembelian_No')->with('header',$header);
+        else return view('pages.pembelian_No')->with('nodata',1);
+    }
+
+    public function detail_No($kode){
+        
+        $header = BeliHdr::where('noTransaksiBeli',$kode)->get();
+        $supplier = BeliHdr::find($kode)->supplier->namaSupplier;
+        $detail = BeliDtl::where('noTransaksiBeli',$kode)->get();
+
+        return view('pages.pembelian_detail')->with('header',$header)->with('supplier',$supplier)->with('detail',$detail);
     }
 
     public function edit($id)
@@ -298,7 +316,7 @@ class PembelianController extends Controller
     }
 
     public function show_Barang(){
-        $barang = \DB::table('masterbarang')->get();
+        /*$barang = \DB::table('masterbarang')->get();
         $kode = Input::get('namabarang', 'default category');
         
         $header = MasterBarang::where('namaBarang', $kode)->get();
@@ -318,11 +336,19 @@ class PembelianController extends Controller
             }
                 else return view('pages.pembelian_Barang')->with('nodata',1)->with('barang',$barang);
         }
-        else return view('pages.pembelian_Barang')->with('nodata',1)->with('barang',$barang);
+        else return view('pages.pembelian_Barang')->with('nodata',1)->with('barang',$barang);*/
+
+        $start = Input::get('tanggalmulai', 'default category');
+        $end = Input::get('tanggalselesai', 'default category');
+
+        $header = BeliHdr::whereBetween('tanggalTransaksiBeli', [$start, $end])->with('supplier')->join('belidtl', 'belidtl.noTransaksiBeli', '=', 'belihdr.noTransaksiBeli')->OrderBy('belidtl.kodeBarang')->get();
+
+        if(!$header->isEmpty()) return view('pages.pembelian_Barang')->with('header',$header);
+        else return view('pages.pembelian_Barang')->with('nodata',1);
     }
 
     public function show_Supplier(){
-        $supplier = \DB::table('mastersupplier')->get();
+        /*$supplier = \DB::table('mastersupplier')->get();
         $kode = Input::get('namasupplier', 'default category');
 
         $header = MasterSupplier::where('namaSupplier', $kode)->get();
@@ -340,7 +366,15 @@ class PembelianController extends Controller
             }
             else return view('pages.pembelian_Supplier')->with('nodata',1)->with('supplier',$supplier);
         }
-        else return view('pages.pembelian_Supplier')->with('nodata',1)->with('supplier',$supplier);
+        else return view('pages.pembelian_Supplier')->with('nodata',1)->with('supplier',$supplier);*/
+
+        $start = Input::get('tanggalmulai', 'default category');
+        $end = Input::get('tanggalselesai', 'default category');
+
+        $header = BeliHdr::whereBetween('tanggalTransaksiBeli', [$start, $end])->with('supplier')->OrderBy('kodeSupplier')->get();
+
+        if(!$header->isEmpty()) return view('pages.pembelian_Supplier')->with('header',$header);
+        else return view('pages.pembelian_Barang')->with('nodata',1);
     }
 }
 

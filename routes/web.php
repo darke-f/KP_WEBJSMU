@@ -37,6 +37,7 @@ Route::get('/stocktable/closeyear/{month}&{year}', 'StockController@closeYear');
 
 Route::get('/pembelianNo', 'PembelianController@index_No')->middleware('auth','reportbeliperm');
 Route::get('/showpembelianNo', 'PembelianController@show_No')->middleware('auth','reportbeliperm');
+Route::get('/pembelian/{kode}/show', 'PembelianController@detail_No')->middleware('auth','reportbeliperm');
 Route::get('/pembelianPer', 'PembelianController@index_Periode')->middleware('auth','reportbeliperm');
 Route::get('/showpembelianPer', 'PembelianController@show_Periode')->middleware('auth','reportbeliperm');
 Route::get('/pembelianBar', 'PembelianController@index_Barang')->middleware('auth','reportbeliperm');
@@ -45,6 +46,7 @@ Route::get('/pembelianSup', 'PembelianController@index_Supplier')->middleware('a
 Route::get('/showpembelianSup', 'PembelianController@show_Supplier')->middleware('auth','reportbeliperm');
 Route::get('/penjualanNo', 'PenjualanController@index_No')->middleware('auth','reportjualperm');
 Route::get('/showpenjualanNo', 'PenjualanController@show_No')->middleware('auth','reportjualperm');
+Route::get('/penjualan/{kode}/show', 'PenjualanController@detail_No')->middleware('auth','reportjualperm');
 Route::get('/penjualanPer', 'PenjualanController@index_Periode')->middleware('auth','reportjualperm');
 Route::get('/showpenjualanPer', 'PenjualanController@show_Periode')->middleware('auth','reportjualperm');
 Route::get('/penjualanBar', 'PenjualanController@index_Barang')->middleware('auth','reportjualperm');

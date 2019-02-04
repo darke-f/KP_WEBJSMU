@@ -117,7 +117,7 @@ class PenjualanController extends Controller
     }
 
     public function show_No(){
-        $jual = \DB::table('jualhdr')->get();
+        /*$jual = \DB::table('jualhdr')->get();
         $kode = Input::get('kodejual', 'default category');
         
         $header = JualHdr::where('noTransaksiJual',$kode)->get();
@@ -128,7 +128,24 @@ class PenjualanController extends Controller
 
             return view('pages.penjualan_No')->with('header',$header)->with('customer',$customer)->with('detail',$detail)->with('jual',$jual);
         }
-        else return view('pages.penjualan_No')->with('nodata',1)->with('jual',$jual);
+        else return view('pages.penjualan_No')->with('nodata',1)->with('jual',$jual);*/
+
+        $start = Input::get('tanggalmulai', 'default category');
+        $end = Input::get('tanggalselesai', 'default category');
+
+        $header = JualHdr::whereBetween('tanggalTransaksiJual', [$start, $end])->with('customer')->get();
+
+        if(!$header->isEmpty()) return view('pages.penjualan_No')->with('header',$header);
+        else return view('pages.penjualan_No')->with('nodata',1);
+    }
+
+    public function detail_No($kode){
+        
+        $header = JualHdr::where('noTransaksiJual',$kode)->get();
+        $customer = JualHdr::find($kode)->customer->namaCustomer;
+        $detail = JualDtl::where('noTransaksiJual',$kode)->get();
+
+        return view('pages.penjualan_detail')->with('header',$header)->with('customer',$customer)->with('detail',$detail);
     }
 
     public function edit($id)
@@ -247,7 +264,7 @@ class PenjualanController extends Controller
     }
 
     public function show_Barang(){
-        $barang = \DB::table('masterbarang')->get();
+        /*$barang = \DB::table('masterbarang')->get();
         $kode = Input::get('namabarang', 'default category');
         
         $header = MasterBarang::where('namaBarang', $kode)->get();
@@ -267,11 +284,19 @@ class PenjualanController extends Controller
             }
                 else return view('pages.penjualan_Barang')->with('nodata',1)->with('barang',$barang);
         }
-        else return view('pages.penjualan_Barang')->with('nodata',1)->with('barang',$barang);
+        else return view('pages.penjualan_Barang')->with('nodata',1)->with('barang',$barang);*/
+
+        $start = Input::get('tanggalmulai', 'default category');
+        $end = Input::get('tanggalselesai', 'default category');
+
+        $header = JualHdr::whereBetween('tanggalTransaksiJual', [$start, $end])->with('customer')->join('jualdtl', 'jualdtl.noTransaksiJual', '=', 'jualhdr.noTransaksiJual')->OrderBy('jualdtl.kodeBarang')->get();
+
+        if(!$header->isEmpty()) return view('pages.penjualan_Barang')->with('header',$header);
+        else return view('pages.penjualan_Barang')->with('nodata',1);
     }
 
     public function show_Customer(){
-        $customer = \DB::table('mastercustomer')->get();
+        /*$customer = \DB::table('mastercustomer')->get();
         $kode = Input::get('namacustomer', 'default category');
 
         $header = MasterCustomer::where('namaCustomer', $kode)->get();
@@ -289,7 +314,15 @@ class PenjualanController extends Controller
             }
             else return view('pages.penjualan_Customer')->with('nodata',1)->with('customer',$customer);
         }
-        else return view('pages.penjualan_Customer')->with('nodata',1)->with('customer',$customer);
+        else return view('pages.penjualan_Customer')->with('nodata',1)->with('customer',$customer);*/
+
+        $start = Input::get('tanggalmulai', 'default category');
+        $end = Input::get('tanggalselesai', 'default category');
+
+        $header = JualHdr::whereBetween('tanggalTransaksiJual', [$start, $end])->with('customer')->OrderBy('kodeCustomer')->get();
+
+        if(!$header->isEmpty()) return view('pages.penjualan_Customer')->with('header',$header);
+        else return view('pages.penjualan_Customer')->with('nodata',1);
     }
 }
 
