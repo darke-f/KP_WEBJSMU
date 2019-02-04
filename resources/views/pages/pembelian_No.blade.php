@@ -24,42 +24,21 @@
 
           {!! Form::open(['action'=> 'PembelianController@show_No','method'=>'GET','class' =>'form-inline ml-2 mb-4']) !!}
             <div class="form-group row">
-              {{form::label('kodebeli','Kode:',['class'=> 'col-3 col-form-label'])}}
-              <div class="col-8">
+              {{form::label('periode','Periode:',['class'=> 'col-3 col-form-label'])}}
                 <!-- {{form::text('kodebeli','',['class' =>'form-control here','placeholder' => 'No Transaksi'])}} -->
-                <select class="form-control selectform" name="kodebeli" value="{{ old('kodebeli') }}" required>
-                    <option value="Balum Dipilih" selected disabled hidden>Kode Transaksi:</option>
-                    @if(count($beli) >0)
-                        @foreach($beli as $bli)
-                            <option value ='{{$bli->noTransaksiBeli}}'>{{$bli->noTransaksiBeli}}</option>
-                        @endforeach
-                    @endif
-                </select>
-              </div>
+              <input class="col-3 form-control{{ $errors->has('tanggalmulai') ? ' is-invalid' : '' }}" type="date" id="tanggalmulai" name="tanggalmulai" value="{{ old('tanggalmulai') }}" required>
+              <p class="mr-3 ml-3 pt-3">s.d.</p>
+              <input class="col-3 form-control{{ $errors->has('tanggalmulai') ? ' is-invalid' : '' }}" type="date" id="tanggalselesai" name="tanggalselesai" value="{{ old('tanggaselesai') }}" required>
             </div>
             <div class="form-group row">
-              <div class="offset-4 col-8">
+              <div class="offset-1 col-8">
                 {{form::submit('Submit',['class'=>'btn btn-primary'])}}
               </div>
             </div>
           {!! Form::close() !!} 
 
           @if(isset($header) && count($header)>0)
-            @foreach($header as $hdr)
-              <h6 class="ml-1"> No Transaksi : {{$hdr->noTransaksiBeli}}</h6>
-              <h6 class="ml-1"> Periode Transaksi : {{$hdr->periodeTransaksiBeli}}</h6>
-              <h6 class="ml-1"> Tanggal Transaksi : {{$hdr->tanggalTransaksiBeli}}</h6>
-              <h6 class="ml-1"> Supplier : {{$supplier}}</h6>
-              <h6 class="ml-1"> Subtotal : {{number_format($hdr->subtotal)}}</h6>
-              <h6 class="ml-1"> Diskon : {{$hdr->discount."%"}}</h6>
-              <h6 class="ml-1"> Total : {{number_format($hdr->total)}}</h6>
-              <h6 class="ml-1"> PPN : {{$hdr->ppn."%"}}</h6>
-              <h6 class="ml-1"> Grand Total : {{number_format($hdr->grandtotal)}}</h6>
-              <div class="btn-group">
-                <a href="/pembelians/{{$hdr->noTransaksiBeli}}/edit" class="btn btn-primary mr-2 mb-1">Edit</a>
-                <a target="_blank" rel="noopener noreferrer" href="/pembelians/{{$hdr->noTransaksiBeli}}/print" class="btn btn-primary mr-2 mb-1">Print</a>
-              </div>
-            @endforeach
+              <h6 class="ml-1"> Data Pembelian berdasarkan No Transaksi:</h6>
           @elseif(isset($nodata))
             <div class="alert alert-danger col-sm-2" role="alert">
               Data transaksi tidak ditemukan!
@@ -68,7 +47,7 @@
 
           <br>
 
-          @if(isset($hdr))
+          @if(isset($header))
             <!-- DataTables Example -->
             <div class="card mb-3">
               <div class="card-header">
@@ -80,37 +59,41 @@
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
-                        <th>Kode Barang</th>
-                        <th>Nama Barang</th>
-                        <th>Satuan</th>
-                        <th>Harga Satuan</th>
-                        <th>Jumlah</th>
-                        <th>Harga Total</th>
+                        <th>No Transaksi</th>
+                        <th>No PPB</th>
+                        <th>Tanggal Transaksi</th>
+                        <th>Periode Transaksi</th>
+                        <th>Tanggal Kirim</th>
+                        <th>Supplier</th>
+                        <th>Grand Total</th>
+                        <th>Rincian</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
-                        <th>Kode Barang</th>
-                        <th>Nama Barang</th>
-                        <th>Satuan</th>
-                        <th>Harga Satuan</th>
-                        <th>Jumlah</th>
-                        <th>Harga Total</th>
+                        <th>No Transaksi</th>
+                        <th>No PPB</th>
+                        <th>Tanggal Transaksi</th>
+                        <th>Periode Transaksi</th>
+                        <th>Tanggal Kirim</th>
+                        <th>Supplier</th>
+                        <th>Grand Total</th>
+                        <th>Rincian</th>
                       </tr>
                     </tfoot>
                     <tbody>
-                    @if(isset($detail))
-                        @foreach($detail as $dtl)
-                          <tr>
-                              <td>{{$dtl->kodeBarang}}</td>
-                              <td>{{$dtl->namaBarang}}</td>
-                              <td>{{$dtl->satuanBarang}}</td>
-                              <td>{{number_format($dtl->hargaSatuan)}}</td>
-                              <td>{{$dtl->quantity}}</td>
-                              <td>{{number_format($dtl->hargaTotal)}}</td>
-                          </tr>
-                        @endforeach
-                    @endif
+                      @foreach($header as $hdr)
+                        <tr>
+                            <td>{{$hdr->noTransaksiBeli}}</td>
+                            <td>{{$hdr->noPPB}}</td>
+                            <td>{{$hdr->tanggalTransaksiBeli}}</td>
+                            <td>{{$hdr->periodeTransaksiBeli}}</td>
+                            <td>{{$hdr->tanggalKirim}}</td>
+                            <td>{{$hdr->supplier->namaSupplier}}</td>
+                            <td>{{number_format($hdr->grandtotal)}}</td>
+                            <td><a href="/pembelian/{{$hdr->noTransaksiBeli}}/show" class="btn btn-primary mr-2 mb-1">Show</a></td>
+                        </tr>
+                      @endforeach
                     </tbody>
                   </table>
                 </div>

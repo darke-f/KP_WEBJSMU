@@ -163,7 +163,7 @@
             <div class="dropdown-menu" aria-labelledby="pagesDropdown">
               <h6 class="dropdown-header">Report Berdasarkan:</h6>
               <a class="dropdown-item" href="/pembelianNo">Nomor Transaksi</a>
-              <a class="dropdown-item" href="/pembelianPer">Periode Transaksi</a>
+              <!--<a class="dropdown-item" href="/pembelianPer">Periode Transaksi</a>-->
               <a class="dropdown-item" href="/pembelianBar">Barang</a>
               <a class="dropdown-item" href="/pembelianSup">Supplier</a>
             </div>
@@ -178,7 +178,7 @@
             <div class="dropdown-menu" aria-labelledby="pagesDropdown">
               <h6 class="dropdown-header">Report Berdasarkan:</h6>
               <a class="dropdown-item" href="/penjualanNo">Nomor Transaksi</a>
-              <a class="dropdown-item" href="/penjualanPer">Periode Transaksi</a>
+              <!--<a class="dropdown-item" href="/penjualanPer">Periode Transaksi</a>-->
               <a class="dropdown-item" href="/penjualanBar">Barang</a>
               <a class="dropdown-item" href="/penjualanCus">Customer</a>
             </div>

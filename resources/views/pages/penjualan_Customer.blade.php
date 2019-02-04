@@ -22,34 +22,23 @@
 
           <h2 class="ml-1 mb-3"> Data penjualan :</h2>
 
-          {!! Form::open(['action'=> 'PenjualanController@show_Customer','method'=>'GET','class' =>'form-inline ml-1 mb-4']) !!}
+          {!! Form::open(['action'=> 'PenjualanController@show_Customer','method'=>'GET','class' =>'form-inline ml-2 mb-4']) !!}
             <div class="form-group row">
-              {{form::label('namacustomer','Customer:',['class'=> 'col-3 col-form-label'])}}
-              <div class="col-8">
-                <!-- {{form::text('namacustomer','',['class' =>'form-control here','placeholder' => 'Nama Customer'])}} -->
-                <select class="form-control selectform" name="namacustomer" value="{{ old('namacustomer') }}" required>
-                    <option value="Balum Dipilih" selected disabled hidden>Nama Customer:</option>
-                    @if(count($customer) >0)
-                        @foreach($customer as $ctm)
-                            <option value ='{{$ctm->namaCustomer}}'>{{$ctm->namaCustomer}}</option>
-                        @endforeach
-                    @endif
-                </select>
-              </div>
+              {{form::label('periode','Periode:',['class'=> 'col-3 col-form-label'])}}
+                <!-- {{form::text('kodejual','',['class' =>'form-control here','placeholder' => 'No Transaksi'])}} -->
+              <input class="col-3 form-control{{ $errors->has('tanggalmulai') ? ' is-invalid' : '' }}" type="date" id="tanggalmulai" name="tanggalmulai" value="{{ old('tanggalmulai') }}" required>
+              <p class="mr-3 ml-3 pt-3">s.d.</p>
+              <input class="col-3 form-control{{ $errors->has('tanggalmulai') ? ' is-invalid' : '' }}" type="date" id="tanggalselesai" name="tanggalselesai" value="{{ old('tanggaselesai') }}" required>
             </div>
             <div class="form-group row">
-              <div class="offset-4 col-8">
+              <div class="offset-1 col-8">
                 {{form::submit('Submit',['class'=>'btn btn-primary'])}}
               </div>
             </div>
           {!! Form::close() !!} 
 
           @if(isset($header) && count($header)>0)
-            @foreach($header as $hdr)
-              <h6 class="ml-1"> Kode Customer : {{$hdr->kodeCustomer}}</h6>
-              <h6 class="ml-1"> Nama Customer : {{$hdr->namaCustomer}}</h6>
-              <h6 class="ml-1"> Grand Total : {{number_format($grandtotal)}}</h6>
-            @endforeach
+              <h6 class="ml-1"> Data Penjualan berdasarkan Customer:</h6>
           @elseif(isset($nodata))
             <div class="alert alert-danger col-sm-2" role="alert">
               Data transaksi tidak ditemukan!
@@ -58,7 +47,7 @@
 
           <br>
 
-          @if(isset($hdr))
+          @if(isset($header))
             <!-- DataTables Example -->
             <div class="card mb-3">
               <div class="card-header">
@@ -70,57 +59,37 @@
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
+                        <th>Kode Customer</th>
+                        <th>Nama Customer</th>
                         <th>No Transaksi</th>
+                        <th>No PPB</th>
                         <th>Periode Transaksi</th>
                         <th>Tanggal Transaksi</th>
-                        <th>Kode Barang</th>
-                        <th>Nama Barang</th>
-                        <th>Satuan</th>
-                        <th>Harga Satuan</th>
-                        <th>Jumlah</th>
-                        <th>Harga Total</th>
-                        <th>Diskon</th>
-                        <th>PPN</th>
-                        <th>Harga Akhir</th>
+                        <th>Grand Total</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
+                        <th>Kode Customer</th>
+                        <th>Nama Customer</th>
                         <th>No Transaksi</th>
+                        <th>No PPB</th>
                         <th>Periode Transaksi</th>
                         <th>Tanggal Transaksi</th>
-                        <th>Kode Barang</th>
-                        <th>Nama Barang</th>
-                        <th>Satuan</th>
-                        <th>Harga Satuan</th>
-                        <th>Jumlah</th>
-                        <th>Harga Total</th>
-                        <th>Diskon</th>
-                        <th>PPN</th>
-                        <th>Harga Akhir</th>
+                        <th>Grand Total</th>
                       </tr>
                     </tfoot>
                     <tbody>
-                    @if(isset($data))
-                      @foreach($data as $dt)
-                        @foreach($dt->dtl as $dtl)
-                        <tr>
-                          <td>{{$dt->noTransaksiJual}}</td>
-                          <td>{{$dt->periodeTransaksiJual}}</td>
-                          <td>{{$dt->tanggalTransaksiJual}}</td>
-                          <td>{{$dtl->kodeBarang}}</td>
-                          <td>{{$dtl->namaBarang}}</td>
-                          <td>{{$dtl->satuanBarang}}</td>
-                          <td>{{number_format($dtl->hargaSatuan)}}</td>
-                          <td>{{$dtl->quantity}}</td>
-                          <td>{{number_format($dtl->hargaTotal)}}</td>
-                          <td>{{$dt->discount."%"}}</td>
-                          <td>{{$dt->ppn."%"}}</td>
-                          <td>{{number_format($dtl->hargaTotal * ((100-$dt->discount)/100) * ((100+$dt->ppn)/100))}}</td>
-                        </tr>
-                        @endforeach
-                      @endforeach
-                    @endif
+                    @foreach($header as $hdr)
+                      <tr>
+                          <td>{{$hdr->kodeCustomer}}</td>
+                          <td>{{$hdr->customer->namaCustomer}}</td>
+                          <td>{{$hdr->noTransaksiJual}}</td>
+                          <td>{{$hdr->noPPB}}</td>
+                          <td>{{$hdr->periodeTransaksiJual}}</td>
+                          <td>{{$hdr->tanggalTransaksiJual}}</td>
+                          <td>{{number_format($hdr->grandtotal)}}</td>
+                    @endforeach
                     </tbody>
                   </table>
                 </div>
